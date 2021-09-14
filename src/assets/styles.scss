@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+
+:root {
+    --primary: #ca9175;
+    --primary-dark: #a07660;
+    --secondary: #f7cabe;
+    --primary-transparent: #9c8b8150;
+    --color-white: #ffffff;
+    --color-black: #212121;
+    --transparent: rgba(0, 0, 0, 0);
+    --font-extra-small: 12px;
+    --font-small: 14px;
+    --font-normal: 16px;
+    --font-large: 18px;
+    -webkit-tap-highlight-color: #00000000;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background: #e7e7e7;
+    font-family: 'Poppins', sans-serif;
+    font-size: var(--font-small);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-y: scroll;
+    background-image: url('./img/pattern.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
+
+    &.no-scroll {
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+}
+
+.main-content {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    height: 100%;
+    min-height: 100vh;
+    background: #f0f0f0;
+    margin: auto;
+    padding-top: 46px;
+    padding-bottom: 65px;
+    box-shadow: 0 0 16px 4px rgba(0, 0, 0, .05);
+
+    &.no-padding-top {
+        padding-top: 0;
+    }
+
+    &.no-padding-bottom {
+        padding-bottom: 0;
+    }
+
+    @media screen and (max-width: 768px) {
+        max-width: 100%;
+        box-shadow: none;
+    }
+}
+
+.loading-wrapper {
+    position: fixed;
+    display: flex;
+    width: 100%;
+    max-width: 120px;
+    height: 100%;
+    max-height: 120px;
+    background: var(--color-white);
+    border-radius: 6px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 102;
+}
+
+.loading-spinner {
+    position: relative;
+    display: flex;
+    $colors: #ca9175, #a07660, #ca9175;
+    align-items: center;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .dot {
+        position: relative;
+        width: 15px;
+        height: 15px;
+        margin: 7px;
+        border-radius: 50%;
+
+        &::before {
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: inherit;
+            animation: wave 2s ease-out infinite;
+        }
+
+        @for $i from 1 through 3 {
+            &:nth-child(#{$i}) {
+                background: nth($colors, $i);
+
+                &::before {
+                    animation-delay: $i * 0.2s;
+                }
+            }
+        }
+    }
+}
+
+@keyframes wave {
+
+    50%,
+    75% {
+        transform: scale(2.5);
+    }
+
+    80%,
+    100% {
+        opacity: 0;
+    }
+}
