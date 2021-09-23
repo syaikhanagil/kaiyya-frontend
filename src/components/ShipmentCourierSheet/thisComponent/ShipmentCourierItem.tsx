@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import API from '../../../configs/api';
 import priceFormat from '../../../helpers/price';
 import Icon from '../../Icon';
+import { Text } from '../../Styled';
 
 const Item = styled.div`
     position: relative;
@@ -79,13 +80,6 @@ const ServiceItem = styled.div`
     }
 `;
 
-const Text = styled('p') <{ bold?: boolean, extraSmall?: boolean, block?: boolean }>`
-    position: relative;
-    display: ${(props) => (props.block ? 'block' : 'inline-block')};;
-    font-weight: ${(props) => (props.bold ? '600' : '400')};
-    font-size: ${(props) => (props.extraSmall ? 'var(--font-extra-small)' : 'var(--font-small)')};
-`;
-
 interface Props {
     destination: string,
     weight: number,
@@ -112,12 +106,14 @@ const ShipmentCourierItem = (props: Props) => {
                 destination
             }
         };
-        API.fetchShipmentCost(payload).then((res: any) => {
-            setServiceItems(res.data[0].costs);
-            setTimeout(() => {
-                setReady(true);
-            }, 1000);
-        });
+        if (courierCode !== 'COD') {
+            API.fetchShipmentCost(payload).then((res: any) => {
+                setServiceItems(res.data[0].costs);
+                setTimeout(() => {
+                    setReady(true);
+                }, 250);
+            });
+        }
     };
 
     useEffect(() => {
@@ -139,7 +135,7 @@ const ShipmentCourierItem = (props: Props) => {
                     <Icon icon="chevron-down" />
                 </div>
             </Item>
-            {ready && open && serviceItems.map((i: any, idx: any) => (
+            {ready && open && serviceItems.length > 0 && serviceItems.map((i: any, idx: any) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <ServiceItem key={idx} className={activeService === i.service ? 'active' : ''} onClick={() => handleSelect(i, i.service)}>
                     <div>
@@ -153,6 +149,9 @@ const ShipmentCourierItem = (props: Props) => {
                     )}
                 </ServiceItem>
             ))}
+            {open && serviceItems.length < 1 && (
+                <Text block bold marginY alignCenter>Kurir tidak menjangkau wilayah anda</Text>
+            )}
         </>
     );
 };

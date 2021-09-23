@@ -160,6 +160,8 @@ const Checkout = (props: any) => {
                 total += items[i].qty * items[i].size.price;
                 setSubtotal(total);
             }
+        } else if (items.length < 1) {
+            window.location.href = '/';
         }
     }, [items]);
 
@@ -302,7 +304,7 @@ const Checkout = (props: any) => {
                     </SubtotalWrapper>
                 </CheckoutWrapper>
                 <FloatingWrapper>
-                    <Button block fullWidth disabled={!courier || !shipmentAddressId} primary onClick={() => handleSubmit()}>Bayar Sekarang</Button>
+                    <Button block fullWidth disabled={!courier || !shipmentAddressId || !paymentMethodCode} primary onClick={() => handleSubmit()}>Bayar Sekarang</Button>
                 </FloatingWrapper>
                 {paymentMethodDialog && (
                     <PaymentMethodSheet onSubmit={(method: string, code: string, type: string) => onPaymentMethodSelected(method, code, type)} handler={(visibility: boolean) => setPaymentMethodDialog(visibility)} />

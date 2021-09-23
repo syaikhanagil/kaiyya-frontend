@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import CONSTANT from '../../constant';
 import Icon from '../Icon';
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
     moreBtn?: boolean,
     moreIcon?: string,
     onMoreClick?: () => void,
+    dispatch: any,
     cartItems: any
 }
 
@@ -138,7 +140,7 @@ class Header extends React.Component<Props, any> {
     }
 
     render() {
-        const { transparent, backTo, backBtn, pageTitle, cartBtn, searchBtn, notifBtn, moreBtn, moreIcon, onMoreClick, cartItems } = this.props;
+        const { transparent, backTo, backBtn, pageTitle, cartBtn, searchBtn, notifBtn, moreBtn, moreIcon, onMoreClick, cartItems, dispatch } = this.props;
         return (
             <HeaderWrapper transparent={transparent} id="header">
                 <ItemWrapper>
@@ -173,9 +175,9 @@ class Header extends React.Component<Props, any> {
                             </ActionLink>
                         )}
                         {searchBtn && (
-                            <ActionLink to="/search">
+                            <ActionBtn onClick={() => dispatch({ type: CONSTANT.SET_SEARCH_DIALOG, visble: true })}>
                                 <Icon icon="search" />
-                            </ActionLink>
+                            </ActionBtn>
                         )}
                         {notifBtn && (
                             <ActionBtn>

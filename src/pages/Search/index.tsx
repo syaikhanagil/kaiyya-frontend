@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Icon from '../../components/Icon';
-import { Button } from '../../components/Styled';
+import { Text } from '../../components/Styled';
 import action from '../../configs/redux/action';
 // import pushLocation from '../../configs/routes/pushLocation';
 import Main from '../../layouts/Main';
@@ -12,7 +13,7 @@ const SearchWrapper = styled.div`
     display: block;
     width: 100%;
     height: 100vh;
-    padding: 10px 0;
+    padding: 60px 0 10px;
     background: var(--color-white);
 `;
 
@@ -73,10 +74,11 @@ const SearchContainer = styled.div`
     position: relative;
     display: flex;
     width: 100%;
-    height: 32px;
+    height: 38px;
     padding: 0 10px;
     background: #f0f0f0;
     color: #474747;
+    margin-left: 10px;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
@@ -86,11 +88,17 @@ const SearchInput = styled.input`
     position: relative;
     display: block;
     width: 100%;
-    height: 32px;
+    height: 38px;
     background: #f0f0f0;
     font-size: var(--font-extra-small);
     padding: 0 10px;
     outline: none;
+`;
+
+const SearchItem = styled(Link)`
+    position: relative;
+    display: block;
+    width: 100%;
 `;
 
 const Search = (props: any) => {
@@ -138,11 +146,16 @@ const Search = (props: any) => {
                 </ItemWrapper>
             </SearchHeader>
             <SearchWrapper>
-                {suggestions.map((i: any, idx: any) => (
+                {keyword.length > 0 && suggestions.length > 0 && suggestions.map((i: any, idx: any) => (
                     // eslint-disable-next-line react/no-array-index-key
-                    <p key={idx}>{i.name}</p>
+                    <SearchItem key={idx} to={`/product/${i.slug}`}>{i.name}</SearchItem>
                 ))}
-                <Button onClick={() => { window.location.href = `/product/keyword=${keyword}`; }}>Cek</Button>
+                {keyword.length > 1 && suggestions.length < 1 && (
+                    <Text block bold alignCenter>Masukkan kata yang lebih spesifik</Text>
+                )}
+                {keyword.length < 1 && suggestions.length < 1 && (
+                    <Text block bold alignCenter>Ketik Nama Produk</Text>
+                )}
             </SearchWrapper>
         </Main>
     );

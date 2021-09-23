@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import LoadingOverlay from '../components/LoadingOverlay';
 import Navigation from '../components/Navigation';
+import SearchDialog from '../components/SearchDialog';
 
 interface Props {
     children: any,
@@ -21,7 +22,8 @@ interface Props {
     activeMenu?: string,
     transparentHeader?: boolean
     dispatch: any,
-    fullScreenLoader: boolean
+    fullScreenLoader: boolean,
+    saerchDialog: boolean
 }
 
 class Main extends React.Component<Props, any> {
@@ -57,7 +59,7 @@ class Main extends React.Component<Props, any> {
     }
 
     render() {
-        const { children, useHeader, backTo, backBtn, title, cartBtn, searchBtn, moreBtn, moreIcon, onMoreClick, paddingTop, useNavigation, paddingBottom, activeMenu, transparentHeader, fullScreenLoader } = this.props;
+        const { children, useHeader, backTo, backBtn, title, cartBtn, searchBtn, moreBtn, moreIcon, onMoreClick, paddingTop, useNavigation, paddingBottom, activeMenu, transparentHeader, fullScreenLoader, saerchDialog } = this.props;
         return (
             <>
                 <main className={`main-content${!paddingTop ? ' no-padding-top' : ''}${!paddingBottom ? ' no-padding-bottom' : ''}`}>
@@ -65,6 +67,9 @@ class Main extends React.Component<Props, any> {
                     {children}
                     {useNavigation && (<Navigation activeMenu={activeMenu} />)}
                 </main>
+                {saerchDialog && (
+                    <SearchDialog />
+                )}
                 {fullScreenLoader && (
                     <LoadingOverlay />
                 )}
@@ -75,7 +80,8 @@ class Main extends React.Component<Props, any> {
 
 const mapStateToProps = (state: any) => {
     return {
-        fullScreenLoader: state.globalReducer.fullScreenLoader
+        fullScreenLoader: state.globalReducer.fullScreenLoader,
+        saerchDialog: state.globalReducer.saerchDialog
     };
 };
 

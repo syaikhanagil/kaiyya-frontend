@@ -20,9 +20,7 @@ const DescriptionSheet = (props: Props) => {
 
     return (
         <BottomSheet title="Deskripsi" fullHeight handler={handler}>
-            <DescriptionWrapper>
-                {content}
-            </DescriptionWrapper>
+            <DescriptionWrapper dangerouslySetInnerHTML={{ __html: content }} />
         </BottomSheet>
     );
 };

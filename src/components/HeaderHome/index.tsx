@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import CONSTANT from '../../constant';
 import Icon from '../Icon';
 
 const HeaderWrapper = styled.header`
@@ -93,7 +94,7 @@ const ActionLink = styled(Link)`
     }
 `;
 
-const SearchBar = styled(Link)`
+const SearchBar = styled.div`
     position: relative;
     display: flex;
     width: 100%;
@@ -107,7 +108,8 @@ const SearchBar = styled(Link)`
 `;
 
 interface Props {
-    cartItems: any
+    cartItems: any,
+    dispatch: any
 }
 
 class HeaderHome extends React.Component<Props, any> {
@@ -131,11 +133,11 @@ class HeaderHome extends React.Component<Props, any> {
     }
 
     render() {
-        const { cartItems } = this.props;
+        const { cartItems, dispatch } = this.props;
         return (
             <HeaderWrapper id="header">
                 <ItemWrapper>
-                    <SearchBar to="/search">
+                    <SearchBar onClick={() => dispatch({ type: CONSTANT.SET_SEARCH_DIALOG, visble: true })}>
                         <p>Cari disini</p>
                         <Icon icon="search" />
                     </SearchBar>

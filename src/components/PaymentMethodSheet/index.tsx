@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import BottomSheet from '../BottomSheet';
-import { Button, FlexBox } from '../Styled';
+import { Button } from '../Styled';
 import briLogo from '../../assets/svg/bri-logo.svg';
 import bniLogo from '../../assets/svg/bni-logo.svg';
 import mandiriLogo from '../../assets/svg/mandiri-logo.svg';
+import permataLogo from '../../assets/svg/permata-logo.svg';
+import sampoernaLogo from '../../assets/img/bss-logo.png';
 import bcaLogo from '../../assets/svg/bca-logo.svg';
 import qrisLogo from '../../assets/svg/qris-logo.svg';
-import Icon from '../Icon';
 
 const PaymentMethodWrapper = styled.div`
     position: relative;
@@ -25,20 +26,37 @@ const Title = styled('p') <{ space?: boolean }>`
     border-bottom: 1px solid #e7e7e7;
 `;
 
-const PaymentItem = styled.div`
+const PaymentList = styled.div`
     position: relative;
     display: flex;
-    width: auto;
-    border-bottom: 1px solid #e7e7e7;
+    width: 100%;
+    flex-direction: row;
     padding: 15px 1rem;
-    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+`;
+
+const PaymentItem = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+    flex-basis: 30%;
     cursor: pointer;
 
     .logo {
         position: relative;
-        height: 22px;
+        display: block;
+        height: auto;
+        text-align: center;
         img {
-            height: 100%;
+            position: relative;
+            height: 25px;
+            margin: auto;
         }
     }
 
@@ -46,13 +64,17 @@ const PaymentItem = styled.div`
         padding-left: 10px;
         font-size: var(--font-extra-small);
     }
+
     .check-icon {
         position: absolute;
         top: 50%;
-        right: 1rem;
+        right: 5px;
         transform: translateY(-50%);
     }
 
+    &.active {
+        border-color: var(--primary);
+    }
     &.disabled {
         position: relavive;
         background: #f7f7f7;
@@ -92,8 +114,8 @@ const PaymentMethodSheet = (props: Props) => {
     return (
         <BottomSheet title="Metode Pembayaran" handler={handler}>
             <PaymentMethodWrapper>
-                <FlexBox column>
-                    <Title>Virtual Account</Title>
+                <Title>Virtual Account</Title>
+                <PaymentList>
                     <PaymentItem
                         className={selectedMethod === 'BRI VA' ? 'active' : ''}
                         onClick={() => {
@@ -105,11 +127,6 @@ const PaymentMethodSheet = (props: Props) => {
                         <div className="logo">
                             <img src={briLogo} alt="bri-va" />
                         </div>
-                        {selectedMethod === 'BRI VA' && (
-                            <div className="check-icon">
-                                <Icon icon="check" />
-                            </div>
-                        )}
                     </PaymentItem>
                     <PaymentItem
                         className={selectedMethod === 'BNI VA' ? 'active' : ''}
@@ -122,11 +139,6 @@ const PaymentMethodSheet = (props: Props) => {
                         <div className="logo">
                             <img src={bniLogo} alt="bni-va" />
                         </div>
-                        {selectedMethod === 'BNI VA' && (
-                            <div className="check-icon">
-                                <Icon icon="check" />
-                            </div>
-                        )}
                     </PaymentItem>
                     <PaymentItem
                         className={selectedMethod === 'MANDIRI VA' ? 'active' : ''}
@@ -139,24 +151,39 @@ const PaymentMethodSheet = (props: Props) => {
                         <div className="logo">
                             <img src={mandiriLogo} alt="mandiri-va" />
                         </div>
-                        {selectedMethod === 'MANDIRI VA' && (
-                            <div className="check-icon">
-                                <Icon icon="check" />
-                            </div>
-                        )}
+                    </PaymentItem>
+                    <PaymentItem
+                        className={selectedMethod === 'SAHABAT SAMPOERNA VA' ? 'active' : ''}
+                        onClick={() => {
+                            setSelectedMethod('SAHABAT SAMPOERNA VA');
+                            setSelectedMethodCode('SAHABAT_SAMPOERNA');
+                            setSelectedMethodType('virtual-account');
+                        }}
+                    >
+                        <div className="logo">
+                            <img src={sampoernaLogo} alt="sahabat-sampoerna-va" />
+                        </div>
+                    </PaymentItem>
+                    <PaymentItem
+                        className={selectedMethod === 'PERMATA VA' ? 'active' : ''}
+                        onClick={() => {
+                            setSelectedMethod('PERMATA VA');
+                            setSelectedMethodCode('PERMATA');
+                            setSelectedMethodType('virtual-account');
+                        }}
+                    >
+                        <div className="logo">
+                            <img src={permataLogo} alt="permata-va" />
+                        </div>
                     </PaymentItem>
                     <PaymentItem className="disabled">
                         <div className="logo">
                             <img src={bcaLogo} alt="bca-va" />
                         </div>
-                        <span>Saat Ini Belum Tersedia</span>
-                        {selectedMethod === 'BCA VA' && (
-                            <div className="check-icon">
-                                <Icon icon="check" />
-                            </div>
-                        )}
                     </PaymentItem>
-                    <Title space>Lainnya</Title>
+                </PaymentList>
+                <Title space>Lainnya</Title>
+                <PaymentList>
                     <PaymentItem
                         className={selectedMethod === 'QRIS' ? 'active' : ''}
                         onClick={() => {
@@ -168,13 +195,8 @@ const PaymentMethodSheet = (props: Props) => {
                         <div className="logo">
                             <img src={qrisLogo} alt="qris" />
                         </div>
-                        {selectedMethod === 'QRIS' && (
-                            <div className="check-icon">
-                                <Icon icon="check" />
-                            </div>
-                        )}
                     </PaymentItem>
-                </FlexBox>
+                </PaymentList>
                 <ConfirmWrapper>
                     <Button block fullWidth primary disabled={selectedMethod === ''} onClick={() => handleSubmit()}>Konfirmasi</Button>
                 </ConfirmWrapper>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import styled from 'styled-components';
 import LoadingOverlay from '../../components/LoadingOverlay';
 // import { Text } from '../../components/Styled';
@@ -37,6 +38,7 @@ const Payment = () => {
     };
 
     useEffect(() => {
+        Cookies.remove('checkout-items');
         if (paymentId) {
             fetchData();
         } else {

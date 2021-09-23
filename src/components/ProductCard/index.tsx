@@ -37,7 +37,7 @@ const Wrapper = styled('div') <{useMargin?: boolean}>`
     user-select: none;
 
     @media only screen and (max-width: 465px) {
-        max-width: 180px;
+        max-width: 47.5%;
     }
 
     &:hover {

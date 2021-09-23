@@ -190,6 +190,7 @@ const Cart = (props: any) => {
 
     useEffect(() => {
         analytic.pageView();
+        Cookies.remove('checkout-items');
     }, []);
 
     useEffect(() => {

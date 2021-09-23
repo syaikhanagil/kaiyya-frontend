@@ -311,7 +311,7 @@ const ProductDetail = (props: any) => {
             }, 1000);
         }).catch(() => {
             // setNotFound(true);
-            window.location.href = '/not-found';
+            // window.location.href = '/not-found';
         });
         await dispatch(action.fetchAccountDetail());
     };
@@ -467,9 +467,10 @@ const ProductDetail = (props: any) => {
                     </SectionWrapper> */}
                     <DetailWrapper>
                         <p className="title">Deskripsi</p>
-                        <div className="detail">
-                            {detailData.detail}
-                        </div>
+                        {detailData.detail && (
+                            // eslint-disable-next-line react/no-danger
+                            <div className="detail" dangerouslySetInnerHTML={{ __html: detailData.detail }} />
+                        )}
                         <div role="button" className="show-more" onClick={() => setDescriptionDialog(true)}>
                             Selengkapnya
                         </div>

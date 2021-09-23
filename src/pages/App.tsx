@@ -17,7 +17,6 @@ import Payment from './Payment';
 import Preorder from './Preorder';
 import Product from './Product';
 import ProductDetail from './ProductDetail';
-import Search from './Search';
 import PageRoute from '../configs/routes/PageRoute';
 import Referral from './Referral';
 import Settings from './Settings';
@@ -46,7 +45,6 @@ const App = () => {
 
             <PageRoute secure path="/referral" component={Referral} exact />
 
-            <PageRoute path="/search" component={Search} exact />
             <PageRoute path="/product" component={Product} exact />
             <PageRoute path="/product/:slug" component={ProductDetail} exact />
             <PageRoute path="/preorder" component={Preorder} exact />

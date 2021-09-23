@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import ScrollContainer from 'react-indiana-drag-scroll';
+import Cookies from 'js-cookie';
+// import ScrollContainer from 'react-indiana-drag-scroll';
 import Main from '../../layouts/Main';
 import Banner from './thisComponent/Banner';
 import ProductCard from '../../components/ProductCard';
 import ProductShimmer from '../../components/ProductShimmer';
 import JoinMitra from './thisComponent/JoinMitra';
 import Shimmer from '../../components/Shimmer';
-import Icon from '../../components/Icon';
+// import Icon from '../../components/Icon';
 import API from '../../configs/api';
 import HeaderHome from '../../components/HeaderHome';
 // import Menu from './thisComponent/Menu';
@@ -62,7 +63,15 @@ const FeaturedHeader = styled.div`
 
 const FeaturedBody = styled.div`
     position: relative;
-    display: block;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-derection: row;
+    justify-content: space-between;
+    padding: 10px 1rem;
+    @media only screen and (max-width: 768px) {
+        padding: 10px .5rem;
+    }
     .scroll-container {
         position: relative;
         overflow: hidden;
@@ -72,66 +81,66 @@ const FeaturedBody = styled.div`
     }
 `;
 
-const FloatingWrapper = styled.div`
-    position: sticky;
-    display: block;
-    width: 100%;
-    height: 100%;
-    background: var(--color-white);
-    padding: 10px 0;
-    top: 46px;
-    left: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    border-bottom: 1px solid #eee;
-    z-index: 10;
+// const FloatingWrapper = styled.div`
+//     position: sticky;
+//     display: block;
+//     width: 100%;
+//     height: 100%;
+//     background: var(--color-white);
+//     padding: 10px 0;
+//     top: 46px;
+//     left: 0;
+//     white-space: nowrap;
+//     overflow: hidden;
+//     border-bottom: 1px solid #eee;
+//     z-index: 10;
 
-    .scroll-container {
-        position: relative;
-        display: flex;
-        overflow: hidden;
-        padding: 0 1rem;
-        align-items: center;
-    }
-`;
+//     .scroll-container {
+//         position: relative;
+//         display: flex;
+//         overflow: hidden;
+//         padding: 0 1rem;
+//         align-items: center;
+//     }
+// `;
 
-const CategoryItem = styled('div') <{ active?: boolean }>`
-    position: relative;
-    display: inline-block;
-    height: auto;
-    width: auto;
-    min-width: 120px;
-    padding: 6px 10px;
-    background: #eee;
-    margin: 0 5px;
-    border: ${(props) => (props.active ? '1px solid var(--primary)' : '1px solid var(--transparent)')};
-    border-radius: 4px;
-    user-select: none;
-    cursor: pointer;
+// const CategoryItem = styled('div') <{ active?: boolean }>`
+//     position: relative;
+//     display: inline-block;
+//     height: auto;
+//     width: auto;
+//     min-width: 120px;
+//     padding: 6px 10px;
+//     background: #eee;
+//     margin: 0 5px;
+//     border: ${(props) => (props.active ? '1px solid var(--primary)' : '1px solid var(--transparent)')};
+//     border-radius: 4px;
+//     user-select: none;
+//     cursor: pointer;
 
-    .feather {
-        fill: var(--primary);
-        color: var(--primary-dark);
-    }
+//     .feather {
+//         fill: var(--primary);
+//         color: var(--primary-dark);
+//     }
 
-    &:first-of-type {
-        min-width: unset;
-        margin-left: 0;
-        padding: 5px;
-    }
-    &:last-of-type {
-        margin-right: 0;
-    }
+//     &:first-of-type {
+//         min-width: unset;
+//         margin-left: 0;
+//         padding: 5px;
+//     }
+//     &:last-of-type {
+//         margin-right: 0;
+//     }
 
-`;
+// `;
 
 const Home = () => {
     const [products, setProducts] = useState([]);
     const [productReady, setProductReady] = useState(false);
-    const [loadCategories, setLoadCategories] = useState(false);
-    const [categories, setCategories] = useState([]);
-    const [categoriesReady, setCategoriesReady] = useState(false);
-    const [activeCategory, setActiveCategory] = useState('');
+    // const [loadCategories, setLoadCategories] = useState(false);
+    // const [categories, setCategories] = useState([]);
+    // const [categoriesReady, setCategoriesReady] = useState(false);
+    // const [activeCategory, setActiveCategory] = useState('');
 
     const fetchProduct = async () => {
         const payload = {
@@ -145,30 +154,31 @@ const Home = () => {
         });
     };
 
-    const fetchCategory = async () => {
-        setLoadCategories(true);
-        await API.fetchCategory().then((res: any) => {
-            setCategories(res.data);
-            setActiveCategory(res.data[0].id);
-            setTimeout(() => {
-                setCategoriesReady(true);
-                setLoadCategories(false);
-            }, 2000);
-        });
-    };
+    // const fetchCategory = async () => {
+    //     setLoadCategories(true);
+    //     await API.fetchCategory().then((res: any) => {
+    //         setCategories(res.data);
+    //         setActiveCategory(res.data[0].id);
+    //         setTimeout(() => {
+    //             setCategoriesReady(true);
+    //             setLoadCategories(false);
+    //         }, 2000);
+    //     });
+    // };
 
     useEffect(() => {
         fetchProduct();
+        Cookies.remove('checkout-items');
     }, []);
 
-    window.onscroll = () => {
-        // const featuredProduct = document.getElementById('featured-product')?.offsetHeight || 0;
-        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-            if (!categoriesReady && productReady) {
-                fetchCategory();
-            }
-        }
-    };
+    // window.onscroll = () => {
+    //     const featuredProduct = document.getElementById('featured-product')?.offsetHeight || 0;
+    //     if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+    //         if (!categoriesReady && productReady) {
+    //             fetchCategory();
+    //         }
+    //     }
+    // };
 
     return (
         <>
@@ -182,6 +192,7 @@ const Home = () => {
             <Main useNavigation paddingBottom activeMenu="home">
                 <HeaderHome />
                 <Banner />
+                <JoinMitra />
                 {/* <Menu /> */}
                 <FeaturedWrapper id="featured-product">
                     {productReady && (
@@ -194,12 +205,24 @@ const Home = () => {
                                 <Link to="/product">Lihat semua</Link>
                             </FeaturedHeader>
                             <FeaturedBody>
-                                <ScrollContainer hideScrollbars={false} className="scroll-container">
+                                {/* <ScrollContainer hideScrollbars={false} className="scroll-container">
                                     {products.map((i: any) => (
                                         // eslint-disable-next-line no-underscore-dangle
                                         <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} />
                                     ))}
-                                </ScrollContainer>
+                                </ScrollContainer> */}
+                                {products.map((i: any) => (
+                                    // eslint-disable-next-line no-underscore-dangle
+                                    <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
+                                ))}
+                                {products.map((i: any) => (
+                                    // eslint-disable-next-line no-underscore-dangle
+                                    <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
+                                ))}
+                                {products.map((i: any) => (
+                                    // eslint-disable-next-line no-underscore-dangle
+                                    <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
+                                ))}
                             </FeaturedBody>
                         </>
                     )}
@@ -214,17 +237,15 @@ const Home = () => {
                                 </div>
                             </FeaturedHeader>
                             <FeaturedBody>
-                                <ScrollContainer hideScrollbars={false} className="scroll-container">
-                                    <ProductShimmer />
-                                    <ProductShimmer />
-                                    <ProductShimmer />
-                                </ScrollContainer>
+                                <ProductShimmer />
+                                <ProductShimmer />
+                                <ProductShimmer />
+                                <ProductShimmer />
                             </FeaturedBody>
                         </>
                     )}
                 </FeaturedWrapper>
-                <JoinMitra />
-                <FeaturedWrapper>
+                {/* <FeaturedWrapper>
                     {categoriesReady && (
                         <>
                             <FeaturedHeader>
@@ -287,7 +308,7 @@ const Home = () => {
                             </FeaturedBody>
                         </>
                     )}
-                </FeaturedWrapper>
+                </FeaturedWrapper> */}
             </Main>
         </>
     );

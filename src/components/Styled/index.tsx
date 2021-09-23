@@ -197,10 +197,11 @@ export const FlexBox = styled('div') <{column?: boolean, row?: boolean, wrap?: b
  * Text Paragraph
  */
 
-export const Text = styled('p') <{ bold?: boolean, extraSmall?: boolean, block?: boolean, marginY?: boolean }>`
+export const Text = styled('p') <{ bold?: boolean, extraSmall?: boolean, block?: boolean, marginY?: boolean, alignCenter?: boolean }>`
     position: relative;
     display: ${(props) => (props.block ? 'block' : 'inline-block')};;
     font-weight: ${(props) => (props.bold ? '600' : '400')};
     font-size: ${(props) => (props.extraSmall ? 'var(--font-extra-small)' : 'var(--font-small)')};
     ${(props) => (props.marginY && 'margin-top: 5px; margin-bottom: 5px;')}
+    ${(props) => (props.alignCenter && 'text-align: center;')}
 `;
