@@ -15,16 +15,17 @@ const Referral = () => {
     const fetchData = async () => {
         const payload = {
             body: {
-                referralCode: code
+                code
             }
         };
         await API.checkReferralCode(payload).then((res: any) => {
-            Cookies.set('referral', res.data.code);
+            Cookies.set('referral', code);
             Cookies.set('referral_role', res.data.role);
             window.location.href = '/register?ref=true';
-        }).catch(() => {
+        }).catch((err) => {
+            console.log(err);
             Cookies.set('referral', '');
-            window.location.href = '/register';
+            // window.location.href = '/register';
         });
     };
 

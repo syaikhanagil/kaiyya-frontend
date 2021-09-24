@@ -102,7 +102,6 @@ const OrderDetail = () => {
         };
         API.fetchOrderDetail(data).then((res: any) => {
             setOrderDetail(res.data);
-            console.log(res.data);
             setItems(res.data.order_detail);
             setTimeout(() => {
                 setReady(true);
