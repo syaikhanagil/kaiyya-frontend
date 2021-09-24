@@ -6,9 +6,9 @@ const API = {
     fetchProfile: ApiConfig.GET('/account/profile', true),
     resetPassword: ApiConfig.GET('/account/reset-password', false),
 
-    checkReferralCode: ApiConfig.POST('/referral/check-code', false),
-    fetchReferralDownline: ApiConfig.GET('/referral/downline', true),
-    fetchReferralIncome: ApiConfig.GET('/referral/downline', true),
+    checkReferralCode: ApiConfig.POST('/account/ref/check', false),
+    fetchReferralDownline: ApiConfig.GET('/account/ref/downline', true),
+    fetchReferralIncome: ApiConfig.GET('/account/ref/downline', true),
 
     createAddress: ApiConfig.POST('/address', true),
     fetchAddress: ApiConfig.GET('/address', true),
@@ -39,6 +39,7 @@ const API = {
 
     createOrder: ApiConfig.POST('/orders', true),
     fetchOrder: ApiConfig.GET('/orders', true),
+    fetchOrderDetail: ApiConfig.GET('/orders/detail', true),
     updateOrder: ApiConfig.PATCH('/orders', true),
     cancelOrder: ApiConfig.POST('/orders', true),
 

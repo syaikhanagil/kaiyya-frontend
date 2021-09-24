@@ -424,7 +424,7 @@ const ProductDetail = (props: any) => {
                         {detailReady && (
                             <>
                                 <h2>{detailData.name}</h2>
-                                {role !== '' && role !== 'retail' && (
+                                {role !== '' && role !== 'retail' && addons.discount !== 0 && (
                                     <p className="price slash">{priceFormat(sizeData[0].price)}</p>
                                 )}
                                 <p className="price">{priceFormat(discount(sizeData[0].price, addons.discount))}</p>

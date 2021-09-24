@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Main from '../../layouts/Main';
 import Downline from './Downline';
+import Income from './Income';
 
 const ReferralWrapper = styled.div`
     position: relative;
@@ -60,7 +61,7 @@ const Referral = () => {
     ];
 
     return (
-        <Main backBtn title="Referral">
+        <Main useHeader paddingTop backBtn title="Referral">
             <ReferralWrapper>
                 <ReferralHeader>
                     {menuList.map((i) => (
@@ -75,7 +76,7 @@ const Referral = () => {
                     <Downline />
                 )}
                 {activeMenu === 'income' && (
-                    <Downline />
+                    <Income />
                 )}
             </ReferralBody>
         </Main>

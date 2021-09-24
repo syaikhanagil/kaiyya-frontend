@@ -137,7 +137,7 @@ class HeaderHome extends React.Component<Props, any> {
         return (
             <HeaderWrapper id="header">
                 <ItemWrapper>
-                    <SearchBar onClick={() => dispatch({ type: CONSTANT.SET_SEARCH_DIALOG, visble: true })}>
+                    <SearchBar onClick={() => dispatch({ type: CONSTANT.SET_SEARCH_DIALOG, visible: true })}>
                         <p>Cari disini</p>
                         <Icon icon="search" />
                     </SearchBar>

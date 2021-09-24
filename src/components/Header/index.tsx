@@ -175,7 +175,7 @@ class Header extends React.Component<Props, any> {
                             </ActionLink>
                         )}
                         {searchBtn && (
-                            <ActionBtn onClick={() => dispatch({ type: CONSTANT.SET_SEARCH_DIALOG, visble: true })}>
+                            <ActionBtn onClick={() => dispatch({ type: CONSTANT.SET_SEARCH_DIALOG, visible: true })}>
                                 <Icon icon="search" />
                             </ActionBtn>
                         )}

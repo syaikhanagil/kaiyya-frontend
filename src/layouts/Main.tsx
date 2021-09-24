@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import LoadingOverlay from '../components/LoadingOverlay';
 import Navigation from '../components/Navigation';
 import SearchDialog from '../components/SearchDialog';
+import Toast from '../components/Toast';
 
 interface Props {
     children: any,
@@ -23,7 +24,9 @@ interface Props {
     transparentHeader?: boolean
     dispatch: any,
     fullScreenLoader: boolean,
-    saerchDialog: boolean
+    searchDialog: boolean,
+    toastVisible: boolean,
+    toastMessage: string
 }
 
 class Main extends React.Component<Props, any> {
@@ -59,7 +62,7 @@ class Main extends React.Component<Props, any> {
     }
 
     render() {
-        const { children, useHeader, backTo, backBtn, title, cartBtn, searchBtn, moreBtn, moreIcon, onMoreClick, paddingTop, useNavigation, paddingBottom, activeMenu, transparentHeader, fullScreenLoader, saerchDialog } = this.props;
+        const { children, useHeader, backTo, backBtn, title, cartBtn, searchBtn, moreBtn, moreIcon, onMoreClick, paddingTop, useNavigation, paddingBottom, activeMenu, transparentHeader, fullScreenLoader, searchDialog, toastVisible, toastMessage } = this.props;
         return (
             <>
                 <main className={`main-content${!paddingTop ? ' no-padding-top' : ''}${!paddingBottom ? ' no-padding-bottom' : ''}`}>
@@ -67,11 +70,14 @@ class Main extends React.Component<Props, any> {
                     {children}
                     {useNavigation && (<Navigation activeMenu={activeMenu} />)}
                 </main>
-                {saerchDialog && (
+                {searchDialog && (
                     <SearchDialog />
                 )}
                 {fullScreenLoader && (
                     <LoadingOverlay />
+                )}
+                {toastVisible && (
+                    <Toast message={toastMessage} type="toast" />
                 )}
             </>
         );
@@ -81,7 +87,9 @@ class Main extends React.Component<Props, any> {
 const mapStateToProps = (state: any) => {
     return {
         fullScreenLoader: state.globalReducer.fullScreenLoader,
-        saerchDialog: state.globalReducer.saerchDialog
+        searchDialog: state.globalReducer.searchDialog,
+        toastVisible: state.globalReducer.toastVisible,
+        toastMessage: state.globalReducer.toastMessage
     };
 };
 

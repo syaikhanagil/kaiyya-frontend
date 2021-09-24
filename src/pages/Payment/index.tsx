@@ -47,7 +47,7 @@ const Payment = () => {
     }, []);
 
     return (
-        <Main useHeader title="Pembayaran" moreBtn onMoreClick={() => {}}>
+        <Main useHeader title="Pembayaran">
             <PaymentWrapper>
                 {data.method === 'qris' && (
                     <QrisMethod data={data} />

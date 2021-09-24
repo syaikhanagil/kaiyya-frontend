@@ -8,5 +8,6 @@ const middleware = [
 ];
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(...middleware)));
+// const store = createStore(reducer, applyMiddleware(...middleware));
 
 export default store;

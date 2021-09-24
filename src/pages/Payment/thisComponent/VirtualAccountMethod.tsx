@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 import briLogo from '../../../assets/svg/bri-logo.svg';
 import bniLogo from '../../../assets/svg/bni-logo.svg';
 import mandiriLogo from '../../../assets/svg/mandiri-logo.svg';
 import bcaLogo from '../../../assets/svg/bca-logo.svg';
-import { Button, Text } from '../../../components/Styled';
+import { Text } from '../../../components/Styled';
 import priceFormat from '../../../helpers/price';
 import MandiriContent from './MandiriContent';
 import BriContent from './BriContent';
 import BniContent from './BniContent';
+import action from '../../../configs/redux/action';
+import clipboardCopy from '../../../helpers/clipboard';
 
 const VirtualAccountWrapper = styled.div`
     position: relative;
@@ -114,12 +117,12 @@ const TabContent = styled.div`
     padding: 10px 1rem 20px;
 `;
 
-const SubmitWrapper = styled.div`
-    position: relative;
-    display: block;
-    width: 100%;
-    padding: 10px 1rem;
-`;
+// const SubmitWrapper = styled.div`
+//     position: relative;
+//     display: block;
+//     width: 100%;
+//     padding: 10px 1rem;
+// `;
 
 interface Props {
     data: any
@@ -128,19 +131,11 @@ interface Props {
 const VirtualAccountMethod = (props: Props) => {
     const { data } = props;
     const [tab, setTabs] = useState('m-banking');
+    const dispatch = useDispatch();
 
     const onCopyClick = () => {
-        const el = document.createElement('textarea');
-        el.value = data.virtual_account_number;
-
-        el.setAttribute('readonly', '');
-        el.style.position = 'absolute';
-        el.style.left = '-9999px';
-        document.body.appendChild(el);
-
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
+        clipboardCopy(data.virtual_account_number);
+        dispatch(action.showToast('Berhasil disalin!'));
         // console.log('copy clicked');
     };
 
@@ -196,9 +191,9 @@ const VirtualAccountMethod = (props: Props) => {
                     )}
                 </TabContent>
             </HowToPayWrapper>
-            <SubmitWrapper>
-                <Button block fullWidth primary>Selesai</Button>
-            </SubmitWrapper>
+            {/* <SubmitWrapper>
+                <Button block fullWidth primary onClick={() => }>Selesai</Button>
+            </SubmitWrapper> */}
         </VirtualAccountWrapper>
     );
 };

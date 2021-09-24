@@ -1,5 +1,7 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import action from '../../configs/redux/action';
 import BottomSheet from '../BottomSheet';
 import { Button } from '../Styled';
 
@@ -16,6 +18,7 @@ interface Props {
 
 const ShareLinkSheet = (props: Props) => {
     const { handler } = props;
+    const dispatch = useDispatch();
 
     const onCopyClick = () => {
         const el = document.createElement('textarea');
@@ -29,7 +32,7 @@ const ShareLinkSheet = (props: Props) => {
         el.select();
         document.execCommand('copy');
         document.body.removeChild(el);
-
+        dispatch(action.showToast('Link berhasil disalin'));
         setTimeout(() => {
             handler(false);
         }, 250);

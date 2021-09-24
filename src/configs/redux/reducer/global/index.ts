@@ -1,7 +1,7 @@
 import CONSTANT from '../../../../constant';
 
 const initState = {
-    fullScreenloader: false,
+    fullScreenLoader: false,
     searchDialog: false,
     toastVisible: false,
     toastMessage: ''
@@ -11,7 +11,7 @@ const authReducer = (state = initState, action: any) => {
     if (action.type === CONSTANT.SET_FULLSCREEN_LOADER) {
         return {
             ...state,
-            fullScreenloader: action.visible
+            fullScreenLoader: action.visible
         };
     }
     if (action.type === CONSTANT.SET_SEARCH_DIALOG) {

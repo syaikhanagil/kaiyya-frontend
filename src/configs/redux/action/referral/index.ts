@@ -5,7 +5,7 @@ export const fetchReferralDownline = () => {
     return (dispatch: any) => {
         dispatch({ type: CONSTANT.FETCH_REFERRAL_DOWNLINE_REQUEST });
         API.fetchReferralDownline().then((res: any) => {
-            const { downline } = res;
+            const downline = res.data;
             dispatch({ type: CONSTANT.FETCH_REFERRAL_DOWNLINE_SUCCESS, downline });
         });
     };

@@ -197,13 +197,14 @@ const Checkout = (props: any) => {
             address: shipmentAddressId,
             courierName: courier,
             courierCode,
-            courierService: `${courierService.service} - ${courierService.description})`,
+            courierService: `${courierService.service} - (${courierService.description})`,
             courierCost,
             paymentMethodCode,
             paymentMethodType,
             products: items,
             subtotal
         };
+        // console.log(data);
         dispatch(action.createOrder(data));
     };
 
@@ -241,7 +242,15 @@ const Checkout = (props: any) => {
                         // eslint-disable-next-line react/no-array-index-key
                         <CheckoutItem key={idx} slug={i.product.slug} size={i.size.name} qty={i.qty} />
                     ))}
-                    <SectionWrapper onClick={() => setCourierDialog(true)}>
+                    <SectionWrapper
+                        onClick={() => {
+                            if (!shipmentAddressId) {
+                                dispatch(action.showToast('Pilih alamat pengiriman terlebih dahulu'));
+                                return;
+                            }
+                            setCourierDialog(true);
+                        }}
+                    >
                         <div>
                             <Icon icon="truck" />
                         </div>

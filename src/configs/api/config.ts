@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-// const baseURL = 'https://test-api.kaiyya.com';
-const baseURL = 'http://127.0.0.1:1201';
+const baseURL = 'https://test-api.kaiyya.com';
+// const baseURL = 'http://127.0.0.1:1201';
 
 const apiInstance = axios.create({
     baseURL,

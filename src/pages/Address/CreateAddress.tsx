@@ -180,7 +180,7 @@ class CreateAddress extends React.Component<any, State> {
         const { name, phone, province, provinceId, provinceSelector, city, cityId, citySelector, subdistrict, subdistrictSelector, detail } = this.state;
         // const { name, phone, province, provinceId, city, cityId, subdistrict, subdistrictId, provinceSelector, citySelector, subdistrictSelector } = this.state;
         return (
-            <Main backBtn title="Tambah Alamat Baru">
+            <Main useHeader backBtn paddingTop title="Tambah Alamat Baru">
                 <>
                     <Wrapper>
                         <SectionTitle>Kontak</SectionTitle>

@@ -5,16 +5,25 @@ import styled from 'styled-components';
 import Icon from '../../components/Icon';
 import { Text } from '../../components/Styled';
 import action from '../../configs/redux/action';
+import CONSTANT from '../../constant';
 // import pushLocation from '../../configs/routes/pushLocation';
-import Main from '../../layouts/Main';
 
 const SearchWrapper = styled.div`
-    position: relative;
+    position: fixed;
     display: block;
     width: 100%;
     height: 100vh;
-    padding: 60px 0 10px;
+    max-width: 480px;
+    padding: 50px 0 10px;
     background: var(--color-white);
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+
+    @media only screen and (max-width: 768px) {
+        max-width: 100%;
+    }
 `;
 
 const ItemWrapper = styled.div`
@@ -95,10 +104,19 @@ const SearchInput = styled.input`
     outline: none;
 `;
 
+const SearchBody = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+`;
+
 const SearchItem = styled(Link)`
     position: relative;
     display: block;
     width: 100%;
+    padding: 10px 1rem;
+    border-bottom: 1px solid #eee;
 `;
 
 const SearchDialog = (props: any) => {
@@ -129,11 +147,11 @@ const SearchDialog = (props: any) => {
     }, []);
 
     return (
-        <Main useHeader={false} paddingBottom={false}>
+        <SearchWrapper>
             <SearchHeader>
                 <ItemWrapper>
                     <Item>
-                        <ActionBtn onClick={() => window.history.back()}>
+                        <ActionBtn onClick={() => dispatch({ type: CONSTANT.SET_SEARCH_DIALOG, visible: false })}>
                             <Icon icon="chevron-left" />
                         </ActionBtn>
                     </Item>
@@ -145,19 +163,19 @@ const SearchDialog = (props: any) => {
                     </SearchContainer>
                 </ItemWrapper>
             </SearchHeader>
-            <SearchWrapper>
+            <SearchBody>
                 {keyword.length > 0 && suggestions.length > 0 && suggestions.map((i: any, idx: any) => (
                     // eslint-disable-next-line react/no-array-index-key
                     <SearchItem key={idx} to={`/product/${i.slug}`}>{i.name}</SearchItem>
                 ))}
-                {keyword.length > 1 && suggestions.length < 1 && (
-                    <Text block bold alignCenter>Masukkan kata yang lebih spesifik</Text>
+                {keyword.length > 0 && suggestions.length < 1 && (
+                    <Text block bold alignCenter marginY>Masukkan kata yang lebih spesifik</Text>
                 )}
                 {keyword.length < 1 && suggestions.length < 1 && (
-                    <Text block bold alignCenter>Ketik Nama Produk</Text>
+                    <Text block bold alignCenter marginY>Ketik Nama Produk</Text>
                 )}
-            </SearchWrapper>
-        </Main>
+            </SearchBody>
+        </SearchWrapper>
     );
 };
 

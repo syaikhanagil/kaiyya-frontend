@@ -9,12 +9,28 @@ import Main from '../../layouts/Main';
 import CartItem from './thisComponent/CartItem';
 import QuantityEditSheet from '../../components/QuantityEditSheet';
 import action from '../../configs/redux/action';
+import Icon from '../../components/Icon';
+import { Text } from '../../components/Styled';
 
 const CartWrapper = styled.div`
     position: relative;
     display: block;
     Width: 100%;
     height: 100%;
+`;
+
+const NoItemWrapper = styled.div`
+    position: relative;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .feather {
+        height: 45px;
+        width: 45px;
+    }
 `;
 
 const StickyWrapper = styled.div`
@@ -233,7 +249,13 @@ const Cart = (props: any) => {
             <Helmet>
                 <title>Keranjang | Kaiyya Dress</title>
             </Helmet>
-            <Main useHeader paddingTop backBtn title="Keranjang" activeMenu="cart">
+            <Main useHeader paddingTop paddingBottom={!(items.length < 1)} backBtn title="Keranjang" activeMenu="cart">
+                {items.length < 1 && (
+                    <NoItemWrapper>
+                        <Icon icon="shopping-cart" />
+                        <Text bold block alignCenter marginY>Keranjang kamu masih kosong</Text>
+                    </NoItemWrapper>
+                )}
                 {items.length > 0 && (
                     <>
                         <StickyWrapper>
