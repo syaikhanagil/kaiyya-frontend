@@ -147,7 +147,8 @@ const Home = () => {
             params: 'featured=true'
         };
         await API.fetchProductFeatured(payload).then((res: any) => {
-            setProducts(res.data);
+            const item = res.data.slice(0, 6);
+            setProducts(item);
             setTimeout(() => {
                 setProductReady(true);
             }, 1000);
@@ -211,14 +212,6 @@ const Home = () => {
                                         <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} />
                                     ))}
                                 </ScrollContainer> */}
-                                {products.map((i: any) => (
-                                    // eslint-disable-next-line no-underscore-dangle
-                                    <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
-                                ))}
-                                {products.map((i: any) => (
-                                    // eslint-disable-next-line no-underscore-dangle
-                                    <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
-                                ))}
                                 {products.map((i: any) => (
                                     // eslint-disable-next-line no-underscore-dangle
                                     <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />

@@ -3,8 +3,13 @@ import ApiConfig from './config';
 const API = {
     requestLogin: ApiConfig.POST('/account/login', false),
     requestRegister: ApiConfig.POST('/account/register', false),
+    verifyRequest: ApiConfig.POST('/account/verify', false),
     fetchProfile: ApiConfig.GET('/account/profile', true),
-    resetPassword: ApiConfig.GET('/account/reset-password', false),
+    editProfile: ApiConfig.PATCH('/account/profile/edit', true),
+
+    resetPasswordRequest: ApiConfig.POST('/account/password/reset-request', false),
+    resetPasswordVerify: ApiConfig.POST('/account/password/reset-verify', false),
+    resetPasswordConfirm: ApiConfig.POST('/account/password/reset-confirm', false),
 
     checkReferralCode: ApiConfig.POST('/account/ref/check', false),
     fetchReferralDownline: ApiConfig.GET('/account/ref/downline', true),
@@ -12,8 +17,8 @@ const API = {
 
     createAddress: ApiConfig.POST('/address', true),
     fetchAddress: ApiConfig.GET('/address', true),
-    fetchAddressCollection: ApiConfig.GET('/address', true),
-    editAddress: ApiConfig.PATCH('/address', true),
+    fetchAddressDetail: ApiConfig.GET('/address/detail', true),
+    editAddress: ApiConfig.PATCH('/address/edit', true),
     deleteAddress: ApiConfig.DELETE('/address', true),
 
     fetchBanner: ApiConfig.GET('/banner', false),
@@ -34,14 +39,16 @@ const API = {
     fetchProvince: ApiConfig.GET('/address/province', false),
     fetchCity: ApiConfig.GET('/address/city/', false),
     fetchSubdistrict: ApiConfig.GET('/address/subdistrict/', false),
-    fetchShipmentService: ApiConfig.GET('/shipment/services', false),
-    fetchShipmentCost: ApiConfig.POST('/shipment/cost', false),
+
+    fetchShipmentService: ApiConfig.GET('/shipment/services', true),
+    fetchShipmentCost: ApiConfig.POST('/shipment/cost', true),
+    fetchShipmentDetail: ApiConfig.POST('/shipment/detail', true),
 
     createOrder: ApiConfig.POST('/orders', true),
     fetchOrder: ApiConfig.GET('/orders', true),
     fetchOrderDetail: ApiConfig.GET('/orders/detail', true),
-    updateOrder: ApiConfig.PATCH('/orders', true),
-    cancelOrder: ApiConfig.POST('/orders', true),
+    updateOrder: ApiConfig.PATCH('/orders/update', true),
+    cancelOrder: ApiConfig.POST('/orders/cancel', true),
 
     createPaymentVA: ApiConfig.POST('/payment/virtual-account', true),
     createPaymentQRIS: ApiConfig.POST('/payment/qris', true),

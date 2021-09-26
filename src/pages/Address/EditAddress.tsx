@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import AddressItemSheet from '../../components/AddressItemSheet';
 import Icon from '../../components/Icon';
 import { Button } from '../../components/Styled';
+import API from '../../configs/api';
 import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
 
@@ -129,11 +130,17 @@ class EditAddress extends React.Component<any, State> {
     }
 
     componentDidMount() {
-        const { dispatch } = this.props;
-        dispatch(action.fetchAddress());
+        this.fetchData();
     }
 
     handleInput(event: { target: { id: any; value: any; }; }) {
+        if (event.target.id === 'phone') {
+            const regex = /^[0-9]{0,13}$/;
+            if (regex.test(event.target.value)) {
+                this.setState({ phone: event.target.value });
+            }
+            return;
+        }
         const newState = { [event.target.id]: event.target.value } as Pick<State, keyof State>;
         this.setState(newState);
     }
@@ -144,17 +151,27 @@ class EditAddress extends React.Component<any, State> {
     }
 
     handleCitySelector() {
-        const { citySelector } = this.state;
+        const { citySelector, province } = this.state;
+        const { dispatch } = this.props;
+        if (!province) {
+            dispatch(action.showToast('Pilih Provinsi Terlebih dahulu'));
+            return;
+        }
         this.setState({ citySelector: !citySelector });
     }
 
     handleSubdistrictSelector() {
-        const { subdistrictSelector } = this.state;
+        const { subdistrictSelector, city } = this.state;
+        const { dispatch } = this.props;
+        if (!city) {
+            dispatch(action.showToast('Pilih Kota Terlebih dahulu'));
+            return;
+        }
         this.setState({ subdistrictSelector: !subdistrictSelector });
     }
 
     handleSubmit() {
-        const { dispatch } = this.props;
+        const { dispatch, match: { params: { addressId } } } = this.props;
         const { name, phone, province, provinceId, city, cityId, subdistrict, subdistrictId, provinceSelector, citySelector, subdistrictSelector, detail } = this.state;
         const data = {
             name,
@@ -170,14 +187,36 @@ class EditAddress extends React.Component<any, State> {
             subdistrictSelector,
             detail
         };
-        dispatch(action.crateAddress(data));
+        dispatch(action.editAddress(addressId, data));
+    }
+
+    fetchData() {
+        const { dispatch, match: { params: { addressId } } } = this.props;
+        const data = {
+            params: `/${addressId}`
+        };
+        dispatch(action.showFullscreenLoader());
+        API.fetchAddressDetail(data).then((res: any) => {
+            dispatch(action.hideFullscreenLoader());
+            this.setState({
+                name: res.data.name,
+                phone: res.data.phone,
+                detail: res.data.detail,
+                provinceId: res.data.province_id,
+                province: res.data.province,
+                cityId: res.data.city_id,
+                city: res.data.city,
+                subdistrictId: res.data.subdistrict_id,
+                subdistrict: res.data.subdistrict
+            });
+        });
     }
 
     render() {
         const { name, phone, province, provinceId, provinceSelector, city, cityId, citySelector, subdistrict, subdistrictSelector, detail } = this.state;
         // const { name, phone, province, provinceId, city, cityId, subdistrict, subdistrictId, provinceSelector, citySelector, subdistrictSelector } = this.state;
         return (
-            <Main backBtn title="Tambah Alamat Baru">
+            <Main useHeader paddingTop backBtn title="Edit Alamat">
                 <Wrapper>
                     <SectionTitle>Kontak</SectionTitle>
                     <Item>

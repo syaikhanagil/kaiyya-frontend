@@ -18,6 +18,7 @@ import analytic from '../../configs/analytics';
 // import CheckCostDialog from '../../components/CheckCostDialog';
 import DescriptionSheet from './thisComponent/DescriptionSheet';
 import ShareLinkSheet from '../../components/ShareLinkSheet';
+import CONSTANT from '../../constant';
 
 const ProductWrapper = styled.div`
     position: relative;
@@ -300,11 +301,13 @@ const ProductDetail = (props: any) => {
         const payload = {
             params: slug
         };
+        dispatch(action.showFullscreenLoader());
         await API.fetchProductDetail(payload).then((res: any) => {
             setImageData(res.data.images);
             setDetailData(res.data);
             setSizeData(res.data.sizes);
             setTimeout(() => {
+                dispatch(action.hideFullscreenLoader());
                 setImageReady(true);
                 setDetailReady(true);
                 setSizeReady(true);
@@ -318,6 +321,7 @@ const ProductDetail = (props: any) => {
 
     useEffect(() => {
         fetchData();
+        dispatch({ type: CONSTANT.SET_SEARCH_DIALOG, visible: false });
     }, [slug]);
 
     const actionHandler = (visibility: any, alert: boolean) => {

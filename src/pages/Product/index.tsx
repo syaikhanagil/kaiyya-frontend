@@ -1,11 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+// import Icon from '../../components/Icon';
 import ProductCard from '../../components/ProductCard';
+import ProductShimmer from '../../components/ProductShimmer';
 import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
-import FilterDrawer from './thisComponent/FilterDrawer';
 
 const ProductWrapper = styled.div`
     position: relative;
@@ -30,10 +31,20 @@ const StickyWrapper = styled.div`
 const StickyItem = styled.div`
     width: 100%;
     text-align: center;
-    border-bottom: 1px solid #eee;
     padding: 10px 0;
+    border-bottom: 2px solid #eee;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    text-transform: uppercase;
+    cursor: pointer;
+    &.active {
+        border-bottom: 2px solid var(--primary);
+    }
     &:first-of-type {
-        border-right: 1px solid #eee;
+        border-left: none;
+    }
+    &:last-of-type {
+        border-right: none;
     }
 `;
 const ItemsWrapper = styled.div`
@@ -50,40 +61,89 @@ const ItemsWrapper = styled.div`
 `;
 
 const Product = (props: any) => {
-    const [filterDrawer, showFilterDrawer] = useState(false);
     const { dispatch, products } = props;
+    const [baseItem, setBaseItem] = useState([]);
     const itemStart = 0;
     const itemShown = 4;
     const [lastIndex, setLastIndex] = useState(2);
     const [items, setItems] = useState([]);
     const [hasMoreItems, setHasMoreItems] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [sortActive, setSortActive] = useState('');
 
     useEffect(() => {
         dispatch(action.fetchProduct());
     }, []);
 
-    useMemo(() => {
-        setItems(products.slice(itemStart, itemShown));
+    useEffect(() => {
+        setItems(baseItem.slice(itemStart, itemShown));
         setLastIndex(2);
+    }, [baseItem]);
+
+    useEffect(() => {
+        if (products.length > 0) {
+            setSortActive('newest');
+            setBaseItem(products);
+        }
     }, [products]);
 
     const loadMoreItems = (lastItem: number) => {
         setLoading(true);
         setTimeout(() => {
-            if (items.length === products.length || items.length > products.length) {
+            if (items.length === baseItem.length || items.length > baseItem.length) {
                 setHasMoreItems(false);
                 setLoading(false);
                 return;
             }
             const newLastIndex = items.length + lastItem;
-            const newList = products.slice(items.length, newLastIndex);
+            const newList = baseItem.slice(items.length, newLastIndex);
             const newItem = items.concat(newList);
             setLastIndex(newLastIndex);
             setItems(newItem);
             setHasMoreItems(true);
             setLoading(false);
         }, 1500);
+    };
+
+    const resetItems = () => {
+        setItems([]);
+        setLastIndex(2);
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            setItems(baseItem.slice(itemStart, itemShown));
+            setLastIndex(2);
+        }, 1200);
+    };
+
+    const onSortLowest = () => {
+        if (sortActive !== 'lowest') {
+            const sortItem = products.sort((first: any, last: any) => {
+                return parseInt(first.sizes[0].price, 10) - parseInt(last.sizes[0].price, 10);
+            });
+            setBaseItem(sortItem);
+            setSortActive('lowest');
+            resetItems();
+        }
+    };
+
+    const onSortHighest = () => {
+        if (sortActive !== 'highest') {
+            const sortItem = products.sort((first: any, last: any) => {
+                return parseInt(last.sizes[0].price, 10) - parseInt(first.sizes[0].price, 10);
+            });
+            setBaseItem(sortItem);
+            setSortActive('highest');
+            resetItems();
+        }
+    };
+
+    const onSortNewest = () => {
+        if (sortActive !== 'newest') {
+            setBaseItem(products);
+            setSortActive('newest');
+            resetItems();
+        }
     };
 
     window.onscroll = () => {
@@ -103,18 +163,22 @@ const Product = (props: any) => {
                 <>
                     <ProductWrapper>
                         <StickyWrapper>
-                            <StickyItem onClick={() => showFilterDrawer(true)}>FILTER</StickyItem>
-                            <StickyItem>CATEGORY</StickyItem>
+                            <StickyItem className={sortActive === 'newest' ? 'active' : ''} onClick={() => onSortNewest()}>Terbaru</StickyItem>
+                            <StickyItem className={sortActive === 'lowest' ? 'active' : ''} onClick={() => onSortLowest()}>Harga Terendah</StickyItem>
+                            <StickyItem className={sortActive === 'highest' ? 'active' : ''} onClick={() => onSortHighest()}>Harga Teringgi</StickyItem>
                         </StickyWrapper>
                         <ItemsWrapper>
                             {items.map((i: any) => (
                                 <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
                             ))}
+                            {loading && (
+                                <>
+                                    <ProductShimmer />
+                                    <ProductShimmer />
+                                </>
+                            )}
                         </ItemsWrapper>
                     </ProductWrapper>
-                    {filterDrawer && (
-                        <FilterDrawer handler={(visibility: boolean) => showFilterDrawer(visibility)} />
-                    )}
                     {loading && hasMoreItems && (
                         <p className="text-center">Loading...</p>
                     )}

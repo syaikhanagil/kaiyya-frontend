@@ -9,7 +9,10 @@ import API from '../../configs/api';
 import action from '../../configs/redux/action';
 import pushLocation from '../../configs/routes/pushLocation';
 import clipboardCopy from '../../helpers/clipboard';
+import dateFormat from '../../helpers/date';
+import priceFormat from '../../helpers/price';
 import Main from '../../layouts/Main';
+import OrderCancelDialog from './thisComponent/OrderCancelDialog';
 import OrderDetailItem from './thisComponent/OrderDetailItem';
 
 const OrderDetailWrapper = styled.div`
@@ -37,6 +40,10 @@ const TitleWrapper = styled.div`
         color: var(--primary);
         padding: 5px 0;
         cursor: pointer;
+
+        &:hover {
+            color: var(--primary-dark);
+        }
     }
 `;
 
@@ -93,6 +100,7 @@ const OrderDetail = () => {
     const { orderId } = useParams<any>();
     const dispatch = useDispatch();
     const [ready, setReady] = useState(false);
+    const [cancelDialog, setCancelDialog] = useState(false);
     const [items, setItems] = useState<any>([]);
     const [orderDetail, setOrderDetail] = useState<any>({});
 
@@ -113,10 +121,9 @@ const OrderDetail = () => {
         fetchData();
     }, []);
 
-    const onCopyClick = () => {
-        clipboardCopy('Halo');
+    const onCopyClick = (copyText: string) => {
+        clipboardCopy(copyText);
         dispatch(action.showToast('Berhasil disalin!'));
-        // console.log('copy clicked');
     };
 
     return (
@@ -133,15 +140,19 @@ const OrderDetail = () => {
                                     <Text block bold>Informasi Pengiriman</Text>
                                 </div>
                                 <div>
-                                    {orderDetail.status !== 'unpaid' && (
-                                        <Text block bold extraSmall alignRight className="action">Lihat Detail Pengiriman</Text>
+                                    {orderDetail.resi && orderDetail.status !== 'unpaid' && orderDetail.status !== 'cancel' && (
+                                        <Text block bold alignRight className="action" onClick={() => onCopyClick(orderDetail.resi)}>Salin Resi</Text>
                                     )}
+                                    {/* {orderDetail.status !== 'unpaid' && orderDetail.status !== 'cancel' && (
+                                        <Text block bold extraSmall alignRight className="action" onClick={() => pushLocation.path(`/shipment/${orderDetail.resi}-${orderDetail.courier.code}`)}>Detail Pengiriman</Text>
+                                    )} */}
                                 </div>
                             </TitleWrapper>
                             <SectionWrapper>
                                 <Text block extraSmall>{orderDetail.courier.name}</Text>
                                 <Text block extraSmall>{orderDetail.courier.service}</Text>
-                                {!orderDetail.resi && (
+                                <Text block extraSmall>{orderDetail.resi}</Text>
+                                {!orderDetail.resi && orderDetail.status !== 'unpaid' && orderDetail.status !== 'cancel' && (
                                     <Text block bold extraSmall marginY>Admin belum menginput no. resi</Text>
                                 )}
                             </SectionWrapper>
@@ -150,7 +161,7 @@ const OrderDetail = () => {
                                     <Text block bold>Alamat Pengiriman</Text>
                                 </div>
                                 <div>
-                                    <Text block bold alignRight className="action" onClick={() => onCopyClick()}>Salin</Text>
+                                    <Text block bold alignRight className="action" onClick={() => onCopyClick(orderDetail.address.detail)}>Salin</Text>
                                 </div>
                             </TitleWrapper>
                             <SectionWrapper>
@@ -174,17 +185,35 @@ const OrderDetail = () => {
                                     <Text block bold marginY>No. Pesanan</Text>
                                 </div>
                                 <div>
-                                    <Text block bold marginY alignRight>{orderDetail.external_id}</Text>
+                                    <Text block bold marginY alignRight className="action" onClick={() => onCopyClick(orderDetail.external_id)}>{orderDetail.external_id}</Text>
                                 </div>
                             </TitleWrapper>
                             <SectionWrapper flex>
+                                <Text block extraSmall>Total Pesanan</Text>
+                                <Text block extraSmall alignRight>{priceFormat(orderDetail.subtotal)}</Text>
+
                                 <Text block extraSmall>Waktu Pemesanan</Text>
-                                <Text block extraSmall alignRight>{orderDetail.external_id}</Text>
+                                <Text block extraSmall alignRight>{dateFormat(orderDetail.createdAt)}</Text>
+
+                                <Text block extraSmall>Metode Pembayaran</Text>
+                                {orderDetail.payment.detail.method === 'virtual-account' && (
+                                    <Text block extraSmall alignRight>{`${orderDetail.payment.detail.bank_code} VA`}</Text>
+                                )}
+                                {orderDetail.payment.detail.method === 'qris' && (
+                                    <Text block extraSmall alignRight>QRIS</Text>
+                                )}
+                                <Text block extraSmall>Waktu Pembayaran</Text>
+                                {orderDetail.status === 'unpaid' && orderDetail.payment.status === 'unpaid' && (
+                                    <Text block extraSmall alignRight>Pesanan Belum Dibayar</Text>
+                                )}
+                                {orderDetail.status === 'cancel' && (
+                                    <Text block extraSmall alignRight>Pesanan Dibatalkan</Text>
+                                )}
                             </SectionWrapper>
                             {orderDetail.status === 'unpaid' && (
                                 <SectionWrapper flex transparent>
-                                    <Button block outline>Hubungi Admin</Button>
-                                    <Button block outline onClick={() => pushLocation.path(`/payment/${orderDetail.payment._id}`)}>Batalkan Pesanan</Button>
+                                    <Button block outline onClick={() => pushLocation.path('/chat')}>Hubungi Admin</Button>
+                                    <Button block outline onClick={() => setCancelDialog(true)}>Batalkan Pesanan</Button>
                                 </SectionWrapper>
                             )}
                         </>
@@ -193,6 +222,9 @@ const OrderDetail = () => {
                         <FloatingWrapper>
                             <Button block fullWidth primary onClick={() => pushLocation.path(`/payment/${orderDetail.payment._id}`)}>Bayar Sekarang</Button>
                         </FloatingWrapper>
+                    )}
+                    {cancelDialog && (
+                        <OrderCancelDialog id={orderId} handler={(visibility: boolean) => setCancelDialog(visibility)} />
                     )}
                 </OrderDetailWrapper>
             </Main>

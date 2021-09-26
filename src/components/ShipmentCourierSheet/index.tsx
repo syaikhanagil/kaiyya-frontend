@@ -14,6 +14,7 @@ const SubmitWrapper = styled.div`
 
 interface Props {
     destination: any,
+    weightTotal: number,
     // eslint-disable-next-line no-unused-vars
     onSubmit: (name: string, code: string, data: any) => void,
     // eslint-disable-next-line no-unused-vars
@@ -21,7 +22,7 @@ interface Props {
 }
 
 const ShipmentCourierSheet = (props: Props) => {
-    const { destination, onSubmit, handler } = props;
+    const { destination, weightTotal, onSubmit, handler } = props;
     const [courierItems, setCourierItems] = useState([]);
     const [courierName, setCourierName] = useState('');
     const [courierCode, setCourierCode] = useState('');
@@ -52,7 +53,7 @@ const ShipmentCourierSheet = (props: Props) => {
                     // eslint-disable-next-line react/no-array-index-key
                     key={idx}
                     destination={destination.subdistrictId}
-                    weight={1000}
+                    weight={weightTotal}
                     courierName={i.name}
                     courierCode={i.code}
                     activeService={selectedService}

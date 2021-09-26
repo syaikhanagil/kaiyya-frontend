@@ -4,6 +4,8 @@ import loadable from '@loadable/component';
 import Account from './Account';
 import Address from './Address';
 import CreateAddress from './Address/CreateAddress';
+import EditAddress from './Address/EditAddress';
+
 import Auth from './Auth';
 // import Cart from './Cart';
 import Catalog from './Catalog';
@@ -20,6 +22,7 @@ import ProductDetail from './ProductDetail';
 import PageRoute from '../configs/routes/PageRoute';
 import Referral from './Referral';
 import Settings from './Settings';
+import Shipment from './Shipment';
 
 const Home = loadable(() => import('./Home'));
 const Cart = loadable(() => import('./Cart'));
@@ -33,15 +36,21 @@ const App = () => {
 
             <PageRoute path="/login" component={Auth} exact />
             <PageRoute path="/register" component={Auth} exact />
+            <PageRoute path="/verify" component={Auth} exact />
             <PageRoute path="/ref/:code" component={Auth} exact />
             <PageRoute path="/reset-password" component={Auth} exact />
+            <PageRoute path="/reset-password/:token" component={Auth} exact />
+            <PageRoute path="/create-password" component={Auth} exact />
             <PageRoute path="/join-mitra" component={JoinMitra} exact />
 
             <PageRoute secure path="/account" component={Account} exact />
-            <PageRoute secure path="/account/settings" component={Settings} exact />
 
             <PageRoute secure path="/account/address" component={Address} exact />
             <PageRoute secure path="/account/address/new" component={CreateAddress} exact />
+            <PageRoute secure path="/account/address/edit/:addressId" component={EditAddress} exact />
+
+            <PageRoute secure path="/settings/account" component={Settings} exact />
+            <PageRoute secure path="/settings/password" component={Settings} exact />
 
             <PageRoute secure path="/referral" component={Referral} exact />
 
@@ -63,6 +72,8 @@ const App = () => {
 
             <PageRoute secure path="/orders" component={Order} exact />
             <PageRoute secure path="/orders/:orderId" component={OrderDetail} exact />
+
+            <PageRoute secure path="/shipment/:code" component={Shipment} exact />
 
             <PageRoute secure path="/payment/:paymentId" component={Payment} exact />
 

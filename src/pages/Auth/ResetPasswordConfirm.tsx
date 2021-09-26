@@ -6,25 +6,25 @@ import API from '../../configs/api';
 import Main from '../../layouts/Main';
 
 interface ParamTypes {
-    code: string
+    token: string
 }
 
-const Referral = () => {
-    const { code } = useParams<ParamTypes>();
+const ResetPasswordConfirm = () => {
+    const { token } = useParams<ParamTypes>();
 
     const fetchData = async () => {
         const payload = {
             body: {
-                code
+                token
             }
         };
-        await API.checkReferralCode(payload).then((res: any) => {
-            Cookies.set('referral', code);
-            Cookies.set('referral_role', res.data.role);
-            window.location.href = '/register?ref=true';
+        await API.resetPasswordVerify(payload).then((res: any) => {
+            Cookies.set('kis-reset-uid', res.data.uid);
+            window.location.href = '/create-password';
         }).catch(() => {
-            Cookies.set('referral', '');
-            window.location.href = '/register';
+            Cookies.set('kis-reset-token', '');
+            Cookies.set('kis-reset-uid', '');
+            window.location.href = '/reset-password';
         });
     };
 
@@ -39,4 +39,4 @@ const Referral = () => {
     );
 };
 
-export default Referral;
+export default ResetPasswordConfirm;

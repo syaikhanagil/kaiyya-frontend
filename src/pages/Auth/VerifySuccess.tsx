@@ -1,29 +1,29 @@
-import Cookies from 'js-cookie';
+// verify?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MTRmOTVlZWNmYjE0ZjI5NGY4ZjJhODYiLCJpYXQiOjE2MzI2MDU2Nzh9.kV0ofp7s0oA6IBO-bZOKYbPwqZ70CtYa5vxBjqStgR8
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import LoadingOverlay from '../../components/LoadingOverlay';
 import API from '../../configs/api';
+import useQuery from '../../configs/routes/useQuery';
 import Main from '../../layouts/Main';
 
 interface ParamTypes {
-    code: string
+    token: string
 }
 
-const Referral = () => {
-    const { code } = useParams<ParamTypes>();
+const Verify = () => {
+    const { token } = useParams<ParamTypes>();
+    const query = useQuery();
+    console.log(query);
 
     const fetchData = async () => {
         const payload = {
             body: {
-                code
+                token
             }
         };
-        await API.checkReferralCode(payload).then((res: any) => {
-            Cookies.set('referral', code);
-            Cookies.set('referral_role', res.data.role);
+        await API.verifyRequest(payload).then(() => {
             window.location.href = '/register?ref=true';
         }).catch(() => {
-            Cookies.set('referral', '');
             window.location.href = '/register';
         });
     };
@@ -39,4 +39,4 @@ const Referral = () => {
     );
 };
 
-export default Referral;
+export default Verify;

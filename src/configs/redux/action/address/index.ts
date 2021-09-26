@@ -1,7 +1,7 @@
 import CONSTANT from '../../../../constant';
 import API from '../../../api';
 
-export const crateAddress = (payload: any, redirect = '') => {
+export const createAddress = (payload: any, redirect = '') => {
     const data = {
         body: payload
     };
@@ -20,22 +20,23 @@ export const crateAddress = (payload: any, redirect = '') => {
 export const fetchAddress = () => {
     return (dispatch: any) => {
         dispatch({ type: CONSTANT.FETCH_ADDRESS_REQUEST });
-    };
-};
-
-export const fetchAddressCollection = () => {
-    return (dispatch: any) => {
-        dispatch({ type: CONSTANT.FETCH_ADDRESS_REQUEST });
-        API.fetchAddressCollection().then((res: any) => {
+        API.fetchAddress().then((res: any) => {
             const items = res.data;
             dispatch({ type: CONSTANT.FETCH_ADDRESS_SUCCESS, items });
         });
     };
 };
 
-export const editAddress = () => {
+export const editAddress = (addressId: string, payload: any) => {
+    const data = {
+        params: `/${addressId}`,
+        body: payload
+    };
     return (dispatch: any) => {
-        dispatch({ type: CONSTANT.FETCH_ADDRESS_REQUEST });
+        dispatch({ type: CONSTANT.SET_FULLSCREEN_LOADER, visible: true });
+        API.editAddress(data).then(() => {
+            window.location.href = '/account/address';
+        });
     };
 };
 

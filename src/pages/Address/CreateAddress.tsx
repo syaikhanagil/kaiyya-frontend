@@ -129,6 +129,13 @@ class CreateAddress extends React.Component<any, State> {
     }
 
     handleInput(event: { target: { id: any; value: any; }; }) {
+        if (event.target.id === 'phone') {
+            const regex = /^[0-9]{0,13}$/;
+            if (regex.test(event.target.value)) {
+                this.setState({ phone: event.target.value });
+            }
+            return;
+        }
         const newState = { [event.target.id]: event.target.value } as Pick<State, keyof State>;
         this.setState(newState);
     }

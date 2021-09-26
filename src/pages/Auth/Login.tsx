@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import Main from '../../layouts/Main';
-import banner from '../../assets/img/banner-cherry.jpg';
+import banner from '../../assets/img/welcome-banner-3.jpg';
 import { Button, Input, InputWrapper, Label } from '../../components/Styled';
 import Icon from '../../components/Icon';
 import action from '../../configs/redux/action';

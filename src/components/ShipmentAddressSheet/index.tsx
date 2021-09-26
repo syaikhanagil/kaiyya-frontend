@@ -74,7 +74,7 @@ const ShipmentAddressSheet = (props: Props) => {
     };
 
     const fetchData = () => {
-        dispatch(action.fetchAddressCollection());
+        dispatch(action.fetchAddress());
     };
 
     useEffect(() => {

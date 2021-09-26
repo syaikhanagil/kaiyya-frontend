@@ -72,24 +72,27 @@ export const createOrder = (payload: any) => {
     };
 };
 
-// export const createOrder = (payload: any) => {
-//     const data = {
-//         body: payload
-//     };
-//     return (dispatch: any) => {
-//         API.createOrder(data).then((res: any) => {
-//             dispatch({ type: CONSTANT.crea});
-//             console.log(newItem);
-//         });
-//     };
-// };
-
 export const fetchOrder = () => {
     return (dispatch: any) => {
         dispatch({ type: CONSTANT.FETCH_ORDER_REQUEST });
         API.fetchOrder().then((res: any) => {
             const items = res.data;
             dispatch({ type: CONSTANT.FETCH_ORDER_SUCCESS, items });
+        });
+    };
+};
+
+export const cancelOrder = (orderId: string) => {
+    const data = {
+        params: `/${orderId}`
+    };
+    return (dispatch: any) => {
+        dispatch({ type: CONSTANT.SET_FULLSCREEN_LOADER, visible: true });
+        API.cancelOrder(data).then((res: any) => {
+            console.log(res);
+            window.location.href = '/orders';
+        }).catch((err) => {
+            console.log(err);
         });
     };
 };

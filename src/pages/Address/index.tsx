@@ -16,7 +16,7 @@ const Address = (props: any) => {
     const { dispatch, items } = props;
 
     const fetchData = () => {
-        dispatch(action.fetchAddressCollection());
+        dispatch(action.fetchAddress());
     };
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const Address = (props: any) => {
     }, []);
 
     return (
-        <Main backBtn title="Alamat" moreBtn moreIcon="plus" onMoreClick={() => { window.location.href = '/account/address/new'; }}>
+        <Main useHeader paddingTop backTo="/" title="Alamat" moreBtn moreIcon="plus" onMoreClick={() => { window.location.href = '/account/address/new'; }}>
             <AddressWrapper>
                 {items.map((item: any, idx: any) => (
                     // eslint-disable-next-line react/no-array-index-key

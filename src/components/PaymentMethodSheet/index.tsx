@@ -41,7 +41,7 @@ const PaymentItem = styled.div`
     display: block;
     width: 100%;
     height: auto;
-    padding: 10px;
+    padding: 15px 10px;
     margin-bottom: 10px;
     border: 1px solid #e7e7e7;
     border-radius: 4px;
@@ -61,8 +61,13 @@ const PaymentItem = styled.div`
     }
 
     span {
-        padding-left: 10px;
+        position: absolute;
+        display: block;
+        white-space: nowrap;
+        left: 50%;
+        bottom: 0;
         font-size: var(--font-extra-small);
+        transform: translateX(-50%);
     }
 
     .check-icon {
@@ -77,8 +82,11 @@ const PaymentItem = styled.div`
     }
     &.disabled {
         position: relavive;
-        background: #f7f7f7;
+        background: #eee;
         cursor: not-allowed;
+        .logo {
+            opacity: .8;
+        }
     }
 `;
 
@@ -153,18 +161,6 @@ const PaymentMethodSheet = (props: Props) => {
                         </div>
                     </PaymentItem>
                     <PaymentItem
-                        className={selectedMethod === 'SAHABAT SAMPOERNA VA' ? 'active' : ''}
-                        onClick={() => {
-                            setSelectedMethod('SAHABAT SAMPOERNA VA');
-                            setSelectedMethodCode('SAHABAT_SAMPOERNA');
-                            setSelectedMethodType('virtual-account');
-                        }}
-                    >
-                        <div className="logo">
-                            <img src={sampoernaLogo} alt="sahabat-sampoerna-va" />
-                        </div>
-                    </PaymentItem>
-                    <PaymentItem
                         className={selectedMethod === 'PERMATA VA' ? 'active' : ''}
                         onClick={() => {
                             setSelectedMethod('PERMATA VA');
@@ -178,8 +174,27 @@ const PaymentMethodSheet = (props: Props) => {
                     </PaymentItem>
                     <PaymentItem className="disabled">
                         <div className="logo">
+                            <img src={sampoernaLogo} alt="sahabat-sampoerna-va" />
+                        </div>
+                        <span>Belum Tersedia</span>
+                    </PaymentItem>
+                    {/* <PaymentItem
+                        className={selectedMethod === 'SAHABAT SAMPOERNA VA' ? 'active' : ''}
+                        onClick={() => {
+                            setSelectedMethod('SAHABAT SAMPOERNA VA');
+                            setSelectedMethodCode('SAHABAT_SAMPOERNA');
+                            setSelectedMethodType('virtual-account');
+                        }}
+                    >
+                        <div className="logo">
+                            <img src={sampoernaLogo} alt="sahabat-sampoerna-va" />
+                        </div>
+                    </PaymentItem> */}
+                    <PaymentItem className="disabled">
+                        <div className="logo">
                             <img src={bcaLogo} alt="bca-va" />
                         </div>
+                        <span>Belum Tersedia</span>
                     </PaymentItem>
                 </PaymentList>
                 <Title space>Lainnya</Title>

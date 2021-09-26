@@ -14,7 +14,7 @@ const PageRoute = (props: Props) => {
     const { secure, path, component, exact } = props;
 
     if (secure && !session) {
-        return <Redirect to="/login" />;
+        return <Redirect to={`/login?redirect=${path.replace('/', '')}`} />;
     }
     return <Route path={path} component={component} exact={exact} />;
 };

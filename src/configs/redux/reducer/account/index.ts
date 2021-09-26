@@ -6,6 +6,7 @@ const initState = {
     isError: false,
     username: '',
     fullname: '',
+    email: '',
     role: '',
     addons: {
         referral_point: 0,
@@ -24,6 +25,7 @@ const accountReducer = (state = initState, action: any) => {
             isError: false,
             username: '',
             fullname: '',
+            email: '',
             role: '',
             addons: {
                 referral_point: 0,
@@ -41,6 +43,7 @@ const accountReducer = (state = initState, action: any) => {
             isError: true,
             username: action.data.username,
             fullname: action.data.fullname,
+            email: action.data.email,
             role: action.data.role,
             addons: action.data.addons
         };
@@ -53,6 +56,7 @@ const accountReducer = (state = initState, action: any) => {
             isError: false,
             username: '',
             fullname: '',
+            email: '',
             role: '',
             addons: {
                 referral_point: 0,

@@ -5,6 +5,7 @@ import briLogo from '../../../assets/svg/bri-logo.svg';
 import bniLogo from '../../../assets/svg/bni-logo.svg';
 import mandiriLogo from '../../../assets/svg/mandiri-logo.svg';
 import bcaLogo from '../../../assets/svg/bca-logo.svg';
+import permataLogo from '../../../assets/svg/permata-logo.svg';
 import { Text } from '../../../components/Styled';
 import priceFormat from '../../../helpers/price';
 import MandiriContent from './MandiriContent';
@@ -12,6 +13,7 @@ import BriContent from './BriContent';
 import BniContent from './BniContent';
 import action from '../../../configs/redux/action';
 import clipboardCopy from '../../../helpers/clipboard';
+import PermataContent from './PermataContent';
 
 const VirtualAccountWrapper = styled.div`
     position: relative;
@@ -150,13 +152,16 @@ const VirtualAccountMethod = (props: Props) => {
                         <img src={briLogo} alt="kaiyya-bri-va" />
                     )}
                     {data.bank_code === 'BNI' && (
-                        <img src={bniLogo} alt="kaiyya-bri-va" />
-                    )}
-                    {data.bank_code === 'BCA' && (
-                        <img src={bcaLogo} alt="kaiyya-bri-va" />
+                        <img src={bniLogo} alt="kaiyya-bni-va" />
                     )}
                     {data.bank_code === 'MANDIRI' && (
                         <img src={mandiriLogo} alt="kaiyya-bri-va" />
+                    )}
+                    {data.bank_code === 'BCA' && (
+                        <img src={bcaLogo} alt="kaiyya-bca-va" />
+                    )}
+                    {data.bank_code === 'PERMATA' && (
+                        <img src={permataLogo} alt="kaiyya-permata-va" />
                     )}
                 </div>
                 <div className="va">
@@ -188,6 +193,9 @@ const VirtualAccountMethod = (props: Props) => {
                     )}
                     {data.bank_code === 'BNI' && (
                         <BniContent tabActive={tab} vaNumber={data.virtual_account_number} />
+                    )}
+                    {data.bank_code === 'PERMATA' && (
+                        <PermataContent tabActive={tab} vaNumber={data.virtual_account_number} />
                     )}
                 </TabContent>
             </HowToPayWrapper>

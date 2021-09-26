@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Shimmer from '../../../components/Shimmer';
 import API from '../../../configs/api';
+import pushLocation from '../../../configs/routes/pushLocation';
 import priceFormat from '../../../helpers/price';
 
 const ItemWrapper = styled('div') <{ disabled?: boolean }>`
@@ -15,6 +16,7 @@ const ItemWrapper = styled('div') <{ disabled?: boolean }>`
     border-bottom: 1px solid #eee;
     align-items: center;
     user-select: none;
+    cursor: pointer;
 
     #info {
         width: 100%;
@@ -100,7 +102,6 @@ const OrderDetailItem = (props: Props) => {
     const [price, setPrice] = useState(0);
     const [sizeSelected, setSizeSelected] = useState<any>({});
     const [ready, setReady] = useState(false);
-    const [availableStock, setAvailableStock] = useState(0);
 
     const fetchData = async () => {
         const payload = {
@@ -114,7 +115,6 @@ const OrderDetailItem = (props: Props) => {
             });
             setThumb(images[0].src);
             setPrice(filterSize[0].price);
-            setAvailableStock(filterSize[0].stock);
             setSizeSelected(filterSize[0]);
             setTimeout(() => {
                 setReady(true);
@@ -127,7 +127,7 @@ const OrderDetailItem = (props: Props) => {
     }, []);
 
     return (
-        <ItemWrapper>
+        <ItemWrapper onClick={() => pushLocation.path(`/product/${slug}`)}>
             {ready && (
                 <>
                     <ItemThumb>
@@ -144,9 +144,6 @@ const OrderDetailItem = (props: Props) => {
                             <Text>Jumlah :</Text>
                             <Text>{qty}</Text>
                         </ItemQty>
-                        {qty > availableStock && (
-                            <Text style={{ color: 'red' }}>Jumlah melebihi stok tersedia</Text>
-                        )}
                     </div>
                 </>
             )}

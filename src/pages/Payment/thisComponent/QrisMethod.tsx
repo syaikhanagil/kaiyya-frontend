@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import QRCode from 'react-qr-code';
-import { Button, Text } from '../../../components/Styled';
+import { Text } from '../../../components/Styled';
+import logoQris from '../../../assets/img/logo-qris.png';
 import priceFormat from '../../../helpers/price';
 import Card from '../../../components/Card';
 
@@ -20,8 +21,20 @@ const QRWrapper = styled.div`
     display: flex;
     width: 100%;
     justify-content: center;
-    padding: 30px 0;
+    padding: 30px 0 10px;
     text-align: center;
+`;
+
+const QrisLogo = styled.div`
+    position: relative;
+    display: block;
+    text-align: center;
+    height: 50px;
+    margin: auto;
+    img {
+        height: 100%;
+        margin: auto;
+    }
 `;
 
 const SectionWrapper = styled.div`
@@ -41,18 +54,19 @@ interface Props {
 
 const QrisMethod = (props: Props) => {
     const { data } = props;
-    console.log(data);
     return (
         <QrisWrapper>
             <Card rounded border>
                 <QRWrapper>
                     <QRCode size={220} value={data.qris_src} />
                 </QRWrapper>
+                <QrisLogo>
+                    <img src={logoQris} alt="qris" />
+                </QrisLogo>
                 <SectionWrapper>
                     <Text bold>Jumlah Pembayaran</Text>
                     <Text bold>{priceFormat(data.amount)}</Text>
                 </SectionWrapper>
-                <Button block fullWidth primary>Selesai</Button>
             </Card>
         </QrisWrapper>
     );

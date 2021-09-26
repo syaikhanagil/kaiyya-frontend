@@ -1,9 +1,9 @@
 import { login, register, logout } from './auth';
 import { fetchAccountDetail } from './account';
-import { crateAddress, fetchAddress, fetchAddressCollection } from './address';
+import { createAddress, fetchAddress, editAddress } from './address';
 import { addItemToCart, deleteCartItem, updateCartQty } from './cart';
 import { showToast, showFullscreenLoader, hideFullscreenLoader } from './global';
-import { createOrder, fetchOrder } from './order';
+import { createOrder, fetchOrder, cancelOrder } from './order';
 import { fetchProduct, fetchProductDetail } from './product';
 import { fetchReferralDownline, fetchReferralIncome } from './referral';
 
@@ -12,9 +12,9 @@ const action = {
     register,
     logout,
 
-    crateAddress,
+    createAddress,
     fetchAddress,
-    fetchAddressCollection,
+    editAddress,
 
     fetchAccountDetail,
 
@@ -23,6 +23,7 @@ const action = {
 
     createOrder,
     fetchOrder,
+    cancelOrder,
 
     addItemToCart,
     updateCartQty,

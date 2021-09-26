@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import BottomSheet from '../../components/BottomSheet';
-import Card from '../../components/Card';
+// import Card from '../../components/Card';
 import Icon from '../../components/Icon';
-import IconBox from '../../components/IconBox';
+// import IconBox from '../../components/IconBox';
 import Shimmer from '../../components/Shimmer';
-import { Button } from '../../components/Styled';
+import { Button, Text } from '../../components/Styled';
 import action from '../../configs/redux/action';
 // import { Button } from '../../components/Styled';
 import Main from '../../layouts/Main';
@@ -122,7 +122,7 @@ const LogoutDialogWrapper = styled.div`
 `;
 
 const Account = (props: any) => {
-    const { dispatch, loggedIn, fullname, role, isReady } = props;
+    const { dispatch, loggedIn, fullname, email, role, isReady } = props;
     const [logoutDialog, setLogoutDialog] = useState(false);
 
     const fetchData = async () => {
@@ -154,7 +154,10 @@ const Account = (props: any) => {
                                         <Shimmer height="14px" width="210px" />
                                     )}
                                     {isReady && (
-                                        <span>{fullname}</span>
+                                        <>
+                                            <Text block>{fullname}</Text>
+                                            <Text block extraSmall>{email}</Text>
+                                        </>
                                     )}
                                 </div>
                             </>
@@ -170,7 +173,7 @@ const Account = (props: any) => {
                     </ProfileWrapper>
                 </AccountHeader>
                 <AccountBody>
-                    <section className="my-2">
+                    {/* <section className="my-2">
                         <Card header title="Semua Pesanan" actionIcon="chevron-right">
                             <div className="flex space-x-4">
                                 <div className="flex-1">
@@ -187,12 +190,16 @@ const Account = (props: any) => {
                                 </div>
                             </div>
                         </Card>
-                    </section>
+                    </section> */}
                     <section className="my-2">
                         <MenuList>
-                            <MenuItem to="/account/settings">
+                            <MenuItem to="/settings/account">
                                 <Icon icon="settings" />
                                 <span>Pengaturan Akun</span>
+                            </MenuItem>
+                            <MenuItem to="/settings/password">
+                                <Icon icon="unlock" />
+                                <span>Pengaturan Password</span>
                             </MenuItem>
                             <MenuItem to="/account/address">
                                 <Icon icon="map-pin" />
@@ -201,7 +208,7 @@ const Account = (props: any) => {
                             {role && role !== 'retail' && (
                                 <MenuItem to="/referral">
                                     <Icon icon="user-plus" />
-                                    <span>Program Referral</span>
+                                    <span>Fee Edukasi</span>
                                 </MenuItem>
                             )}
                             <MenuItem to="/help">
@@ -242,6 +249,7 @@ const mapStateToProps = (state: any) => {
     return {
         loggedIn: state.authReducer.loggedIn,
         fullname: state.accountReducer.fullname,
+        email: state.accountReducer.email,
         role: state.accountReducer.role,
         isReady: state.accountReducer.isReady
     };

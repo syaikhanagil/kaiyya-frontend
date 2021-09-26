@@ -245,6 +245,7 @@ const ActionDialog = (props: Props) => {
                 id: product.id,
                 slug: product.slug,
                 name: product.name,
+                weight: product.weight,
                 images: product.images
             },
             size: selectedSize,

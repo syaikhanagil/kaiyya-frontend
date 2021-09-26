@@ -10,6 +10,9 @@ export const fetchAccountDetail = () => {
                 const { data } = res;
                 Cookies.set('email-address', data.email);
                 dispatch({ type: CONSTANT.FETCH_ACCOUNT_DETAIL_SUCCESS, data });
+            }).catch(() => {
+                Cookies.remove('kis-session');
+                window.location.href = '/login';
             });
         }
     };

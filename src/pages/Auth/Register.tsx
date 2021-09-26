@@ -9,7 +9,7 @@ import { Button, Input, InputWrapper, Label, Select } from '../../components/Sty
 import Icon from '../../components/Icon';
 import action from '../../configs/redux/action';
 // import logo from '../../assets/img/logo-kaiyya.png';
-import banner from '../../assets/img/banner-cherry.jpg';
+import banner from '../../assets/img/welcome-banner-1.jpg';
 
 const RegisterWrapper = styled.div`
     position: relative;
@@ -160,12 +160,20 @@ class Register extends React.Component<any, State> {
         event.preventDefault();
         const { dispatch } = this.props;
         const { fullname, email, phone, role, password, registerAs } = this.state;
+        const referralCode = Cookies.get('referral') || '';
+        let defaultRef = '';
+        if (!referralCode) {
+            if (role === 'distributor') defaultRef = '';
+            if (role === 'reseller') defaultRef = 'kaiyya_distributor';
+            if (role === 'subreselelr') defaultRef = 'kaiyya_reseller';
+            if (role === '') defaultRef = 'kaiyya_subreseller';
+        }
         const data = {
             fullname,
             email,
             phone,
             password,
-            referralCode: Cookies.get('referral') || '',
+            referralCode: Cookies.get('referral') || defaultRef,
             role
         };
         if (registerAs === 'personal') {

@@ -133,9 +133,10 @@ const Checkout = (props: any) => {
     const [courierDialog, setCourierDialog] = useState(false);
     const [courierCost, setCourierCost] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
+    const [weightTotal, setWeightTotal] = useState(0);
 
     const fetchData = () => {
-        dispatch(action.fetchAddressCollection());
+        dispatch(action.fetchAddress());
         dispatch(action.fetchAccountDetail());
     };
 
@@ -155,10 +156,13 @@ const Checkout = (props: any) => {
     useEffect(() => {
         if (items.length > 0) {
             let total = 0;
+            let weight = 0;
             // eslint-disable-next-line no-plusplus
             for (let i = 0; i < items.length; i++) {
                 total += items[i].qty * items[i].size.price;
+                weight += items[i].product.weight;
                 setSubtotal(total);
+                setWeightTotal(weight);
             }
         } else if (items.length < 1) {
             window.location.href = '/';
@@ -322,7 +326,7 @@ const Checkout = (props: any) => {
                     <ShipmentAddressSheet onSubmit={(data: any, id: string) => onShipmentAddressSelected(data, id)} handler={(visibility: boolean) => setShipmentAddressDialog(visibility)} />
                 )}
                 {courierDialog && (
-                    <ShipmentCourierSheet destination={shipmentAddress} onSubmit={(name: string, code: string, data: any) => onCourierSelected(name, code, data)} handler={(visibility: boolean) => setCourierDialog(visibility)} />
+                    <ShipmentCourierSheet destination={shipmentAddress} weightTotal={weightTotal} onSubmit={(name: string, code: string, data: any) => onCourierSelected(name, code, data)} handler={(visibility: boolean) => setCourierDialog(visibility)} />
                 )}
             </>
         </Main>

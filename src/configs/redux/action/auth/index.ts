@@ -13,6 +13,11 @@ export const login = (payload: any) => {
             dispatch({ type: CONSTANT.LOGIN_SUCCESS });
             const inTwoHours = new Date(new Date().getTime() + 119 * 60 * 1000);
             Cookies.set('kis-session', res.data.token, { expires: inTwoHours });
+            const redirect = window.location.search;
+            if (redirect) {
+                window.location.href = redirect.replace('?redirect=', '/');
+                return;
+            }
             window.location.href = '/';
         }).catch(() => {
             dispatch({ type: CONSTANT.LOGIN_FAILURE });
