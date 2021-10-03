@@ -33,6 +33,13 @@ const FormWrapper = styled.div`
     background: var(--color-white);
     border-radius: 15px 15px 0 0;
     text-align: center;
+
+    .title {
+        font-size: 22px;
+        font-weight: 600;
+        margin: 0 0 12px;
+    }
+
     form {
         display: block;
         width: 100%;
@@ -146,6 +153,7 @@ class Login extends React.Component<any, State> {
                             <img src={banner} alt="Kaiyya Login" />
                         </BannerWrapper>
                         <FormWrapper>
+                            <p className="title">Selamat Datang!</p>
                             <form autoComplete="off" onSubmit={this.handleSubmit}>
                                 <InputWrapper>
                                     <Input floatingLabel required name="email" id="email" placeholder="Email" onChange={this.handleInput} value={email} />

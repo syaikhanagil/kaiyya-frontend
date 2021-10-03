@@ -70,12 +70,12 @@ const Navigation = (props: Props) => {
                 </ItemIcon>
                 <ItemTitle>Beranda</ItemTitle>
             </ItemWrapper>
-            {/* <ItemWrapper to="/preorder" className={activeMenu === 'c' ? 'active' : ''}>
+            <ItemWrapper to="/catalog" className={activeMenu === 'catalog' ? 'active' : ''}>
                 <ItemIcon>
-                    <Icon icon="repeat" />
+                    <Icon icon="list" />
                 </ItemIcon>
-                <ItemTitle>Pre-Order</ItemTitle>
-            </ItemWrapper> */}
+                <ItemTitle>Katalog</ItemTitle>
+            </ItemWrapper>
             <ItemWrapper to="/chat" className={activeMenu === 'chat' ? 'active' : ''}>
                 <ItemIcon>
                     <Icon icon="message-square" />

@@ -197,25 +197,21 @@ const Account = (props: any) => {
                                 <Icon icon="settings" />
                                 <span>Pengaturan Akun</span>
                             </MenuItem>
-                            <MenuItem to="/settings/password">
-                                <Icon icon="unlock" />
-                                <span>Pengaturan Password</span>
-                            </MenuItem>
                             <MenuItem to="/account/address">
                                 <Icon icon="map-pin" />
                                 <span>Pengaturan Alamat</span>
                             </MenuItem>
                             {role && role !== 'retail' && (
-                                <MenuItem to="/referral">
+                                <MenuItem to="/fee-education">
                                     <Icon icon="user-plus" />
                                     <span>Fee Edukasi</span>
                                 </MenuItem>
                             )}
-                            <MenuItem to="/help">
+                            <MenuItem to="/rules">
                                 <Icon icon="life-buoy" />
                                 <span>Rules &amp; Kode Etik</span>
                             </MenuItem>
-                            <MenuItem to="/help">
+                            <MenuItem to="/faq">
                                 <Icon icon="message-circle" />
                                 <span>Faq</span>
                             </MenuItem>

@@ -177,7 +177,7 @@ const OrderDetail = () => {
                             <SectionWrapper>
                                 {items.map((i: any, idx: any) => (
                                     // eslint-disable-next-line react/no-array-index-key
-                                    <OrderDetailItem key={idx} slug={i.product.slug} size={i.size.name} qty={i.qty} />
+                                    <OrderDetailItem key={idx} slug={i.product.slug} size={i.size.name} qty={i.qty} discountPercentage={orderDetail.discount} />
                                 ))}
                             </SectionWrapper>
                             <TitleWrapper>

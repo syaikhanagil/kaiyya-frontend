@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Button } from '../../components/Styled';
 import API from '../../configs/api';
 import action from '../../configs/redux/action';
+import pushLocation from '../../configs/routes/pushLocation';
 import CONSTANT from '../../constant';
 import Main from '../../layouts/Main';
 
@@ -177,7 +178,7 @@ class AccountSettings extends React.Component<Props, State> {
                     </SectionWrapper>
                     <SectionWrapper>
                         <div>
-                            <label htmlFor="email">Nomor HP</label>
+                            <label htmlFor="email">Alamat Email</label>
                             <input type="email" required name="email" id="email" autoComplete="off" placeholder="email" onChange={this.handleInput} value={email} />
                         </div>
                     </SectionWrapper>
@@ -185,6 +186,12 @@ class AccountSettings extends React.Component<Props, State> {
                         <div>
                             <label htmlFor="phone">Nomor HP</label>
                             <input type="text" required name="phone" id="phone" autoComplete="off" placeholder="Nomor HP" onChange={this.handleInput} value={phone} />
+                        </div>
+                    </SectionWrapper>
+                    <SectionWrapper onClick={() => pushLocation.path('/settings/password')}>
+                        <div>
+                            <p>Password</p>
+                            <span>Ketuk untuk merubah password</span>
                         </div>
                     </SectionWrapper>
                     <SubmitWrapper>

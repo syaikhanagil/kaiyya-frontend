@@ -48,9 +48,7 @@ class ApiConfig {
                 // `response` is of type `AxiosResponse<ServerData>`
                 const res = response.data;
                 resolve(res);
-                console.clear();
             }).catch((err) => {
-                console.clear();
                 reject(err);
             });
         });

@@ -11,6 +11,7 @@ import ShipmentCourierSheet from '../../components/ShipmentCourierSheet';
 import { Button } from '../../components/Styled';
 import priceFormat from '../../helpers/price';
 import action from '../../configs/redux/action';
+import discount from '../../helpers/discount';
 // import API from '../../configs/api';
 
 const CheckoutWrapper = styled.div`
@@ -115,7 +116,7 @@ const SubtotalWrapper = styled.div`
 `;
 
 const Checkout = (props: any) => {
-    const { dispatch, address, fullname } = props;
+    const { dispatch, address, fullname, addons } = props;
     const cookiesItem = Cookies.get('checkout-items') || undefined;
     const items = cookiesItem ? JSON.parse(cookiesItem) : [];
     const [shipmentAddress, setShipmentAddress] = useState<any>({});
@@ -159,7 +160,7 @@ const Checkout = (props: any) => {
             let weight = 0;
             // eslint-disable-next-line no-plusplus
             for (let i = 0; i < items.length; i++) {
-                total += items[i].qty * items[i].size.price;
+                total += items[i].qty * discount(items[i].size.price, addons.discount);
                 weight += items[i].product.weight;
                 setSubtotal(total);
                 setWeightTotal(weight);
@@ -206,6 +207,7 @@ const Checkout = (props: any) => {
             paymentMethodCode,
             paymentMethodType,
             products: items,
+            discount: addons.discount,
             subtotal
         };
         // console.log(data);
@@ -336,7 +338,8 @@ const Checkout = (props: any) => {
 const mapStateToProps = (state: any) => {
     return {
         address: state.addressReducer.items,
-        fullname: state.accountReducer.fullname
+        fullname: state.accountReducer.fullname,
+        addons: state.accountReducer.addons
     };
 };
 

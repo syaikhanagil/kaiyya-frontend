@@ -23,6 +23,10 @@ import PageRoute from '../configs/routes/PageRoute';
 import Referral from './Referral';
 import Settings from './Settings';
 import Shipment from './Shipment';
+import FeeEducation from './FeeEducation';
+import Rules from './Others/Rules';
+import Faq from './Others/Faq';
+import Withdraw from './Withdraw';
 
 const Home = loadable(() => import('./Home'));
 const Cart = loadable(() => import('./Cart'));
@@ -52,7 +56,8 @@ const App = () => {
             <PageRoute secure path="/settings/account" component={Settings} exact />
             <PageRoute secure path="/settings/password" component={Settings} exact />
 
-            <PageRoute secure path="/referral" component={Referral} exact />
+            <PageRoute secure path="/fee-education" component={Referral} exact />
+            <PageRoute secure path="/income-history" component={FeeEducation} exact />
 
             <PageRoute path="/product" component={Product} exact />
             <PageRoute path="/product/:slug" component={ProductDetail} exact />
@@ -78,6 +83,9 @@ const App = () => {
             <PageRoute secure path="/payment/:paymentId" component={Payment} exact />
 
             <PageRoute path="/others" component={Others} exact />
+            <PageRoute path="/rules" component={Rules} exact />
+            <PageRoute path="/faq" component={Faq} exact />
+            <PageRoute path="/withdraw" component={Withdraw} exact />
 
             <PageRoute path="/not-found" component={PageNotFound} exact />
             <Redirect from="*" to="/not-found" />

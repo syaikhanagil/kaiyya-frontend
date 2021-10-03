@@ -113,7 +113,7 @@ const Product = (props: any) => {
             setLoading(false);
             setItems(baseItem.slice(itemStart, itemShown));
             setLastIndex(2);
-        }, 1200);
+        }, 250);
     };
 
     const onSortLowest = () => {
@@ -165,7 +165,7 @@ const Product = (props: any) => {
                         <StickyWrapper>
                             <StickyItem className={sortActive === 'newest' ? 'active' : ''} onClick={() => onSortNewest()}>Terbaru</StickyItem>
                             <StickyItem className={sortActive === 'lowest' ? 'active' : ''} onClick={() => onSortLowest()}>Harga Terendah</StickyItem>
-                            <StickyItem className={sortActive === 'highest' ? 'active' : ''} onClick={() => onSortHighest()}>Harga Teringgi</StickyItem>
+                            <StickyItem className={sortActive === 'highest' ? 'active' : ''} onClick={() => onSortHighest()}>Harga Tertinggi</StickyItem>
                         </StickyWrapper>
                         <ItemsWrapper>
                             {items.map((i: any) => (

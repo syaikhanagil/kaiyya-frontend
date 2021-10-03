@@ -47,6 +47,10 @@ body {
     padding-bottom: 65px;
     box-shadow: 0 0 16px 4px rgba(0, 0, 0, .05);
 
+    &.background-white {
+        background: #ffffff;
+    }
+
     &.no-padding-top {
         padding-top: 0;
     }

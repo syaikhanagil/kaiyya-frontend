@@ -19,6 +19,7 @@ import analytic from '../../configs/analytics';
 import DescriptionSheet from './thisComponent/DescriptionSheet';
 import ShareLinkSheet from '../../components/ShareLinkSheet';
 import CONSTANT from '../../constant';
+import SizeChartSheet from '../../components/SizeChartSheet';
 
 const ProductWrapper = styled.div`
     position: relative;
@@ -292,6 +293,7 @@ const ProductDetail = (props: any) => {
     const [currentImage, setCurrentImage] = useState(1);
     const [actionVisible, setActionVisible] = useState(false);
     const [cartDialogVisible, setCartDialogVisible] = useState(false);
+    const [chartDialog, setChartDialog] = useState(false);
     // const [costData, setCostData] = useState([]);
     // const [checkCostDialog, setCheckCostDialog] = useState(false);
     const [descriptionDialog, setDescriptionDialog] = useState(false);
@@ -435,7 +437,7 @@ const ProductDetail = (props: any) => {
                             </>
                         )}
                     </InfoWrapper>
-                    <SectionWrapper>
+                    <SectionWrapper onClick={() => setChartDialog(true)}>
                         <div>
                             <Icon icon="file-text" />
                         </div>
@@ -500,6 +502,9 @@ const ProductDetail = (props: any) => {
                     )}
                     {shareDialog && (
                         <ShareLinkSheet handler={(visibility: boolean) => setShareDialog(visibility)} />
+                    )}
+                    {chartDialog && (
+                        <SizeChartSheet sizes={sizeData} handler={(visibility: boolean) => setChartDialog(visibility)} />
                     )}
                     {/* {checkCostDialog && (
                         <CheckCostDialog handler={(visibility: boolean) => setCheckCostDialog(visibility)} onSubmit={(data: any) => onCheckCost(data)} />

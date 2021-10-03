@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import Main from '../../layouts/Main';
 import { Button, Input, InputWrapper, Label, Select } from '../../components/Styled';
 import Icon from '../../components/Icon';
-import action from '../../configs/redux/action';
+// import action from '../../configs/redux/action';
 // import logo from '../../assets/img/logo-kaiyya.png';
 import banner from '../../assets/img/welcome-banner-1.jpg';
 
@@ -31,11 +31,18 @@ const BannerWrapper = styled.div`
 const FormWrapper = styled.div`
     position: relative;
     display: block;
-    padding: 25px 1rem;
+    padding: 20px 1rem;
     margin-top: -25px;
     background: var(--color-white);
     border-radius: 15px 15px 0 0;
     text-align: center;
+
+    .title {
+        font-size: 22px;
+        font-weight: 600;
+        margin: 0 0 12px;
+    }
+
     form {
         width: 100%;
         height: 100%;
@@ -127,7 +134,7 @@ class Register extends React.Component<any, State> {
             fullname: '',
             email: '',
             phone: '',
-            role: '',
+            role: 'retail',
             password: '',
             passwordView: true,
             registerAs: 'personal'
@@ -141,6 +148,14 @@ class Register extends React.Component<any, State> {
         if (location.search !== '?ref=true') {
             Cookies.remove('referral');
             Cookies.remove('referral_role');
+        } else {
+            const referralRole = Cookies.get('referral_role') || '';
+            if (referralRole === 'distributor') {
+                this.setState({ role: 'reseller' });
+            }
+            if (referralRole === 'reseller') {
+                this.setState({ role: 'subreseller' });
+            }
         }
     }
 
@@ -158,9 +173,10 @@ class Register extends React.Component<any, State> {
 
     handleSubmit(event: any) {
         event.preventDefault();
-        const { dispatch } = this.props;
+        // const { dispatch } = this.props;
         const { fullname, email, phone, role, password, registerAs } = this.state;
         const referralCode = Cookies.get('referral') || '';
+        const referralRole = Cookies.get('referral_role') || '';
         let defaultRef = '';
         if (!referralCode) {
             if (role === 'distributor') defaultRef = '';
@@ -176,10 +192,11 @@ class Register extends React.Component<any, State> {
             referralCode: Cookies.get('referral') || defaultRef,
             role
         };
-        if (registerAs === 'personal') {
+        if (registerAs === 'personal' && referralRole === 'subreseller') {
             data.role = 'retail';
         }
-        dispatch(action.register(data));
+        // dispatch(action.register(data));
+        console.log(data);
     }
 
     render() {
@@ -197,10 +214,13 @@ class Register extends React.Component<any, State> {
                             <img src={banner} alt="Kaiyya Register" />
                         </BannerWrapper>
                         <FormWrapper>
-                            <RoleSelector>
-                                <span role="button" onClick={() => this.setState({ registerAs: 'personal', role: '' })} className={registerAs === 'personal' ? 'active' : ''}>Personal</span>
-                                <span role="button" onClick={() => this.setState({ registerAs: 'mitra', role: '' })} className={registerAs === 'mitra' ? 'active' : ''}>Mitra</span>
-                            </RoleSelector>
+                            <p className="title">Selamat Datang!</p>
+                            {!referral && !referralRole && (
+                                <RoleSelector>
+                                    <span role="button" onClick={() => this.setState({ registerAs: 'personal', role: 'retail' })} className={registerAs === 'personal' ? 'active' : ''}>Personal</span>
+                                    <span role="button" onClick={() => this.setState({ registerAs: 'mitra', role: '' })} className={registerAs === 'mitra' ? 'active' : ''}>Mitra</span>
+                                </RoleSelector>
+                            )}
                             <form autoComplete="off" onSubmit={this.handleSubmit}>
                                 <InputWrapper>
                                     <Input floatingLabel name="fullname" id="fullname" placeholder="Full Name" onChange={this.handleInput} value={fullname} />
@@ -214,11 +234,14 @@ class Register extends React.Component<any, State> {
                                     <Input floatingLabel type="text" name="phone" id="phone" placeholder="Phone" onChange={this.handleInput} value={phone} />
                                     <Label floatingLabel htmlFor="phone">Nomor HP</Label>
                                 </InputWrapper>
-                                {registerAs === 'mitra' && (
+                                {registerAs === 'mitra' && !referral && (
                                     <InputWrapper>
                                         <Select name="role" id="role" placeholder="Role" value={role} onChange={this.handleInput}>
                                             <option value="">Pilih</option>
-                                            {referral && referralRole === 'distributor' && (
+                                            <option value="distributor">Distributor</option>
+                                            <option value="reseller">Reseller</option>
+                                            <option value="subreseller">Sub-Reseller</option>
+                                            {/* {referral && referralRole === 'distributor' && (
                                                 <>
                                                     <option value="reseller">Reseller</option>
                                                     <option value="subreseller">Sub-Reseller</option>
@@ -235,7 +258,7 @@ class Register extends React.Component<any, State> {
                                                     <option value="reseller">Reseller</option>
                                                     <option value="subreseller">Sub-Reseller</option>
                                                 </>
-                                            )}
+                                            )} */}
                                         </Select>
                                         <Label htmlFor="role">Mendaftar sebagai</Label>
                                     </InputWrapper>

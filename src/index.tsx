@@ -13,6 +13,7 @@ import reportWebVitals from './reportWebVitals';
 import './assets/tailwind.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import './assets/styles.scss';
 
 ReactDOM.render(

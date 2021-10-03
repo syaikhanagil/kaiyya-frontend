@@ -88,14 +88,14 @@ interface Props {
 
 const ProductCard = (props: Props) => {
     const { id, title, price, slug, margin } = props;
-    const [thumb, setThumb] = useState('');
+    const [thumb, setThumb] = useState<any>({});
 
     const getProductThumbnail = async () => {
         const payload = {
             params: id
         };
         await API.fetchThumbnail(payload).then((res: any) => {
-            setThumb(res.data[0].src);
+            setThumb(res.data[0]);
         });
     };
 
@@ -107,7 +107,7 @@ const ProductCard = (props: Props) => {
         <Wrapper useMargin={margin}>
             <LinkWrapper to={`/product/${slug}`} />
             <Thumbnail>
-                {thumb !== '' && (<img src={thumb} alt={title} />)}
+                {thumb !== '' && (<img src={thumb.src} alt={thumb.name} />)}
                 {thumb === '' && (<Shimmer height="245px" />)}
             </Thumbnail>
             <div>

@@ -176,7 +176,7 @@ const PaymentMethodSheet = (props: Props) => {
                         <div className="logo">
                             <img src={sampoernaLogo} alt="sahabat-sampoerna-va" />
                         </div>
-                        <span>Belum Tersedia</span>
+                        <span>Tidak Tersedia</span>
                     </PaymentItem>
                     {/* <PaymentItem
                         className={selectedMethod === 'SAHABAT SAMPOERNA VA' ? 'active' : ''}
@@ -194,7 +194,7 @@ const PaymentMethodSheet = (props: Props) => {
                         <div className="logo">
                             <img src={bcaLogo} alt="bca-va" />
                         </div>
-                        <span>Belum Tersedia</span>
+                        <span>Tidak Tersedia</span>
                     </PaymentItem>
                 </PaymentList>
                 <Title space>Lainnya</Title>

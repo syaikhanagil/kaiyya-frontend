@@ -1,45 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
+import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
-// import CatalogItem from './thisComponent/CatalogItem';
+import CatalogItem from './thisComponent/CatalogItem';
 
 const CatalogWrapper = styled.div`
     position: relative;
     display: block;
+    padding: 10px 0;
 `;
 
-const CatalogHeading = styled.div`
-    position: relative;
-    display: block;
-`;
+const Catalog = (props: any) => {
+    const { dispatch, items } = props;
+    useEffect(() => {
+        dispatch(action.fetchCatalog());
+    }, []);
 
-const BannerWrapper = styled.div`
-    position: relative;
-    display: block;
-    width: 100%;
-    height: auto;
-    min-height: 230px;
-    user-select: none;
-
-    img {
-        width: 100%;
-    }
-`;
-
-const Catalog = () => {
     return (
-        <Main backTo="/" title="Katalog">
+        <Main useHeader paddingTop backTo="/" title="Katalog" useNavigation activeMenu="catalog">
             <CatalogWrapper>
-                <BannerWrapper>
-                    <img src="https://etanee.id/static/media/salad_sayur.df18ccc9.jpg" alt="Oke" />
-                </BannerWrapper>
-                <CatalogHeading>
-                    <h3>Anaya Dress Series</h3>
-                </CatalogHeading>
-                {/* <CatalogItem thumb="https://etanee.id/static/media/salad_sayur.df18ccc9.jpg" title="Oke" /> */}
+                {items.map((i: any, idx: any) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <CatalogItem key={idx} data={i} />
+                ))}
             </CatalogWrapper>
         </Main>
     );
 };
 
-export default Catalog;
+const mapStateToProps = (state: any) => {
+    return {
+        items: state.catalogReducer.items
+    };
+};
+
+export default connect(mapStateToProps)(Catalog);

@@ -2,6 +2,7 @@ import { login, register, logout } from './auth';
 import { fetchAccountDetail } from './account';
 import { createAddress, fetchAddress, editAddress } from './address';
 import { addItemToCart, deleteCartItem, updateCartQty } from './cart';
+import { fetchCatalog, fetchCatalogDetail } from './catalog';
 import { showToast, showFullscreenLoader, hideFullscreenLoader } from './global';
 import { createOrder, fetchOrder, cancelOrder } from './order';
 import { fetchProduct, fetchProductDetail } from './product';
@@ -11,12 +12,14 @@ const action = {
     login,
     register,
     logout,
+    fetchAccountDetail,
 
     createAddress,
     fetchAddress,
     editAddress,
 
-    fetchAccountDetail,
+    fetchCatalog,
+    fetchCatalogDetail,
 
     fetchProduct,
     fetchProductDetail,

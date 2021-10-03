@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-// import { Link, useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
+import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
-import Downline from './Downline';
-import Income from './Income';
+import BalanceCard from './thisComponent/BalanceCard';
+import DownlineItem from './thisComponent/DownlineItem';
 
 const ReferralWrapper = styled.div`
     position: relative;
@@ -12,38 +13,20 @@ const ReferralWrapper = styled.div`
 `;
 
 const ReferralHeader = styled.div`
-    position: sticky;
-    display: flex;
-    width: 100%;
-    height: auto;
-    background: var(--color-white);
-    border-bottom: 1px solid #eee;
-    padding: 0;
-    top: 46px;
-    overflow: hidden;
-    user-select: none;
-    z-index: 1;
-`;
-
-const ReferralFilter = styled.div`
     position: relative;
     display: block;
     width: 100%;
-    padding: 10px 10px;
-    margin: 0;
-    text-align: center;
-    white-space: nowrap;
-    border-bottom: 2px solid var(--transparent);
-    border-radius: 0;
-    cursor: pointer;
-    
-    &.active {
-        color: var(--primary);
-        border-bottom: 2px solid var(--primary);
-    }
+    padding: 50px 1.5rem 0;
+    margin-bottom: 10px;
 
-    span {
-        font-size: var(--font-small);
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 90%;
+        background: var(--primary);
     }
 `;
 
@@ -53,34 +36,38 @@ const ReferralBody = styled.div`
     width: 100%;
 `;
 
-const Referral = () => {
-    const [activeMenu, setActiveMenu] = useState('downline');
-    const menuList = [
-        { id: 0, type: 'downline', name: 'Jaringan', page: '/referral/downline' },
-        { id: 1, type: 'income', name: 'Pendapatan', page: '/referral/income' }
-    ];
+const Referral = (props: any) => {
+    const { dispatch, downline } = props;
+
+    useEffect(() => {
+        dispatch(action.fetchAccountDetail());
+        dispatch(action.fetchReferralDownline());
+    }, []);
 
     return (
-        <Main useHeader paddingTop backBtn title="Referral">
+        <Main useHeader transparentHeader backBtn title="Fee Edukasi" backgroundWhite>
             <ReferralWrapper>
                 <ReferralHeader>
-                    {menuList.map((i) => (
-                        <ReferralFilter key={i.id} className={activeMenu === i.type ? 'active' : ''} onClick={() => setActiveMenu(i.type)}>
-                            <span>{i.name}</span>
-                        </ReferralFilter>
-                    ))}
+                    <BalanceCard />
                 </ReferralHeader>
+                <ReferralBody>
+                    {downline.map((item: any, idx: any) => (
+                        // eslint-disable-next-line react/no-array-index-key
+                        <DownlineItem key={idx} data={item} />
+                    ))}
+                </ReferralBody>
             </ReferralWrapper>
-            <ReferralBody>
-                {activeMenu === 'downline' && (
-                    <Downline />
-                )}
-                {activeMenu === 'income' && (
-                    <Income />
-                )}
-            </ReferralBody>
         </Main>
     );
 };
 
-export default Referral;
+const mapStateToProps = (state: any) => {
+    return {
+        downline: state.referralReducer.downline,
+        fullname: state.accountReducer.fullname,
+        username: state.accountReducer.username,
+        addons: state.accountReducer.addons
+    };
+};
+
+export default connect(mapStateToProps)(Referral);

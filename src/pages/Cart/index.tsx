@@ -11,6 +11,7 @@ import QuantityEditSheet from '../../components/QuantityEditSheet';
 import action from '../../configs/redux/action';
 import Icon from '../../components/Icon';
 import { Text } from '../../components/Styled';
+import discount from '../../helpers/discount';
 
 const CartWrapper = styled.div`
     position: relative;
@@ -159,7 +160,7 @@ const SoldWrapper = styled.div`
 `;
 
 const Cart = (props: any) => {
-    const { dispatch, items } = props;
+    const { dispatch, items, addons } = props;
     // const [cartItems, setCartItems] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
     const [soldItems, setSoldItems] = useState<any>([]);
@@ -216,7 +217,8 @@ const Cart = (props: any) => {
         } else {
             // eslint-disable-next-line no-plusplus
             for (let i = 0; i < checkedItems.length; i++) {
-                const price = checkedItems[i].qty * checkedItems[i].size.price;
+                // const price = discount(checkedItems[i].size.price, addons.discount);
+                const price = checkedItems[i].qty * discount(checkedItems[i].size.price, addons.discount);
                 total += price;
                 setSubtotal(total);
             }
@@ -230,14 +232,6 @@ const Cart = (props: any) => {
             setShowSoldWrapper(false);
         }
     }, [soldItems]);
-
-    // useEffect(() => {
-    //     setReload(true);
-    //     setCartItems(items);
-    //     setTimeout(() => {
-    //         setReload(false);
-    //     }, 250);
-    // }, [items]);
 
     const handleCheckout = () => {
         Cookies.set('checkout-items', JSON.stringify(checkedItems));
@@ -301,7 +295,9 @@ const Cart = (props: any) => {
 
 const mapStateToProps = (state: any) => {
     return {
-        items: state.cartReducer.items
+        items: state.cartReducer.items,
+        role: state.accountReducer.role,
+        addons: state.accountReducer.addons
     };
 };
 

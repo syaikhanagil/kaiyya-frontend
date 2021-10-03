@@ -56,6 +56,7 @@ const ItemWrapper = styled.div`
     padding: 5px 1rem;
     align-items: center;
     flex-direction: row;
+    justify-content: space-between;
 `;
 
 const Item = styled('div') <{ alignRight?: boolean }>`
@@ -74,6 +75,8 @@ const PageTitle = styled.span`
     padding: 0 5px;
     font-size: var(--font-small);
     font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 `;
 
 const ActionBtn = styled.button`
@@ -132,9 +135,9 @@ class Header extends React.Component<Props, any> {
     handleScroll() {
         const { scrollY } = window;
         const header = document.getElementById('header');
-        if (scrollY > 100) {
+        if (scrollY > 20) {
             header?.classList.add('fixed');
-        } else if (scrollY < 100) {
+        } else if (scrollY < 20) {
             header?.classList.remove('fixed');
         }
     }

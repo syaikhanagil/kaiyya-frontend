@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Shimmer from '../../../components/Shimmer';
 import API from '../../../configs/api';
+import discount from '../../../helpers/discount';
 import priceFormat from '../../../helpers/price';
 
 const ItemWrapper = styled('div') <{ disabled?: boolean }>`
@@ -90,11 +92,12 @@ const ItemQty = styled.div`
 interface Props {
     slug: string,
     size: string,
-    qty: number
+    qty: number,
+    addons: any
 }
 
 const CheckoutItem = (props: Props) => {
-    const { slug, size, qty } = props;
+    const { slug, size, qty, addons } = props;
     const [thumb, setThumb] = useState('');
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
@@ -139,7 +142,7 @@ const CheckoutItem = (props: Props) => {
                             <Text>Ukuran :</Text>
                             <Text>{sizeSelected.name}</Text>
                         </ItemSize>
-                        <ItemPrice>{priceFormat(price)}</ItemPrice>
+                        <ItemPrice>{priceFormat(discount(price, addons.discount))}</ItemPrice>
                         <ItemQty>
                             <Text>Jumlah :</Text>
                             <Text>{qty}</Text>
@@ -165,4 +168,10 @@ const CheckoutItem = (props: Props) => {
     );
 };
 
-export default CheckoutItem;
+const mapStateToProps = (state: any) => {
+    return {
+        addons: state.accountReducer.addons
+    };
+};
+
+export default connect(mapStateToProps)(CheckoutItem);

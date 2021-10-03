@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Shimmer from '../../../components/Shimmer';
 import API from '../../../configs/api';
 import pushLocation from '../../../configs/routes/pushLocation';
+import discount from '../../../helpers/discount';
 import priceFormat from '../../../helpers/price';
 
 const ItemWrapper = styled('div') <{ disabled?: boolean }>`
@@ -92,11 +93,12 @@ const ItemQty = styled.div`
 interface Props {
     slug: string,
     size: string,
-    qty: number
+    qty: number,
+    discountPercentage: number
 }
 
 const OrderDetailItem = (props: Props) => {
-    const { slug, size, qty } = props;
+    const { slug, size, qty, discountPercentage } = props;
     const [thumb, setThumb] = useState('');
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
@@ -139,7 +141,7 @@ const OrderDetailItem = (props: Props) => {
                             <Text>Ukuran :</Text>
                             <Text>{sizeSelected.name}</Text>
                         </ItemSize>
-                        <ItemPrice>{priceFormat(price)}</ItemPrice>
+                        <ItemPrice>{priceFormat(discount(price, discountPercentage))}</ItemPrice>
                         <ItemQty>
                             <Text>Jumlah :</Text>
                             <Text>{qty}</Text>

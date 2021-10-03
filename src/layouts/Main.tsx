@@ -11,6 +11,7 @@ interface Props {
     useHeader?: boolean,
     backTo?: string,
     backBtn?: boolean,
+    backgroundWhite?: boolean,
     title?: string,
     cartBtn?: boolean,
     searchBtn?: boolean,
@@ -62,10 +63,10 @@ class Main extends React.Component<Props, any> {
     }
 
     render() {
-        const { children, useHeader, backTo, backBtn, title, cartBtn, searchBtn, moreBtn, moreIcon, onMoreClick, paddingTop, useNavigation, paddingBottom, activeMenu, transparentHeader, fullScreenLoader, searchDialog, toastVisible, toastMessage } = this.props;
+        const { children, useHeader, backTo, backBtn, backgroundWhite, title, cartBtn, searchBtn, moreBtn, moreIcon, onMoreClick, paddingTop, useNavigation, paddingBottom, activeMenu, transparentHeader, fullScreenLoader, searchDialog, toastVisible, toastMessage } = this.props;
         return (
             <>
-                <main className={`main-content${!paddingTop ? ' no-padding-top' : ''}${!paddingBottom ? ' no-padding-bottom' : ''}`}>
+                <main className={`main-content${!paddingTop ? ' no-padding-top' : ''}${!paddingBottom ? ' no-padding-bottom' : ''}${backgroundWhite ? ' background-white' : ''}`}>
                     {useHeader && (<Header backBtn={backTo !== '' || backBtn} backTo={!backTo ? '' : backTo} pageTitle={title} transparent={transparentHeader} cartBtn={cartBtn} searchBtn={searchBtn} moreBtn={moreBtn} moreIcon={moreIcon} onMoreClick={onMoreClick} />)}
                     {children}
                     {useNavigation && (<Navigation activeMenu={activeMenu} />)}

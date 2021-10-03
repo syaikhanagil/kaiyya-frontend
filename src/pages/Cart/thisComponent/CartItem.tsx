@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Icon from '../../../components/Icon';
 import Shimmer from '../../../components/Shimmer';
 import API from '../../../configs/api';
+import discount from '../../../helpers/discount';
 import priceFormat from '../../../helpers/price';
 
 const ItemWrapper = styled('div') <{ disabled?: boolean }>`
@@ -140,11 +142,12 @@ interface Props {
     // eslint-disable-next-line no-unused-vars
     onItemDelete: (index: number) => void,
     // eslint-disable-next-line no-unused-vars
-    onItemSold: (index: number) => void
+    onItemSold: (index: number) => void,
+    addons: any
 }
 
 const CartItem = (props: Props) => {
-    const { index, sold, slug, size, qty, onItemChecked, onItemDelete, onItemEdit, onItemSold } = props;
+    const { index, sold, slug, size, qty, onItemChecked, onItemDelete, onItemEdit, onItemSold, addons } = props;
     const [thumb, setThumb] = useState('');
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
@@ -202,7 +205,7 @@ const CartItem = (props: Props) => {
                                     <Text>Ukuran :</Text>
                                     <Text>{sizeSelected.name}</Text>
                                 </ItemSize>
-                                <ItemPrice>{priceFormat(price)}</ItemPrice>
+                                <ItemPrice>{priceFormat(discount(price, addons.discount))}</ItemPrice>
                                 <ItemQty>
                                     <Text>Jumlah :</Text>
                                     <Text>{qty}</Text>
@@ -253,6 +256,7 @@ const CartItem = (props: Props) => {
                                     <Text>Ukuran :</Text>
                                     <Text>{sizeSelected.name}</Text>
                                 </ItemSize>
+                                {/* {add} */}
                                 <ItemPrice>{priceFormat(price)}</ItemPrice>
                                 <ItemQty>
                                     <Text>Jumlah :</Text>
@@ -286,4 +290,12 @@ const CartItem = (props: Props) => {
     );
 };
 
-export default CartItem;
+const mapStateToProps = (state: any) => {
+    return {
+        items: state.cartReducer.items,
+        role: state.accountReducer.role,
+        addons: state.accountReducer.addons
+    };
+};
+
+export default connect(mapStateToProps)(CartItem);
