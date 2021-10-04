@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import Main from '../../layouts/Main';
 import { Button, Input, InputWrapper, Label, Select } from '../../components/Styled';
 import Icon from '../../components/Icon';
-// import action from '../../configs/redux/action';
+import action from '../../configs/redux/action';
 // import logo from '../../assets/img/logo-kaiyya.png';
 import banner from '../../assets/img/welcome-banner-1.jpg';
 
@@ -173,7 +173,7 @@ class Register extends React.Component<any, State> {
 
     handleSubmit(event: any) {
         event.preventDefault();
-        // const { dispatch } = this.props;
+        const { dispatch } = this.props;
         const { fullname, email, phone, role, password, registerAs } = this.state;
         const referralCode = Cookies.get('referral') || '';
         const referralRole = Cookies.get('referral_role') || '';
@@ -195,8 +195,7 @@ class Register extends React.Component<any, State> {
         if (registerAs === 'personal' && referralRole === 'subreseller') {
             data.role = 'retail';
         }
-        // dispatch(action.register(data));
-        console.log(data);
+        dispatch(action.register(data));
     }
 
     render() {
