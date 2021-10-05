@@ -14,6 +14,7 @@ import BniContent from './BniContent';
 import action from '../../../configs/redux/action';
 import clipboardCopy from '../../../helpers/clipboard';
 import PermataContent from './PermataContent';
+import stamp from '../../../assets/img/stempel.png';
 
 const VirtualAccountWrapper = styled.div`
     position: relative;
@@ -119,6 +120,21 @@ const TabContent = styled.div`
     padding: 10px 1rem 20px;
 `;
 
+const PaidStamp = styled.div`
+    position: absolute;
+    display: block;
+    width: 70px;
+    top: 0;
+    right: 4rem;
+    transform: rotate(10deg);
+    z-index: 1;
+    img {
+        width: 100%;
+        -webkit-filter: grayscale(1) invert(1);
+        filter: grayscale(1) invert(1);
+    }
+`;
+
 // const SubmitWrapper = styled.div`
 //     position: relative;
 //     display: block;
@@ -127,11 +143,12 @@ const TabContent = styled.div`
 // `;
 
 interface Props {
-    data: any
+    data: any,
+    paid: boolean
 }
 
 const VirtualAccountMethod = (props: Props) => {
-    const { data } = props;
+    const { data, paid } = props;
     const [tab, setTabs] = useState('m-banking');
     const dispatch = useDispatch();
 
@@ -171,6 +188,11 @@ const VirtualAccountMethod = (props: Props) => {
                 <div className="copy">
                     <span role="button" onClick={() => onCopyClick()}>Salin</span>
                 </div>
+                <PaidStamp>
+                    {paid && (
+                        <img src={stamp} alt="kaiyya-stamp" />
+                    )}
+                </PaidStamp>
             </VirtualAccountInfo>
             <HowToPayWrapper>
                 <TabHeader>

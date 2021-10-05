@@ -25,15 +25,6 @@ export const login = (payload: any) => {
     };
 };
 
-export const checkReferralCode = (payload: any) => {
-    const data = {
-        body: payload
-    };
-    API.checkReferralCode(data).then((res: any) => {
-        console.log(res);
-    });
-};
-
 export const register = (payload: any) => {
     const data = {
         body: payload
@@ -41,13 +32,14 @@ export const register = (payload: any) => {
     return (dispatch: any) => {
         dispatch({ type: CONSTANT.REGISTER_REQUEST });
         API.requestRegister(data).then((res: any) => {
-            console.log(res);
+            if (res.status === false) {
+                dispatch({ type: CONSTANT.REGISTER_FAILURE, errorAt: res.error });
+                return;
+            }
             dispatch({ type: CONSTANT.REGISTER_SUCCESS });
             const inTwoHours = new Date(new Date().getTime() + 119 * 60 * 1000);
             Cookies.set('kis-session', res.data.token, { expires: inTwoHours });
             window.location.href = '/';
-        }).catch((err: any) => {
-            console.log(err);
         });
     };
 };

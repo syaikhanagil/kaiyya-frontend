@@ -20,7 +20,7 @@ const SizeChartHeader = styled.div`
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 10px 1.5rem;
-    border-bottom: 1px dashed #eee;
+    border-bottom: 1px solid #eee;
 
     p {
         width: 100%;
@@ -36,6 +36,10 @@ const SizeChartItem = styled.div`
     flex-wrap: wrap;
     padding: 5px 1.5rem;
     justify-content: space-between;
+    border-bottom: 1px dashed #eee;
+    &:nth-child(even){
+        background: #f7f7f7;
+    }
 
     p {
         width: 100%;
@@ -51,7 +55,6 @@ interface Props {
 
 const SizeChartSheet = (props: Props) => {
     const { sizes, handler } = props;
-    console.log(sizes);
     // const dispatch = useDispatch();
 
     // useEffect(() => {
@@ -64,18 +67,65 @@ const SizeChartSheet = (props: Props) => {
     //     }, 250);
     // };
 
+    const sizeXS = sizes.filter((i: any) => i.name.toUpperCase() === 'XS');
+    const sizeS = sizes.filter((i: any) => i.name.toUpperCase() === 'S');
+    const sizeM = sizes.filter((i: any) => i.name.toUpperCase() === 'M');
+    const sizeL = sizes.filter((i: any) => i.name.toUpperCase() === 'L');
+    const sizeXL = sizes.filter((i: any) => i.name.toUpperCase() === 'XL');
+    const sizeXXL = sizes.filter((i: any) => i.name.toUpperCase() === 'sizeXXL');
+
     return (
         <BottomSheet title="Informasi Ukuran" fullHeight handler={handler}>
             <SizeChartWrapper>
                 <SizeChartHeader>
                     <Text alignCenter>Ukuran</Text>
-                    <Text alignCenter>Panjang</Text>
-                    <Text alignCenter>Lebar</Text>
+                    <Text alignCenter>Panjang (cm)</Text>
+                    <Text alignCenter>Lebar (cm)</Text>
                 </SizeChartHeader>
-                {sizes.map((i: any, idx: any) => (
+                {sizeXS.length > 0 && sizeXS.map((i: any, idx: any) => (
                     // eslint-disable-next-line react/no-array-index-key
                     <SizeChartItem key={idx}>
-                        <Text extraSmall alignCenter>{i.name}</Text>
+                        <Text bold extraSmall alignCenter>{i.name}</Text>
+                        <Text extraSmall alignCenter>{i.chart.length}</Text>
+                        <Text extraSmall alignCenter>{i.chart.width}</Text>
+                    </SizeChartItem>
+                ))}
+                {sizeS.length > 0 && sizeS.map((i: any, idx: any) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <SizeChartItem key={idx}>
+                        <Text bold extraSmall alignCenter>{i.name}</Text>
+                        <Text extraSmall alignCenter>{i.chart.length}</Text>
+                        <Text extraSmall alignCenter>{i.chart.width}</Text>
+                    </SizeChartItem>
+                ))}
+                {sizeM.length > 0 && sizeM.map((i: any, idx: any) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <SizeChartItem key={idx}>
+                        <Text bold extraSmall alignCenter>{i.name}</Text>
+                        <Text extraSmall alignCenter>{i.chart.length}</Text>
+                        <Text extraSmall alignCenter>{i.chart.width}</Text>
+                    </SizeChartItem>
+                ))}
+                {sizeL.length > 0 && sizeL.map((i: any, idx: any) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <SizeChartItem key={idx}>
+                        <Text bold extraSmall alignCenter>{i.name}</Text>
+                        <Text extraSmall alignCenter>{i.chart.length}</Text>
+                        <Text extraSmall alignCenter>{i.chart.width}</Text>
+                    </SizeChartItem>
+                ))}
+                {sizeXL.length > 0 && sizeXL.map((i: any, idx: any) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <SizeChartItem key={idx}>
+                        <Text bold extraSmall alignCenter>{i.name}</Text>
+                        <Text extraSmall alignCenter>{i.chart.length}</Text>
+                        <Text extraSmall alignCenter>{i.chart.width}</Text>
+                    </SizeChartItem>
+                ))}
+                {sizeXXL.length > 0 && sizeXXL.map((i: any, idx: any) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <SizeChartItem key={idx}>
+                        <Text bold extraSmall alignCenter>{i.name}</Text>
                         <Text extraSmall alignCenter>{i.chart.length}</Text>
                         <Text extraSmall alignCenter>{i.chart.width}</Text>
                     </SizeChartItem>

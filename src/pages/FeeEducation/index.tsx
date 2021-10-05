@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import Main from '../../layouts/Main';
 import IncomeItem from './thisComponent/IncomeItem';
+import API from '../../configs/api';
 
 const FeeWrapper = styled.div`
     position: relative;
@@ -62,27 +64,51 @@ const FeeHeader = styled.div`
 `;
 
 const FeeEducation = () => {
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const today = new Date();
+    const [items, setItems] = useState<any>([]);
+    const [startDate, setStartDate] = useState(today);
+    const [endDate, setEndDate] = useState(new Date(new Date().setDate(today.getDate() - 30)));
+
+    const handleStartDate = (date: any) => {
+        setStartDate(date);
+    };
+
+    const handleEndDate = (date: any) => {
+        setEndDate(date);
+    };
+
+    useEffect(() => {
+        API.fetchReferralProfit().then((res: any) => {
+            setItems(res.data);
+        });
+    }, []);
+
+    useEffect(() => {
+        console.log('start', moment(startDate).format('L'));
+    }, [startDate]);
+
+    useEffect(() => {
+        console.log('end', moment(endDate).format('L'));
+    }, [endDate]);
+
     return (
         <Main useHeader paddingTop title="Pendapatan">
             <FeeWrapper>
                 <FeeHeader>
                     <div id="filter-date">
-                        <DatePicker selected={startDate} onChange={(date: any) => setStartDate(date)} />
+                        <DatePicker selected={startDate} onChange={(date: any) => handleStartDate(date)} />
                     </div>
                     <div id="filter-date">
-                        <DatePicker selected={endDate} onChange={(date: any) => setEndDate(date)} />
+                        <DatePicker selected={endDate} onChange={(date: any) => handleEndDate(date)} />
                     </div>
                     <div id="filter-date">
                         <button type="button" id="submit">Filter</button>
                     </div>
                 </FeeHeader>
-                <IncomeItem />
-                <IncomeItem />
-                <IncomeItem />
-                <IncomeItem />
-                <IncomeItem />
+                {items.map((i: any, idx: any) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <IncomeItem key={idx} data={i} />
+                ))}
             </FeeWrapper>
         </Main>
     );

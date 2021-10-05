@@ -16,6 +16,11 @@ export const addItemToCart = (payload: any) => {
                 size: existingItems[0].size,
                 qty: existingItems[0].qty + payload.qty
             };
+            // if (updateItem.qty > updateItem.size.stock) {
+            //     console.log('melebihi stock');
+            //     return;
+            // }
+            console.log('TEST', updateItem.size);
             const items = [updateItem, ...currentItem];
             Cookies.set('cart-items', JSON.stringify(items));
             dispatch({ type: CONSTANT.UPDATE_CART_ITEM_SUCCESS, items });

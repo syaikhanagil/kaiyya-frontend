@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import Cookies from 'js-cookie';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { withRouter } from 'react-router-dom';
 import Main from '../../layouts/Main';
 import { Button, Input, InputWrapper, Label, Select } from '../../components/Styled';
 import Icon from '../../components/Icon';
 import action from '../../configs/redux/action';
 // import logo from '../../assets/img/logo-kaiyya.png';
-import banner from '../../assets/img/welcome-banner-1.jpg';
+import banner from '../../assets/img/banner-web-login.jpg';
 
 const RegisterWrapper = styled.div`
     position: relative;
@@ -117,6 +116,15 @@ const InfoWrapper = styled.div`
 //     }
 // `;
 
+const ErrorWrapper = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    span {
+        font-size: var(--font-extra-small);
+    }
+`;
+
 interface State {
     fullname: string,
     email: string,
@@ -127,7 +135,12 @@ interface State {
     registerAs: string
 }
 
-class Register extends React.Component<any, State> {
+interface Props {
+    dispatch: any,
+    errorAt: string
+}
+
+class Register extends React.Component<Props, State> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -144,8 +157,8 @@ class Register extends React.Component<any, State> {
     }
 
     componentDidMount() {
-        const { location } = this.props;
-        if (location.search !== '?ref=true') {
+        const { search } = window.location;
+        if (search !== '?ref=true') {
             Cookies.remove('referral');
             Cookies.remove('referral_role');
         } else {
@@ -199,6 +212,7 @@ class Register extends React.Component<any, State> {
     }
 
     render() {
+        const { errorAt } = this.props;
         const { fullname, email, phone, role, password, passwordView, registerAs } = this.state;
         const referral = Cookies.get('referral') || '';
         const referralRole = Cookies.get('referral_role') || '';
@@ -214,6 +228,7 @@ class Register extends React.Component<any, State> {
                         </BannerWrapper>
                         <FormWrapper>
                             <p className="title">Selamat Datang!</p>
+                            <p className="title">{errorAt}</p>
                             {!referral && !referralRole && (
                                 <RoleSelector>
                                     <span role="button" onClick={() => this.setState({ registerAs: 'personal', role: 'retail' })} className={registerAs === 'personal' ? 'active' : ''}>Personal</span>
@@ -225,11 +240,21 @@ class Register extends React.Component<any, State> {
                                     <Input floatingLabel name="fullname" id="fullname" placeholder="Full Name" onChange={this.handleInput} value={fullname} />
                                     <Label floatingLabel htmlFor="fullname">Nama</Label>
                                 </InputWrapper>
-                                <InputWrapper>
+                                <InputWrapper error={errorAt === 'email'}>
+                                    {errorAt === 'email' && (
+                                        <ErrorWrapper id="error">
+                                            <span>Alamat email sudah terdaftar</span>
+                                        </ErrorWrapper>
+                                    )}
                                     <Input floatingLabel name="email" id="email" placeholder="Email" onChange={this.handleInput} value={email} />
                                     <Label floatingLabel htmlFor="email">Email</Label>
                                 </InputWrapper>
-                                <InputWrapper>
+                                <InputWrapper error={errorAt === 'phone'}>
+                                    {errorAt === 'phone' && (
+                                        <ErrorWrapper id="error">
+                                            <span>Nomor HP sudah terdaftar</span>
+                                        </ErrorWrapper>
+                                    )}
                                     <Input floatingLabel type="text" name="phone" id="phone" placeholder="Phone" onChange={this.handleInput} value={phone} />
                                     <Label floatingLabel htmlFor="phone">Nomor HP</Label>
                                 </InputWrapper>
@@ -269,7 +294,7 @@ class Register extends React.Component<any, State> {
                                         <Icon icon="eye" />
                                     </div>
                                 </InputWrapper>
-                                <Button type="submit" disabled={!email && !fullname && !phone && !password} fullWidth block primary onClick={this.handleSubmit}>Register</Button>
+                                <Button type="submit" disabled={!email || !fullname || !phone || !password} fullWidth block primary onClick={this.handleSubmit}>Register</Button>
                                 <InfoWrapper>
                                     <span>Sudah memiliki akun?</span>
                                 </InfoWrapper>
@@ -286,8 +311,9 @@ class Register extends React.Component<any, State> {
 const mapStateToProps = (state: any) => {
     return {
         isRequest: state.authReducer.isRequest,
-        isError: state.authReducer.isError
+        isError: state.authReducer.isError,
+        errorAt: state.authReducer.errorAt
     };
 };
 
-export default withRouter(connect(mapStateToProps)(Register));
+export default connect(mapStateToProps)(Register);

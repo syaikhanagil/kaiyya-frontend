@@ -1,6 +1,8 @@
-import React from 'react';
+/* eslint-disable react/no-danger */
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Accordion, { AccordionBody, AccordionHeader } from '../../components/Accordion';
+import API from '../../configs/api';
 import Main from '../../layouts/Main';
 
 const Wrapper = styled.div`
@@ -12,33 +14,28 @@ const Wrapper = styled.div`
 `;
 
 const Faq = () => {
+    const [items, setItems] = useState([]);
+    const [ready, setReady] = useState(false);
+    useEffect(() => {
+        API.fetchFaq().then((res: any) => {
+            setItems(res.data);
+            setTimeout(() => {
+                setReady(true);
+            }, 1000);
+        });
+    }, []);
     return (
         <Main useHeader paddingTop backTo="/" title="Faq">
             <Wrapper>
-                <Accordion>
-                    <AccordionHeader id="acc-1">Halo</AccordionHeader>
-                    <AccordionBody id="acc-1-content">
-                        Oke
-                    </AccordionBody>
-                </Accordion>
-                <Accordion>
-                    <AccordionHeader id="acc-2">Halo</AccordionHeader>
-                    <AccordionBody id="acc-2-content">
-                        Oke
-                    </AccordionBody>
-                </Accordion>
-                <Accordion>
-                    <AccordionHeader id="acc-3">Halo</AccordionHeader>
-                    <AccordionBody id="acc-3-content">
-                        Oke
-                    </AccordionBody>
-                </Accordion>
-                <Accordion>
-                    <AccordionHeader id="acc-4">Halo</AccordionHeader>
-                    <AccordionBody id="acc-4-content">
-                        Oke
-                    </AccordionBody>
-                </Accordion>
+                {ready && items.map((i: any, idx: any) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <Accordion key={idx}>
+                        <AccordionHeader id={`acc-${idx}`}>{i.title}</AccordionHeader>
+                        <AccordionBody id={`acc-${idx}-content`}>
+                            <div dangerouslySetInnerHTML={{ __html: i.content }} />
+                        </AccordionBody>
+                    </Accordion>
+                ))}
             </Wrapper>
         </Main>
     );

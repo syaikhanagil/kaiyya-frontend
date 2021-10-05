@@ -13,7 +13,7 @@ const API = {
 
     checkReferralCode: ApiConfig.POST('/account/ref/check', false),
     fetchReferralDownline: ApiConfig.GET('/account/ref/downline', true),
-    fetchReferralIncome: ApiConfig.GET('/account/ref/downline', true),
+    fetchReferralProfit: ApiConfig.GET('/account/ref/profit', true),
 
     createAddress: ApiConfig.POST('/address', true),
     fetchAddress: ApiConfig.GET('/address', true),
@@ -53,7 +53,9 @@ const API = {
     createPaymentVA: ApiConfig.POST('/payment/virtual-account', true),
     createPaymentQRIS: ApiConfig.POST('/payment/qris', true),
 
-    fetchPayment: ApiConfig.GET('/payment/', true)
+    fetchPayment: ApiConfig.GET('/payment', true),
+
+    fetchFaq: ApiConfig.GET('/faq', true)
 };
 
 export default API;

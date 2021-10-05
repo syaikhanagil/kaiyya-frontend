@@ -88,12 +88,12 @@ export const AccordionHeader = (props: HeaderProps) => {
     );
 };
 
-interface HeaderBody {
+interface BodyProps {
     id: string,
     children: any
 }
 
-export const AccordionBody = (props: HeaderBody) => {
+export const AccordionBody = (props: BodyProps) => {
     const { id, children } = props;
     return (
         <Body id={id}>

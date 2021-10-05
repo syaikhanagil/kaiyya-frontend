@@ -168,6 +168,7 @@ const WarningText = styled.span`
     width: 100%;
     margin-bottom: 10px;
     font-size: var(--font-extra-small);
+    color: red;
 `;
 
 interface Props {
@@ -184,6 +185,7 @@ const ActionDialog = (props: Props) => {
     const [visible, setVisible] = useState(false);
     const [selectedSize, setSelectedSize] = useState<any>({});
     const [selectedStock, setSelectedStock] = useState(0);
+    const [warningCart, setWarningCart] = useState(false);
     const [qty, setQty] = useState(1);
 
     useEffect(() => {
@@ -215,6 +217,7 @@ const ActionDialog = (props: Props) => {
     };
 
     const qtyPlus = () => {
+        setWarningCart(false);
         if (qty > selectedStock || qty === selectedStock) {
             setQty(selectedStock);
         } else {
@@ -223,6 +226,7 @@ const ActionDialog = (props: Props) => {
     };
 
     const qtyMin = () => {
+        setWarningCart(false);
         if (qty < 2) {
             setQty(1);
         } else {
@@ -234,6 +238,7 @@ const ActionDialog = (props: Props) => {
         const getSize = sizes.filter((i: any) => {
             return i.id === sizeId;
         });
+        setWarningCart(false);
         setSelectedSize(getSize[0]);
         setSelectedStock(getSize[0].stock);
         setQty(1);
@@ -264,6 +269,15 @@ const ActionDialog = (props: Props) => {
                 size: existingItems[0].size,
                 qty: existingItems[0].qty + payload.qty
             };
+            if (updateItem.qty > updateItem.size.stock) {
+                updateItem.qty = updateItem.size.stock;
+                setWarningCart(true);
+                const items = [updateItem, ...currentItem];
+                Cookies.set('cart-items', JSON.stringify(items));
+                dispatch({ type: CONSTANT.UPDATE_CART_ITEM_SUCCESS, items });
+                return;
+            }
+            // console.log(updateItem.size.stock);
             const items = [updateItem, ...currentItem];
             Cookies.set('cart-items', JSON.stringify(items));
             dispatch({ type: CONSTANT.UPDATE_CART_ITEM_SUCCESS, items });
@@ -281,6 +295,13 @@ const ActionDialog = (props: Props) => {
             }, 250);
         }
     };
+
+    const sizeXS = sizes.filter((i: any) => i.name.toUpperCase() === 'XS');
+    const sizeS = sizes.filter((i: any) => i.name.toUpperCase() === 'S');
+    const sizeM = sizes.filter((i: any) => i.name.toUpperCase() === 'M');
+    const sizeL = sizes.filter((i: any) => i.name.toUpperCase() === 'L');
+    const sizeXL = sizes.filter((i: any) => i.name.toUpperCase() === 'XL');
+    const sizeXXL = sizes.filter((i: any) => i.name.toUpperCase() === 'sizeXXL');
 
     return (
         <>
@@ -303,7 +324,32 @@ const ActionDialog = (props: Props) => {
                 </ProductInfoWrapper>
                 <TitleField>Pilih Ukuran</TitleField>
                 <SizeField>
-                    {sizes.map((i: any) => (
+                    {sizeXS.length > 0 && sizeXS.map((i: any) => (
+                        <SizeItem key={i.id} className={selectedSize.id === i.id ? 'selected' : ''} disabled={i.stock === 0} onClick={() => handleSizeChange(i.id)} data-test={`SIZE-${i.name}`}>
+                            {i.name}
+                        </SizeItem>
+                    ))}
+                    {sizeS.length > 0 && sizeS.map((i: any) => (
+                        <SizeItem key={i.id} className={selectedSize.id === i.id ? 'selected' : ''} disabled={i.stock === 0} onClick={() => handleSizeChange(i.id)} data-test={`SIZE-${i.name}`}>
+                            {i.name}
+                        </SizeItem>
+                    ))}
+                    {sizeM.length > 0 && sizeM.map((i: any) => (
+                        <SizeItem key={i.id} className={selectedSize.id === i.id ? 'selected' : ''} disabled={i.stock === 0} onClick={() => handleSizeChange(i.id)} data-test={`SIZE-${i.name}`}>
+                            {i.name}
+                        </SizeItem>
+                    ))}
+                    {sizeL.length > 0 && sizeL.map((i: any) => (
+                        <SizeItem key={i.id} className={selectedSize.id === i.id ? 'selected' : ''} disabled={i.stock === 0} onClick={() => handleSizeChange(i.id)} data-test={`SIZE-${i.name}`}>
+                            {i.name}
+                        </SizeItem>
+                    ))}
+                    {sizeXL.length > 0 && sizeXL.map((i: any) => (
+                        <SizeItem key={i.id} className={selectedSize.id === i.id ? 'selected' : ''} disabled={i.stock === 0} onClick={() => handleSizeChange(i.id)} data-test={`SIZE-${i.name}`}>
+                            {i.name}
+                        </SizeItem>
+                    ))}
+                    {sizeXXL.length > 0 && sizeXXL.map((i: any) => (
                         <SizeItem key={i.id} className={selectedSize.id === i.id ? 'selected' : ''} disabled={i.stock === 0} onClick={() => handleSizeChange(i.id)} data-test={`SIZE-${i.name}`}>
                             {i.name}
                         </SizeItem>
@@ -321,8 +367,11 @@ const ActionDialog = (props: Props) => {
                         </QtyBtn>
                     </QtyInputContainer>
                 </QuantityField>
-                {selectedStock === qty && (
-                    <WarningText className="">Jumlah telah mencapai stok maksimum!</WarningText>
+                {!warningCart && selectedStock === qty && (
+                    <WarningText>Jumlah telah mencapai stok maksimum!</WarningText>
+                )}
+                {warningCart && (
+                    <WarningText>Produk sudah ada dikeranjang, melebihi pembelian maksimum!</WarningText>
                 )}
                 <Button block fullWidth primary disabled={!selectedSize.id} onClick={() => addToCart()}>Konfirmasi</Button>
             </ActionWrapper>

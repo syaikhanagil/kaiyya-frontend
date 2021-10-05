@@ -23,14 +23,18 @@ const PaymentWrapper = styled.div`
 const Payment = () => {
     const { paymentId } = useParams<Params>();
     const [data, setData] = useState<any>({});
+    const [paid, setPaid] = useState(false);
     const [ready, setReady] = useState(false);
 
     const fetchData = () => {
         const payload = {
-            params: paymentId
+            params: `/${paymentId}`
         };
         API.fetchPayment(payload).then((res: any) => {
             setData(res.data.detail);
+            if (res.data.status === 'paid') {
+                setPaid(true);
+            }
             setTimeout(() => {
                 setReady(true);
             }, 1000);
@@ -54,7 +58,7 @@ const Payment = () => {
                 )}
                 {data.method === 'virtual-account' && (
                     <>
-                        <VirtualAccountMethod data={data} />
+                        <VirtualAccountMethod data={data} paid={paid} />
                     </>
                 )}
             </PaymentWrapper>

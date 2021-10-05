@@ -72,7 +72,7 @@ const Navigation = (props: Props) => {
             </ItemWrapper>
             <ItemWrapper to="/catalog" className={activeMenu === 'catalog' ? 'active' : ''}>
                 <ItemIcon>
-                    <Icon icon="list" />
+                    <Icon icon="folder" />
                 </ItemIcon>
                 <ItemTitle>Katalog</ItemTitle>
             </ItemWrapper>

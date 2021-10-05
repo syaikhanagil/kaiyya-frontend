@@ -93,16 +93,17 @@ const BalanceFooter = styled.div`
 
 interface Props {
     downline: any,
-    dispatch: any
+    dispatch: any,
+    addons: any
 }
 
 const BalanceCard = (props: Props) => {
-    const { dispatch, downline } = props;
+    const { dispatch, downline, addons } = props;
     const [mitra, setMitra] = useState([]);
-    const [balance, setBalance] = useState(0);
 
     const fetchData = async () => {
         dispatch(action.fetchReferralDownline());
+        dispatch(action.fetchAccountDetail());
     };
 
     useEffect(() => {
@@ -112,7 +113,6 @@ const BalanceCard = (props: Props) => {
     useEffect(() => {
         if (downline.length > 0) {
             setMitra(downline);
-            setBalance(100000);
         }
     }, [downline]);
 
@@ -120,7 +120,7 @@ const BalanceCard = (props: Props) => {
         <BalanceWrapper>
             <BalanceContent>
                 <div className="balance-counter">
-                    <p>{priceFormat(balance)}</p>
+                    <p>{priceFormat(addons.referral_point)}</p>
                 </div>
                 <MenuBox>
                     <MenuItem onClick={() => pushLocation.path('/withdraw')}>
@@ -152,7 +152,8 @@ const BalanceCard = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
     return {
-        downline: state.referralReducer.downline
+        downline: state.referralReducer.downline,
+        addons: state.accountReducer.addons
     };
 };
 

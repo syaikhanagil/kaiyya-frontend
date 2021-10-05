@@ -21,24 +21,6 @@ const Rules = () => {
                         Oke
                     </AccordionBody>
                 </Accordion>
-                <Accordion>
-                    <AccordionHeader id="acc-2">Halo</AccordionHeader>
-                    <AccordionBody id="acc-2-content">
-                        Oke
-                    </AccordionBody>
-                </Accordion>
-                <Accordion>
-                    <AccordionHeader id="acc-3">Halo</AccordionHeader>
-                    <AccordionBody id="acc-3-content">
-                        Oke
-                    </AccordionBody>
-                </Accordion>
-                <Accordion>
-                    <AccordionHeader id="acc-4">Halo</AccordionHeader>
-                    <AccordionBody id="acc-4-content">
-                        Oke
-                    </AccordionBody>
-                </Accordion>
             </Wrapper>
         </Main>
     );

@@ -160,7 +160,9 @@ const SoldWrapper = styled.div`
 `;
 
 const Cart = (props: any) => {
-    const { dispatch, items, addons } = props;
+    const { dispatch, addons } = props;
+    const cookiesItems = Cookies.get('cart-items') || undefined;
+    const items = cookiesItems ? JSON.parse(cookiesItems) : [];
     // const [cartItems, setCartItems] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
     const [soldItems, setSoldItems] = useState<any>([]);

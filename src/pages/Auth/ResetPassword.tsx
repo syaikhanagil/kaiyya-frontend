@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import Main from '../../layouts/Main';
-import banner from '../../assets/img/welcome-banner-1.jpg';
+import banner from '../../assets/img/banner-web-login.jpg';
 import { Button, Input, InputWrapper, Label, Text } from '../../components/Styled';
 import Icon from '../../components/Icon';
 import API from '../../configs/api';

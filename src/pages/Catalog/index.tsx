@@ -18,7 +18,7 @@ const Catalog = (props: any) => {
     }, []);
 
     return (
-        <Main useHeader paddingTop backTo="/" title="Katalog" useNavigation activeMenu="catalog">
+        <Main useHeader paddingTop backTo="/" title="Katalog" useNavigation paddingBottom activeMenu="catalog">
             <CatalogWrapper>
                 {items.map((i: any, idx: any) => (
                     // eslint-disable-next-line react/no-array-index-key

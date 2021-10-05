@@ -3,13 +3,13 @@ import styled from 'styled-components';
 /**
  * Input & Label
  */
-export const InputWrapper = styled.div`
+export const InputWrapper = styled.div <{ error?: boolean }>`
     position: relative;
     display: flex;
     width: 100%;
     height: auto;
-    margin: 0 0 15px;
     align-items: center;
+    ${(props) => (props.error ? 'margin: 0 0 30px' : 'margin: 0 0 15px')};
 
     #input-icon {
         position: absolute;

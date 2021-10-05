@@ -12,7 +12,7 @@ const MandiriContent = (props: any) => {
                     <Text block extraSmall>2. Pilih &quot;Bayar&quot;</Text>
                     <Text block extraSmall>3. Pilih &quot;Multipayment&quot;</Text>
                     <Text block bold marginY>LANGKAH 2: DETAIL PEMBAYARAN</Text>
-                    <Text block extraSmall>1. Pilih 88908 XENDIT sebagai penyedia jasa</Text>
+                    <Text block extraSmall>{`1. Pilih ${vaNumber.substring(0, 5)} XENDIT sebagai penyedia jasa`}</Text>
                     <Text block extraSmall>{`2. Masukkan Nomor Virtual Account ${vaNumber}`}</Text>
                     <Text block extraSmall>3. Tekan Lanjut</Text>
                     <Text block extraSmall>4. Tinjau dan konfirmasi detail transaksi anda, lalu tekan Konfirmasi</Text>
@@ -33,7 +33,7 @@ const MandiriContent = (props: any) => {
                     <Text block extraSmall>3. Buka halaman beranda, kemudian pilih &quot;Pembayaran&quot;</Text>
                     <Text block extraSmall>3. Pilih &quot;Multi Payment&quot;</Text>
                     <Text block bold marginY>LANGKAH 2: DETAIL PEMBAYARAN</Text>
-                    <Text block extraSmall>1. Pilih 88908 XENDIT sebagai penyedia jasa</Text>
+                    <Text block extraSmall>{`1. Pilih ${vaNumber.substring(0, 5)} XENDIT sebagai penyedia jasa`}</Text>
                     <Text block extraSmall>{`2. Masukkan Nomor Virtual Account ${vaNumber}`}</Text>
                     <Text block extraSmall>3. Lalu pilih Lanjut</Text>
                     <Text block extraSmall>4. Apabila semua detail benar tekan &quot;KONFIRMASI&quot;</Text>
@@ -50,7 +50,7 @@ const MandiriContent = (props: any) => {
                     <Text block extraSmall>2. Masukkan PIN, lalu tekan &quot;Benar&quot;</Text>
                     <Text block extraSmall>3. Pilih &quot;Pembayaran&quot;, lalu pilih &quot;Multi Payment&quot;</Text>
                     <Text block bold marginY>LANGKAH 2: DETAIL PEMBAYARAN</Text>
-                    <Text block extraSmall>1. Masukkan kode perusahaan  &quot;88908 &quot; (88908 XENDIT), lalu tekan  &quot;BENAR&quot;</Text>
+                    <Text block extraSmall>{`1. Masukkan kode perusahaan "${vaNumber.substring(0, 5)}" (${vaNumber.substring(0, 5)} XENDIT), lalu tekan  "BENAR"`}</Text>
                     <Text block extraSmall>{`2. Masukkan Nomor Virtual Account ${vaNumber}, lalu tekan "BENAR"`}</Text>
                     <Text block extraSmall>3. Masukkan nominal yang ingin di transfer, lalu tekan &quot;BENAR&quot;</Text>
                     <Text block extraSmall>4. Informasi pelanggan akan ditampilkan, pilih nomor 1 sesuai dengan nominal pembayaran kemudian tekan &quot;YA&quot;</Text>
