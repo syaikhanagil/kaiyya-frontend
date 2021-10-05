@@ -10,7 +10,7 @@ const WithdrawWrapper = styled.div`
 
 const Withdraw = () => {
     return (
-        <Main useHeader backBtn title="Tarik Fee">
+        <Main useHeader backBtn title="Cairkan Imbalan">
             <WithdrawWrapper>
                 Oke
             </WithdrawWrapper>

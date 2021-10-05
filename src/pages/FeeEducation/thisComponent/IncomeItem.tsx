@@ -33,7 +33,7 @@ const IncomeItem = (props: Props) => {
     return (
         <IncomeWrapper>
             <div id="income-content">
-                <Text block bold extraSmall>Fee Ditambahkan</Text>
+                <Text block bold extraSmall>Tambahan Imbalan</Text>
                 <Text block style={{ color: 'var(--primary)' }} extraSmall>{priceFormat(data.amount)}</Text>
             </div>
             <div id="income-info">

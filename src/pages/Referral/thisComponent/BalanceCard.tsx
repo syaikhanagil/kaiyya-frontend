@@ -53,6 +53,7 @@ const MenuItem = styled.div`
     padding: 10px;
     border-radius: 4px;
     border: 2px dashed #eee;
+    cursor: pointer;
 `;
 
 const BalanceFooter = styled.div`
@@ -139,7 +140,7 @@ const BalanceCard = (props: Props) => {
                 <Link to="/income-history">
                     <Text extraSmall>
                         <Icon icon="rotate-ccw" />
-                        Pendapatan
+                        Riwayat Imbalan
                     </Text>
                     <Text extraSmall alignRight>
                         <Icon icon="chevron-right" />

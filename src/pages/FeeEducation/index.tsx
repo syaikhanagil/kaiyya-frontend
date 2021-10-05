@@ -92,7 +92,7 @@ const FeeEducation = () => {
     }, [endDate]);
 
     return (
-        <Main useHeader paddingTop title="Pendapatan">
+        <Main useHeader paddingTop title="Riwayat Imbalan">
             <FeeWrapper>
                 <FeeHeader>
                     <div id="filter-date">
