@@ -1,18 +1,17 @@
 import CONSTANT from '../../../../constant';
 import API from '../../../api';
 
-export const fetchCatalog = () => {
+export const fetchCategory = () => {
     return (dispatch: any) => {
-        dispatch({ type: CONSTANT.FETCH_CATALOG_REQUEST });
-        API.fetchCatalog().then((res: any) => {
+        dispatch({ type: CONSTANT.FETCH_CATEGORY_REQUEST });
+        API.fetchCategory().then((res: any) => {
             const items = res.data;
-            console.log(res);
-            dispatch({ type: CONSTANT.FETCH_CATALOG_SUCCESS, items });
+            dispatch({ type: CONSTANT.FETCH_CATEGORY_SUCCESS, items });
         });
     };
 };
 
-export const fetchCatalogDetail = async () => {
+export const fetchCategoryDetail = async () => {
     return (dispatch: any) => {
         API.fetchProduct().then((res: any) => {
             const items = res.data;

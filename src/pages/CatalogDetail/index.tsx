@@ -1,16 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router';
 import styled from 'styled-components';
-import action from '../../configs/redux/action';
+import ProductCard from '../../components/ProductCard';
+import API from '../../configs/api';
+// import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
 // import CatalogItem from './thisComponent/CatalogItem';
 
 const CatalogWrapper = styled.div`
-    position: relative;
-    display: block;
-`;
-
-const CatalogHeading = styled.div`
     position: relative;
     display: block;
 `;
@@ -28,25 +26,51 @@ const BannerWrapper = styled.div`
     }
 `;
 
-const CatalogDetail = (props: any) => {
-    const { dispatch, items } = props;
+const ItemsWrapper = styled.div`
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-derection: row;
+    justify-content: space-between;
+    padding: 10px 1rem;
+    @media only screen and (max-width: 768px) {
+        padding: 10px .5rem;
+    }
+`;
+
+const CatalogDetail = () => {
+    const { slug } = useParams<any>();
+    const [detail, setDetail] = useState<any>({});
+    const [ready, setReady] = useState(false);
+
     useEffect(() => {
-        dispatch(action.fetchCatalog());
+        const data = {
+            params: `/${slug}`
+        };
+        API.fetchCatalogDetail(data).then((res: any) => {
+            setDetail(res.data);
+            setTimeout(() => {
+                setReady(true);
+            }, 1000);
+        });
     }, []);
 
     return (
-        <Main backTo="/" title="Katalog">
+        <Main useHeader transparentHeader backBtn title={ready ? detail.name : 'Katalog'}>
             <CatalogWrapper>
-                <BannerWrapper>
-                    <img src="https://etanee.id/static/media/salad_sayur.df18ccc9.jpg" alt="Oke" />
-                </BannerWrapper>
-                <CatalogHeading>
-                    {items.map((i: any, idx: any) => {
-                        // eslint-disable-next-line react/no-array-index-key
-                        return <p key={idx}>{i.name}</p>;
-                    })}
-                </CatalogHeading>
-                {/* <CatalogItem thumb="https://etanee.id/static/media/salad_sayur.df18ccc9.jpg" title="Oke" /> */}
+                {ready && (
+                    <>
+                        <BannerWrapper>
+                            <img src={detail.banner.src} alt={detail.banner.name} />
+                        </BannerWrapper>
+                        <ItemsWrapper>
+                            {detail.products && detail.products.length > 0 && detail.products.map((i: any) => (
+                                <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
+                            ))}
+                        </ItemsWrapper>
+                    </>
+                )}
             </CatalogWrapper>
         </Main>
     );

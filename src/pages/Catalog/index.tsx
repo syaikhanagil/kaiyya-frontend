@@ -7,8 +7,11 @@ import CatalogItem from './thisComponent/CatalogItem';
 
 const CatalogWrapper = styled.div`
     position: relative;
-    display: block;
-    padding: 10px 0;
+    display: flex;
+    padding: 10px 1rem;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
 `;
 
 const Catalog = (props: any) => {

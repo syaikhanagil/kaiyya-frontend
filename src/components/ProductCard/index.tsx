@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import API from '../../configs/api';
 import priceFormat from '../../helpers/price';
 import Shimmer from '../Shimmer';
+import { Text } from '../Styled';
 
 const Thumbnail = styled.div`
     position: relative;
@@ -26,7 +27,7 @@ const Wrapper = styled('div') <{useMargin?: boolean}>`
     display: inline-block;
     width: 100%;
     max-width: 220px;
-    padding: 0 0 15px;
+    padding: 0;
     margin: ${(props) => (props.useMargin ? '10px 5px' : '0 0 10px')};
     background: var(--color-white);
     border: 1px solid #eee;
@@ -52,6 +53,9 @@ const Wrapper = styled('div') <{useMargin?: boolean}>`
             }
         }
     }
+    #info {
+        padding: 10px 1rem;
+    }
 `;
 
 const LinkWrapper = styled(Link)`
@@ -61,21 +65,6 @@ const LinkWrapper = styled(Link)`
     left: 0;
     top: 0;
     z-index: 1;
-`;
-
-const Title = styled.p`
-    position: relative;
-    display: block;
-    width: 100%;
-    margin: 10px 0 0;
-    padding: 0 10px;
-    font-size: var(--font-small);
-    font-weight: 400;
-`;
-
-const Price = styled(Title)`
-    margin: 0;
-    font-weight: 600;
 `;
 
 interface Props {
@@ -107,12 +96,12 @@ const ProductCard = (props: Props) => {
         <Wrapper useMargin={margin}>
             <LinkWrapper to={`/product/${slug}`} />
             <Thumbnail>
-                {thumb !== '' && (<img src={thumb.src} alt={thumb.name} />)}
-                {thumb === '' && (<Shimmer height="245px" />)}
+                {thumb.src && (<img src={thumb.src} alt={thumb.name} />)}
+                {!thumb.src && (<Shimmer height="245px" />)}
             </Thumbnail>
-            <div>
-                <Title>{title}</Title>
-                <Price>{priceFormat(price)}</Price>
+            <div id="info">
+                <Text block extraSmall>{title}</Text>
+                <Text block bold extraSmall>{priceFormat(price)}</Text>
             </div>
         </Wrapper>
     );

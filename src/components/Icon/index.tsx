@@ -18,9 +18,14 @@ const FeatherWrapper = styled.i`
 const ImageWrapper = styled.div`
     position: relative;
     display: inline-block;
-    width: auto;
-    height: auto;
+    width: 100%;
+    height: 100%;
     vertical-align: middle;
+    img {
+        position: relative;
+        display: block;
+        height: 100%;
+    }
 `;
 
 const Icon = (props: Props) => {

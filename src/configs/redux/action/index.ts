@@ -3,6 +3,7 @@ import { fetchAccountDetail } from './account';
 import { createAddress, fetchAddress, editAddress } from './address';
 import { addItemToCart, deleteCartItem, updateCartQty } from './cart';
 import { fetchCatalog, fetchCatalogDetail } from './catalog';
+import { fetchCategory } from './category';
 import { showToast, showFullscreenLoader, hideFullscreenLoader } from './global';
 import { createOrder, fetchOrder, cancelOrder } from './order';
 import { fetchProduct, fetchProductDetail } from './product';
@@ -20,6 +21,8 @@ const action = {
 
     fetchCatalog,
     fetchCatalogDetail,
+
+    fetchCategory,
 
     fetchProduct,
     fetchProductDetail,

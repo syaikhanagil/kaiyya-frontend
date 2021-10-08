@@ -5,6 +5,7 @@ import authReducer from './auth';
 import bannerReducer from './banner';
 import cartReducer from './cart';
 import catalogReducer from './catalog';
+import categoryReducer from './category';
 import globalReducer from './global';
 import orderReducer from './order';
 import productReducer from './product';
@@ -17,6 +18,7 @@ const allReducer = {
     bannerReducer,
     cartReducer,
     catalogReducer,
+    categoryReducer,
     globalReducer,
     orderReducer,
     productReducer,

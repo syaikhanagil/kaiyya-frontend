@@ -1,16 +1,30 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Icon from '../Icon';
 
 const IconBoxWrapper = styled.div`
     position: relative;
-    display: block;
+    display: flex;
     width: auto;
     padding: 10px 0;
-    text-align: center;
     border-radius: 6px;
     border: 1px solid #eee;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+
+    a {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        padding: 0;
+        z-index: 2;
+    }
 
     div {
         position: relative;
@@ -19,13 +33,17 @@ const IconBoxWrapper = styled.div`
 
         &#icon {
             display: inline-block;
-            width: auto;
+            height: 24px;
             margin: 0 auto 5px;
+            img {
+                height: 100%;
+            }
         }
 
         .feather {
             width: 24px;
             height: 24px;
+            stroke-width: 1.5;
         }
 
         span {
@@ -49,17 +67,22 @@ const IconBoxWrapper = styled.div`
 
 interface Props {
     title: string,
-    icon: string,
+    icon: any,
+    link?: string,
+    custom?: boolean,
     counter?: string
 }
 
 const IconBox = (props: Props) => {
-    const { title, icon, counter } = props;
+    const { title, icon, link, custom, counter } = props;
 
     return (
         <IconBoxWrapper id="box">
+            {link && (
+                <Link to={link} />
+            )}
             <div id="icon">
-                <Icon icon={icon} />
+                <Icon custom={custom} icon={icon} />
                 {counter !== '0' && (<span id="counter">{parseInt(counter || '0', 10)}</span>)}
             </div>
             <div>
@@ -70,6 +93,8 @@ const IconBox = (props: Props) => {
 };
 
 IconBox.defaultProps = {
+    link: '',
+    custom: false,
     counter: '0'
 };
 

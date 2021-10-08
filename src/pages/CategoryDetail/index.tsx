@@ -51,6 +51,7 @@ const FloatingItem = styled.div`
         border-right: none;
     }
 `;
+
 const ItemsWrapper = styled.div`
     position: relative;
     display: flex;
@@ -64,7 +65,7 @@ const ItemsWrapper = styled.div`
     }
 `;
 
-const Product = (props: any) => {
+const CategoryDetail = (props: any) => {
     const { dispatch, products } = props;
     const [baseItems, setBaseItems] = useState([]);
     const [categoryDialog, setCategoryDialog] = useState(false);
@@ -183,9 +184,9 @@ const Product = (props: any) => {
     return (
         <>
             <Helmet>
-                <title>Produk | Kaiyya Dress</title>
+                <title>Kategori | Kaiyya Dress</title>
             </Helmet>
-            <Main useHeader paddingTop backTo="/" title="Produk" searchBtn paddingBottom>
+            <Main useHeader paddingTop backTo="/" title="Kategori" searchBtn paddingBottom>
                 <>
                     <ProductWrapper>
                         <FloatingWrapper>
@@ -238,4 +239,4 @@ const mapStateToProps = (state: any) => {
     };
 };
 
-export default connect(mapStateToProps)(Product);
+export default connect(mapStateToProps)(CategoryDetail);

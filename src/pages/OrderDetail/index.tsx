@@ -111,7 +111,6 @@ const OrderDetail = () => {
         API.fetchOrderDetail(data).then((res: any) => {
             setOrderDetail(res.data);
             setItems(res.data.order_detail);
-            console.log(res.data);
             setTimeout(() => {
                 setReady(true);
             }, 500);
@@ -209,6 +208,9 @@ const OrderDetail = () => {
                                 )}
                                 {orderDetail.status === 'cancel' && (
                                     <Text block extraSmall alignRight>Pesanan Dibatalkan</Text>
+                                )}
+                                {orderDetail.status !== 'unpaid' && orderDetail.status !== 'cancel' && (
+                                    <Text block extraSmall alignRight>{dateFormat(orderDetail.payment.updatedAt)}</Text>
                                 )}
                             </SectionWrapper>
                             {orderDetail.status === 'unpaid' && (

@@ -27,6 +27,9 @@ import FeeEducation from './FeeEducation';
 import Rules from './Others/Rules';
 import Faq from './Others/Faq';
 import Withdraw from './Withdraw';
+import EducationProgram from './Others/EducationProgram';
+import CatalogDetail from './CatalogDetail';
+import CategoryDetail from './CategoryDetail';
 
 const Home = loadable(() => import('./Home'));
 const Cart = loadable(() => import('./Cart'));
@@ -64,10 +67,9 @@ const App = () => {
             <PageRoute path="/preorder" component={Preorder} exact />
 
             <PageRoute path="/catalog" component={Catalog} exact />
-            <PageRoute path="/catalog/:slug" component={Catalog} exact />
+            <PageRoute path="/catalog/:slug" component={CatalogDetail} exact />
 
-            <PageRoute path="/category" component={Catalog} exact />
-            <PageRoute path="/category/:slug" component={Catalog} exact />
+            <PageRoute path="/category/:slug" component={CategoryDetail} exact />
 
             <PageRoute path="/chat" component={Chat} exact />
 
@@ -85,6 +87,7 @@ const App = () => {
             <PageRoute path="/others" component={Others} exact />
             <PageRoute path="/rules" component={Rules} exact />
             <PageRoute path="/faq" component={Faq} exact />
+            <PageRoute path="/education-program" component={EducationProgram} exact />
             <PageRoute path="/withdraw" component={Withdraw} exact />
 
             <PageRoute path="/not-found" component={PageNotFound} exact />

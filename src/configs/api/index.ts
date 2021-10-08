@@ -32,9 +32,10 @@ const API = {
     fetchProductDetail: ApiConfig.GET('/product/detail/', false),
 
     fetchCategory: ApiConfig.GET('/category', false),
-    fetchCategoryWithProduct: ApiConfig.GET('/category?product=true', false),
+    fetchCategoryDetail: ApiConfig.GET('/category/detail', false),
 
     fetchCatalog: ApiConfig.GET('/catalog', false),
+    fetchCatalogDetail: ApiConfig.GET('/catalog/detail', false),
 
     fetchProvince: ApiConfig.GET('/address/province', false),
     fetchCity: ApiConfig.GET('/address/city/', false),
@@ -55,7 +56,7 @@ const API = {
 
     fetchPayment: ApiConfig.GET('/payment', true),
 
-    fetchFaq: ApiConfig.GET('/faq', true)
+    fetchFaq: ApiConfig.GET('/faq', false)
 };
 
 export default API;

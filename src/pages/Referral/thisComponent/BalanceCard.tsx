@@ -51,9 +51,11 @@ const MenuItem = styled.div`
     width: 100%;
     flex-basis: 30%;
     padding: 10px;
+    margin: 0 5px;
     border-radius: 4px;
     border: 2px dashed #eee;
     cursor: pointer;
+    
 `;
 
 const BalanceFooter = styled.div`
@@ -126,6 +128,9 @@ const BalanceCard = (props: Props) => {
                 <MenuBox>
                     <MenuItem onClick={() => pushLocation.path('/withdraw')}>
                         <Icon icon="pocket" />
+                    </MenuItem>
+                    <MenuItem onClick={() => pushLocation.path('/education-program')}>
+                        <Icon icon="plus" />
                     </MenuItem>
                 </MenuBox>
             </BalanceContent>

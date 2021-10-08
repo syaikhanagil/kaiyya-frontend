@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Icon from '../Icon';
 
 const NavigationWrapper = styled.nav`
@@ -41,11 +41,53 @@ const ItemWrapper = styled(Link)`
     }
 `;
 
+const iconAnims = keyframes`
+    0% {
+        fill: var(--transparent);
+    }
+    10% {
+        transform: rotate(-15deg);
+        color: var(--primary);
+        fill: var(--primary-transparent);
+    }
+    15% {
+        transform: rotate(15deg);
+        color: var(--primary);
+        fill: var(--primary-transparent);
+    }
+    20% {
+        transform: rotate(-15deg);
+        color: var(--primary);
+        fill: var(--primary-transparent);
+    }
+    25% {
+        transform: rotate(15deg);
+        color: var(--primary);
+        fill: var(--primary-transparent);
+    }
+    30% {
+        transform: rotate(0deg);
+        color: #a7a7a7;
+        fill: var(--transparent);
+    }
+    50% {
+        fill: var(--transparent);
+    }
+    100% {
+        fill: var(--transparent);
+    }
+`;
+
 const ItemIcon = styled.div`
     position: relative;
     display: block;
     text-align: center;
     width: 100%;
+    &.anims {
+        .feather {
+            animation: ${iconAnims} 4s 0s ease-in-out infinite;
+        }
+    }
 `;
 
 const ItemTitle = styled.p`
@@ -71,10 +113,10 @@ const Navigation = (props: Props) => {
                 <ItemTitle>Beranda</ItemTitle>
             </ItemWrapper>
             <ItemWrapper to="/catalog" className={activeMenu === 'catalog' ? 'active' : ''}>
-                <ItemIcon>
-                    <Icon icon="folder" />
+                <ItemIcon className={activeMenu === 'catalog' ? '' : 'anims'}>
+                    <Icon icon="thumbs-up" />
                 </ItemIcon>
-                <ItemTitle>Katalog</ItemTitle>
+                <ItemTitle>New Release</ItemTitle>
             </ItemWrapper>
             <ItemWrapper to="/chat" className={activeMenu === 'chat' ? 'active' : ''}>
                 <ItemIcon>

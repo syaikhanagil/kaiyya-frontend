@@ -13,7 +13,7 @@ import Shimmer from '../../components/Shimmer';
 // import Icon from '../../components/Icon';
 import API from '../../configs/api';
 import HeaderHome from '../../components/HeaderHome';
-// import Menu from './thisComponent/Menu';
+import Menu from './thisComponent/Menu';
 
 const FeaturedWrapper = styled.section`
     position: relative;
@@ -193,8 +193,8 @@ const Home = () => {
             <Main useNavigation paddingBottom activeMenu="home">
                 <HeaderHome />
                 <Banner />
+                <Menu />
                 <JoinMitra />
-                {/* <Menu /> */}
                 <FeaturedWrapper id="featured-product">
                     {productReady && (
                         <>

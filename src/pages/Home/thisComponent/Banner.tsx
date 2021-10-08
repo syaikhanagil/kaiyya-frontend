@@ -14,11 +14,15 @@ const BannerWrapper = styled.div`
     height: auto;
     min-height: 230px;
 
+    @media only screen and (max-width: 375px) {
+        min-height: 160px;
+    }
+
     .slick-dots {
         position: relative;
         display: flex !important;
         bottom: 0;
-        margin: -30px auto 0;
+        margin: -40px auto 0;
         padding: 0 1rem 10px;
         list-style-type: none;
         z-index: 1;
@@ -106,6 +110,7 @@ const Banner = () => {
         dots: true,
         infinite: true,
         arrows: false,
+        autoplay: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1

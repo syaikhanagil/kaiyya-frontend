@@ -6,9 +6,9 @@ import pushLocation from '../../../configs/routes/pushLocation';
 const ItemWrapper = styled.div`
     position: relative;
     display: block;
-    width: calc(100% - 2rem);
-    margin: auto;
+    width: 100%;
     height: auto;
+    flex-basis: 48%;
     background: var(--color-white);
     padding: 0;
     border-radius: 4px;
@@ -50,8 +50,7 @@ const CatalogItem = (props: Props) => {
                 <img src={data.banner.src} alt={data.banner.name} />
             </Thumbnail>
             <Description>
-                <Text bold block>{data.name}</Text>
-                <Text block>{`${data.products.length} Produk`}</Text>
+                <Text bold block extraSmall>{data.name}</Text>
             </Description>
         </ItemWrapper>
     );

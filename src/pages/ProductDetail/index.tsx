@@ -20,6 +20,7 @@ import DescriptionSheet from './thisComponent/DescriptionSheet';
 import ShareLinkSheet from '../../components/ShareLinkSheet';
 import CONSTANT from '../../constant';
 import SizeChartSheet from '../../components/SizeChartSheet';
+import RelatedProduct from './thisComponent/RelatedProduct';
 
 const ProductWrapper = styled.div`
     position: relative;
@@ -481,6 +482,9 @@ const ProductDetail = (props: any) => {
                             Selengkapnya
                         </div>
                     </DetailWrapper>
+                    {detailReady && (
+                        <RelatedProduct categoryId={detailData.category} />
+                    )}
                     <FloatingWrapper>
                         <ChatBtn onClick={() => { window.location.href = `https://api.whatsapp.com/send?phone=628118085127&text=Hay, minka. Mau tanya produk ${detailData.name} dong.`; }}>
                             <Icon icon="message-circle" />
