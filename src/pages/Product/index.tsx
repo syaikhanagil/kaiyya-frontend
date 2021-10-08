@@ -70,8 +70,8 @@ const Product = (props: any) => {
     const [categoryDialog, setCategoryDialog] = useState(false);
     const [sortDialog, setSortDialog] = useState(false);
     const itemStart = 0;
-    const itemShown = 4;
-    const [lastIndex, setLastIndex] = useState(4);
+    const itemShown = 6;
+    const [lastIndex, setLastIndex] = useState(6);
     const [items, setItems] = useState([]);
     const [hasMoreItems, setHasMoreItems] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -82,7 +82,7 @@ const Product = (props: any) => {
     }, []);
 
     useEffect(() => {
-        setLastIndex(4);
+        setLastIndex(6);
         setItems(baseItems.slice(itemStart, itemShown));
     }, [baseItems]);
 

@@ -6,7 +6,6 @@ export const fetchCatalog = () => {
         dispatch({ type: CONSTANT.FETCH_CATALOG_REQUEST });
         API.fetchCatalog().then((res: any) => {
             const items = res.data;
-            console.log(res);
             dispatch({ type: CONSTANT.FETCH_CATALOG_SUCCESS, items });
         });
     };
