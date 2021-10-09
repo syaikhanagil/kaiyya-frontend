@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import CategorySheet from '../../components/CategorySheet';
 import Icon from '../../components/Icon';
+import Loading from '../../components/Loading';
 // import Icon from '../../components/Icon';
 import ProductCard from '../../components/ProductCard';
 import ProductShimmer from '../../components/ProductShimmer';
 import SortProductSheet from '../../components/SortProductSheet';
+import { Button, Text } from '../../components/Styled';
 import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
 
@@ -64,14 +66,23 @@ const ItemsWrapper = styled.div`
     }
 `;
 
+const FooterWrapper = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    padding: 10px 0 20px;
+`;
+
 const Product = (props: any) => {
     const { dispatch, products } = props;
     const [baseItems, setBaseItems] = useState([]);
     const [categoryDialog, setCategoryDialog] = useState(false);
     const [sortDialog, setSortDialog] = useState(false);
     const itemStart = 0;
-    const itemShown = 6;
-    const [lastIndex, setLastIndex] = useState(6);
+    const itemShown = 8;
+    const [lastIndex, setLastIndex] = useState(8);
     const [items, setItems] = useState([]);
     const [hasMoreItems, setHasMoreItems] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -123,14 +134,16 @@ const Product = (props: any) => {
             setLastIndex(newLastIndex);
             setItems(newItem);
             setHasMoreItems(true);
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+            }, 250);
         }, 1500);
     };
 
     const resetItems = () => {
         setItems([]);
         setLoading(true);
-        setLastIndex(4);
+        setLastIndex(8);
         setHasMoreItems(true);
         setTimeout(() => {
             setLoading(false);
@@ -172,20 +185,12 @@ const Product = (props: any) => {
         resetItems();
     };
 
-    window.onscroll = () => {
-        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-            if (hasMoreItems) {
-                loadMoreItems(lastIndex);
-            }
-        }
-    };
-
     return (
         <>
             <Helmet>
                 <title>Produk | Kaiyya Dress</title>
             </Helmet>
-            <Main useHeader paddingTop backTo="/" title="Produk" searchBtn paddingBottom>
+            <Main useHeader paddingTop backTo="/" title="Produk" searchBtn>
                 <>
                     <ProductWrapper>
                         <FloatingWrapper>
@@ -198,7 +203,7 @@ const Product = (props: any) => {
                                 Urutkan
                             </FloatingItem>
                         </FloatingWrapper>
-                        <ItemsWrapper>
+                        <ItemsWrapper id="product-list">
                             {items.length > 0 && items.map((i: any, idx: any) => (
                                 // eslint-disable-next-line react/no-array-index-key
                                 <ProductCard key={idx} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
@@ -213,12 +218,19 @@ const Product = (props: any) => {
                             )}
                         </ItemsWrapper>
                     </ProductWrapper>
-                    {loading && hasMoreItems && (
-                        <p className="text-center">Loading...</p>
-                    )}
-                    {!hasMoreItems && (
-                        <p className="text-center">Tidak ada data</p>
-                    )}
+                    <FooterWrapper>
+                        {!loading && hasMoreItems && (
+                            <Button block primary alignCenter onClick={() => loadMoreItems(lastIndex)}>Tampilkan Lebih Banyak</Button>
+                        )}
+                        {loading && hasMoreItems && (
+                            <>
+                                <Loading type="ring" />
+                            </>
+                        )}
+                        {!hasMoreItems && (
+                            <Text block alignCenter marginY>Tidak ada data</Text>
+                        )}
+                    </FooterWrapper>
                     {categoryDialog && (
                         <CategorySheet handler={(visibility: boolean) => setCategoryDialog(visibility)} />
                     )}

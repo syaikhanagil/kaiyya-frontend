@@ -1,7 +1,44 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Icon from '../Icon';
+
+const iconAnims = keyframes`
+    0% {
+        fill: var(--transparent);
+    }
+    10% {
+        transform: rotate(-15deg);
+        color: var(--primary);
+        fill: var(--primary-transparent);
+    }
+    15% {
+        transform: rotate(15deg);
+        color: var(--primary);
+        fill: var(--primary-transparent);
+    }
+    20% {
+        transform: rotate(-15deg);
+        color: var(--primary);
+        fill: var(--primary-transparent);
+    }
+    25% {
+        transform: rotate(15deg);
+        color: var(--primary);
+        fill: var(--primary-transparent);
+    }
+    30% {
+        transform: rotate(0deg);
+        color: #a7a7a7;
+        fill: var(--transparent);
+    }
+    50% {
+        fill: var(--transparent);
+    }
+    100% {
+        fill: var(--transparent);
+    }
+`;
 
 const IconBoxWrapper = styled.div`
     position: relative;
@@ -24,6 +61,7 @@ const IconBoxWrapper = styled.div`
         top: 0;
         padding: 0;
         z-index: 2;
+
     }
 
     div {
@@ -35,6 +73,13 @@ const IconBoxWrapper = styled.div`
             display: inline-block;
             height: 24px;
             margin: 0 auto 5px;
+
+            &.anims {
+                .feather {
+                    animation: ${iconAnims} 3s 0s ease-in-out infinite;
+                }
+            }
+
             img {
                 height: 100%;
             }
@@ -70,18 +115,19 @@ interface Props {
     icon: any,
     link?: string,
     custom?: boolean,
+    anims?: boolean,
     counter?: string
 }
 
 const IconBox = (props: Props) => {
-    const { title, icon, link, custom, counter } = props;
+    const { title, icon, link, custom, anims, counter } = props;
 
     return (
         <IconBoxWrapper id="box">
             {link && (
                 <Link to={link} />
             )}
-            <div id="icon">
+            <div id="icon" className={anims ? 'anims' : ''}>
                 <Icon custom={custom} icon={icon} />
                 {counter !== '0' && (<span id="counter">{parseInt(counter || '0', 10)}</span>)}
             </div>
@@ -95,6 +141,7 @@ const IconBox = (props: Props) => {
 IconBox.defaultProps = {
     link: '',
     custom: false,
+    anims: false,
     counter: '0'
 };
 

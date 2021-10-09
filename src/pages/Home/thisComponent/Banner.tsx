@@ -22,7 +22,7 @@ const BannerWrapper = styled.div`
         position: relative;
         display: flex !important;
         bottom: 0;
-        margin: -40px auto 0;
+        margin: -50px auto 0;
         padding: 0 1rem 10px;
         list-style-type: none;
         z-index: 1;

@@ -21,6 +21,9 @@ const API = {
     editAddress: ApiConfig.PATCH('/address/edit', true),
     deleteAddress: ApiConfig.DELETE('/address', true),
 
+    fetchBankAccount: ApiConfig.GET('/bank', true),
+    fetchAvailableBank: ApiConfig.GET('/bank/available-bank', true),
+
     fetchBanner: ApiConfig.GET('/banner', false),
 
     fetchImage: ApiConfig.GET('/images', false),

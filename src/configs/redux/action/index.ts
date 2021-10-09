@@ -1,5 +1,6 @@
 import { login, register, logout } from './auth';
 import { fetchAccountDetail } from './account';
+import { fetchBankAccount, fetchAvailableBank } from './bank';
 import { createAddress, fetchAddress, editAddress } from './address';
 import { addItemToCart, deleteCartItem, updateCartQty } from './cart';
 import { fetchCatalog, fetchCatalogDetail } from './catalog';
@@ -18,6 +19,9 @@ const action = {
     createAddress,
     fetchAddress,
     editAddress,
+
+    fetchAvailableBank,
+    fetchBankAccount,
 
     fetchCatalog,
     fetchCatalogDetail,

@@ -50,6 +50,25 @@ const OrderFilter = styled.div`
     span {
         font-size: var(--font-small);
     }
+
+    #counter {
+        position: absolute;
+        display: flex;
+        width: 16px;
+        height: 16px;
+        font-size: 12px;
+        background: var(--primary);
+        color: var(--color-white);
+        top: 5px;
+        right: 0;
+        justify-content: center;
+        align-items: center;
+        line-height: 1;
+        border-radius: 50px;
+        span {
+            font-size: 12px;
+        }
+    }
 `;
 
 const OrderBody = styled.div`
@@ -62,14 +81,13 @@ const Order = (props: any) => {
     const { dispatch, orders } = props;
     const [activeMenu, setActiveMenu] = useState('unpaid');
     const [listItems, setListItems] = useState([]);
-
-    const filterList = [
-        { id: 0, type: 'unpaid', name: 'Belum Bayar' },
-        { id: 1, type: 'onprocess', name: 'Diproses' },
-        { id: 2, type: 'shipment', name: 'Dikirim' },
-        { id: 3, type: 'done', name: 'Selesai' },
-        { id: 4, type: 'cancel', name: 'Dibatalkan' }
-    ];
+    const [filterList, setFilterList] = useState([
+        { id: 0, type: 'unpaid', name: 'Belum Bayar', total: 0 },
+        { id: 1, type: 'onprocess', name: 'Diproses', total: 0 },
+        { id: 2, type: 'shipment', name: 'Dikirim', total: 0 },
+        { id: 3, type: 'done', name: 'Selesai', total: 0 },
+        { id: 4, type: 'cancel', name: 'Dibatalkan', total: 0 }
+    ]);
 
     const onFilterClick = (type: string) => {
         setActiveMenu(type);
@@ -83,6 +101,22 @@ const Order = (props: any) => {
         fetchData();
     }, []);
 
+    const counterItem = () => {
+        const unpaid = orders.filter((item: any) => item.status === 'unpaid');
+        const onprocess = orders.filter((item: any) => item.status === 'onprocess');
+        const shipment = orders.filter((item: any) => item.status === 'shipment');
+        const done = orders.filter((item: any) => item.status === 'done');
+        const cancel = orders.filter((item: any) => item.status === 'cancel');
+
+        setFilterList([
+            { id: 0, type: 'unpaid', name: 'Belum Bayar', total: unpaid.length },
+            { id: 1, type: 'onprocess', name: 'Diproses', total: onprocess.length },
+            { id: 2, type: 'shipment', name: 'Dikirim', total: shipment.length },
+            { id: 3, type: 'done', name: 'Selesai', total: done.length },
+            { id: 4, type: 'cancel', name: 'Dibatalkan', total: cancel.length }
+        ]);
+    };
+
     const filterItems = (key: string) => {
         const items = orders.filter((item: any) => {
             return item.status === key;
@@ -92,6 +126,7 @@ const Order = (props: any) => {
 
     useEffect(() => {
         setListItems(filterItems(activeMenu));
+        counterItem();
     }, [orders, activeMenu]);
 
     return (
@@ -102,6 +137,11 @@ const Order = (props: any) => {
                         {filterList.map((i) => (
                             <OrderFilter key={i.id} className={activeMenu === i.type ? 'active' : ''} onClick={() => onFilterClick(i.type)}>
                                 <span>{i.name}</span>
+                                {i.total > 0 && (
+                                    <div id="counter">
+                                        <span>{i.total}</span>
+                                    </div>
+                                )}
                             </OrderFilter>
                         ))}
                     </ScrollContainer>

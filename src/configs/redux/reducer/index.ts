@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import accountReducer from './account';
 import addressReducer from './address';
 import authReducer from './auth';
+import bankReducer from './bank';
 import bannerReducer from './banner';
 import cartReducer from './cart';
 import catalogReducer from './catalog';
@@ -15,6 +16,7 @@ const allReducer = {
     accountReducer,
     addressReducer,
     authReducer,
+    bankReducer,
     bannerReducer,
     cartReducer,
     catalogReducer,

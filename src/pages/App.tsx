@@ -30,6 +30,7 @@ import Withdraw from './Withdraw';
 import EducationProgram from './Others/EducationProgram';
 import CatalogDetail from './CatalogDetail';
 import CategoryDetail from './CategoryDetail';
+import BankAccountForm from './BankAccountForm';
 
 const Home = loadable(() => import('./Home'));
 const Cart = loadable(() => import('./Cart'));
@@ -58,6 +59,8 @@ const App = () => {
 
             <PageRoute secure path="/settings/account" component={Settings} exact />
             <PageRoute secure path="/settings/password" component={Settings} exact />
+
+            <PageRoute secure path="/bank-account/new" component={BankAccountForm} exact />
 
             <PageRoute secure path="/fee-education" component={Referral} exact />
             <PageRoute secure path="/income-history" component={FeeEducation} exact />

@@ -148,12 +148,14 @@ export const Select = styled('select') <{ floatingLabel?: boolean, rounded?: boo
  * Button
  */
 
-export const Button = styled('button') <{ block?: boolean, fullWidth?: boolean, primary?: boolean, outline?: boolean, rounded?: boolean }>`
+export const Button = styled('button') <{ block?: boolean, fullWidth?: boolean, primary?: boolean, outline?: boolean, rounded?: boolean, alignCenter?: boolean }>`
     position: relative;
     display: ${(props) => (props.block ? 'block' : 'inline-block')};
     width: auto;
     min-width: ${(props) => (props.fullWidth ? '100%' : '130px')};
+    padding: 0 20px;
     height: 40px;
+    margin: ${(props) => (props.alignCenter ? '0 auto' : '0')};
     background: ${(props) => (props.primary ? 'var(--primary)' : 'var(--transparent)')};
     text-align: center;
     font-size: var(--font-small);
@@ -163,11 +165,12 @@ export const Button = styled('button') <{ block?: boolean, fullWidth?: boolean, 
     outline: none;
     user-select: none;
     transition: .25s ease;
-    cusror: pointer;
+    cursor: pointer;
 
     &:hover {
         background: ${(props) => (props.primary ? 'var(--primary-dark)' : '#eee')};
     }
+
     &:disabled {
         background: #eee;
         border: 1px solid #909090;
