@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Cookies from 'js-cookie';
 import Icon from '../../../components/Icon';
 import Overlay from '../../../components/Overlay';
-import { Button } from '../../../components/Styled';
+import { Button, Text } from '../../../components/Styled';
 // import action from '../../../configs/redux/action';
 import CONSTANT from '../../../constant';
 import priceFormat from '../../../helpers/price';
@@ -176,12 +176,13 @@ interface Props {
     thumb?: any,
     product?: any,
     sizes?: any,
+    totalStock: number
     // eslint-disable-next-line no-unused-vars
     handler: (visibility: boolean, alert: boolean) => void
 }
 
 const ActionDialog = (props: Props) => {
-    const { dispatch, thumb, product, sizes, handler } = props;
+    const { dispatch, thumb, product, sizes, totalStock, handler } = props;
     const [visible, setVisible] = useState(false);
     const [selectedSize, setSelectedSize] = useState<any>({});
     const [selectedStock, setSelectedStock] = useState(0);
@@ -315,6 +316,9 @@ const ActionDialog = (props: Props) => {
                         <p>{product.name}</p>
                         <p>{priceFormat(sizes[0].price)}</p>
                         <p>{`Stok: ${selectedStock}`}</p>
+                        {totalStock === 0 && (
+                            <Text>Sold Out</Text>
+                        )}
                     </div>
                     <CloseBtn>
                         <div role="button" onClick={() => closeDialog(false)}>

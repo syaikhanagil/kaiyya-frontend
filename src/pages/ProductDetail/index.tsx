@@ -21,6 +21,8 @@ import ShareLinkSheet from '../../components/ShareLinkSheet';
 import CONSTANT from '../../constant';
 import SizeChartSheet from '../../components/SizeChartSheet';
 import RelatedProduct from './thisComponent/RelatedProduct';
+import pushLocation from '../../configs/routes/pushLocation';
+import { Text } from '../../components/Styled';
 
 const ProductWrapper = styled.div`
     position: relative;
@@ -287,16 +289,15 @@ const ProductDetail = (props: any) => {
     const { dispatch, addons, role } = props;
     const [imageData, setImageData] = useState([]);
     const [imageReady, setImageReady] = useState(false);
-    const [detailData, setDetailData] = useState<any | { name: string, detail: string }>({});
+    const [detailData, setDetailData] = useState<any>({});
     const [detailReady, setDetailReady] = useState(false);
     const [sizeData, setSizeData] = useState<any>([]);
     const [sizeReady, setSizeReady] = useState(false);
     const [currentImage, setCurrentImage] = useState(1);
+    const [stock, setStock] = useState(0);
     const [actionVisible, setActionVisible] = useState(false);
     const [cartDialogVisible, setCartDialogVisible] = useState(false);
     const [chartDialog, setChartDialog] = useState(false);
-    // const [costData, setCostData] = useState([]);
-    // const [checkCostDialog, setCheckCostDialog] = useState(false);
     const [descriptionDialog, setDescriptionDialog] = useState(false);
     const [shareDialog, setShareDialog] = useState(false);
 
@@ -308,6 +309,7 @@ const ProductDetail = (props: any) => {
         await API.fetchProductDetail(payload).then((res: any) => {
             setImageData(res.data.images);
             setDetailData(res.data);
+            setStock(res.data.stock);
             setSizeData(res.data.sizes);
             setTimeout(() => {
                 dispatch(action.hideFullscreenLoader());
@@ -339,36 +341,9 @@ const ProductDetail = (props: any) => {
         }
     };
 
-    // useEffect(() => {
-    //     if (checkCostDialog) {
-    //         if ('geolocation' in navigator) {
-    //             navigator.geolocation.getCurrentPosition((position) => {
-    //                 console.log('Latitude is :', position.coords.latitude);
-    //                 console.log('Longitude is :', position.coords.longitude);
-    //             });
-    //         } else {
-    //             console.log('geolocation not Available');
-    //         }
-    //     }
-    // }, [checkCostDialog]);
-
     useEffect(() => {
         analytic.pageView();
     }, [detailReady]);
-
-    // window.onscroll = () => {
-    //     if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-    //         if (imageReady && !detailReady) {
-    //             setTimeout(() => {
-    //                 setDetailReady(true);
-    //             }, 1000);
-    //         } else if (imageReady && detailReady && !sizeReady) {
-    //             setTimeout(() => {
-    //                 setSizeReady(true);
-    //             }, 1000);
-    //         }
-    //     }
-    // };
 
     const sliderSettings = {
         dots: true,
@@ -380,20 +355,6 @@ const ProductDetail = (props: any) => {
         slidesToScroll: 1,
         afterChange: (current: any) => setCurrentImage(current + 1)
     };
-
-    // const onCheckCost = async (data: any) => {
-    //     const payload = {
-    //         body: data
-    //     };
-    //     await API.fetchShipmentCost(payload).then((res: any) => {
-    //         const response = res.data;
-    //         if (response.length < 1) {
-    //             setCostData([]);
-    //         } else {
-    //             setCostData(response);
-    //         }
-    //     });
-    // };
 
     return (
         <>
@@ -430,6 +391,12 @@ const ProductDetail = (props: any) => {
                         )}
                         {detailReady && (
                             <>
+                                {detailData.type === 'preorder' && (
+                                    <Text badge extraSmall>Preorder</Text>
+                                )}
+                                {stock < 1 && (
+                                    <Text badge extraSmall>Sold Out</Text>
+                                )}
                                 <h2>{detailData.name}</h2>
                                 {role !== '' && role !== 'retail' && addons.discount !== 0 && (
                                     <p className="price slash">{priceFormat(sizeData[0].price)}</p>
@@ -450,28 +417,6 @@ const ProductDetail = (props: any) => {
                             <Icon icon="chevron-right" />
                         </div>
                     </SectionWrapper>
-                    {/* <SectionWrapper onClick={() => setCheckCostDialog(true)}>
-                        <div>
-                            <Icon icon="truck" />
-                        </div>
-                        <div>
-                            <p>Informasi Ongkos Kirim</p>
-                            <p className="desc">Cek ongkos kirim ke kotamu</p>
-                            {costData.map((i: any, idx: any) => (
-                                // eslint-disable-next-line react/no-array-index-key
-                                <React.Fragment key={idx}>
-                                    <p>{i.code}</p>
-                                    {i.costs.map((i2: any, idx2: any) => (
-                                        // eslint-disable-next-line react/no-array-index-key
-                                        <span key={idx2}>{i2.cost[0].value}</span>
-                                    ))}
-                                </React.Fragment>
-                            ))}
-                        </div>
-                        <div>
-                            <Icon icon="chevron-right" />
-                        </div>
-                    </SectionWrapper> */}
                     <DetailWrapper>
                         <p className="title">Deskripsi</p>
                         {detailData.detail && (
@@ -483,20 +428,39 @@ const ProductDetail = (props: any) => {
                         </div>
                     </DetailWrapper>
                     {detailReady && (
-                        <RelatedProduct categoryId={detailData.category} />
+                        <RelatedProduct categoryId={detailData.category} slug={slug} />
                     )}
                     <FloatingWrapper>
-                        <ChatBtn onClick={() => { window.location.href = `https://api.whatsapp.com/send?phone=628118085127&text=Hay, minka. Mau tanya produk ${detailData.name} dong.`; }}>
-                            <Icon icon="message-circle" />
-                        </ChatBtn>
-                        <CartBtn onClick={() => actionHandler(true, false)}>
-                            <Icon icon="plus" />
-                            <span>Keranjang</span>
-                        </CartBtn>
+                        {role === '' && (
+                            <ChatBtn onClick={() => { window.location.href = `https://api.whatsapp.com/send?phone=628118085127&text=Hay, minka. Mau tanya produk ${detailData.name} dong.`; }}>
+                                <Icon icon="message-circle" />
+                            </ChatBtn>
+                        )}
+                        {role === 'retail' && (
+                            <ChatBtn onClick={() => { window.location.href = `https://api.whatsapp.com/send?phone=628118085127&text=Hay, minka. Mau tanya produk ${detailData.name} dong.`; }}>
+                                <Icon icon="message-circle" />
+                            </ChatBtn>
+                        )}
+                        {role !== 'retail' && role !== '' && (
+                            <ChatBtn onClick={() => { window.location.href = `https://api.whatsapp.com/send?phone=628118085128&text=Hay, minka. Mau tanya produk ${detailData.name} dong.`; }}>
+                                <Icon icon="message-circle" />
+                            </ChatBtn>
+                        )}
+                        {detailData.type === 'preorder' && (
+                            <CartBtn onClick={() => pushLocation.path('/')}>
+                                <span>Beli Sekarang</span>
+                            </CartBtn>
+                        )}
+                        {detailData.type !== 'preorder' && (
+                            <CartBtn className={stock < 1 ? 'disabled' : ''} onClick={() => actionHandler(true, false)}>
+                                <Icon icon="plus" />
+                                <span>Keranjang</span>
+                            </CartBtn>
+                        )}
                     </FloatingWrapper>
                     {/* <FloatingCart /> */}
                     {sizeReady && actionVisible && (
-                        <ActionDialog thumb={imageData[0]} product={detailData} sizes={sizeData} handler={(visibility: any, alert: any) => actionHandler(visibility, alert)} />
+                        <ActionDialog thumb={imageData[0]} product={detailData} sizes={sizeData} totalStock={stock} handler={(visibility: any, alert: any) => actionHandler(visibility, alert)} />
                     )}
                     {descriptionDialog && (
                         <DescriptionSheet handler={(visibility: boolean) => setDescriptionDialog(visibility)} content={detailData.detail} />
@@ -510,9 +474,6 @@ const ProductDetail = (props: any) => {
                     {chartDialog && (
                         <SizeChartSheet sizes={sizeData} handler={(visibility: boolean) => setChartDialog(visibility)} />
                     )}
-                    {/* {checkCostDialog && (
-                        <CheckCostDialog handler={(visibility: boolean) => setCheckCostDialog(visibility)} onSubmit={(data: any) => onCheckCost(data)} />
-                    )} */}
                 </ProductWrapper>
             </Main>
         </>

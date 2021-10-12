@@ -11,9 +11,10 @@
 
 const priceInput = (value: string) => {
     const valueWithoutComma = value.replaceAll(',', '');
+    const valueWithoutPoint = valueWithoutComma.replaceAll('.', '');
     const regex = /^[0-9]{0,13}$/;
-    if (regex.test(valueWithoutComma)) {
-        const result = parseInt(valueWithoutComma, 10);
+    if (regex.test(valueWithoutPoint)) {
+        const result = parseInt(valueWithoutPoint, 10);
         const formatedValue = new Intl.NumberFormat().format(result);
         return formatedValue;
     }

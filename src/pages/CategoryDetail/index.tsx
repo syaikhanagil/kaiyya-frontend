@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router';
 import styled from 'styled-components';
 import CategorySheet from '../../components/CategorySheet';
 import Icon from '../../components/Icon';
+import Loading from '../../components/Loading';
 // import Icon from '../../components/Icon';
 import ProductCard from '../../components/ProductCard';
 import ProductShimmer from '../../components/ProductShimmer';
 import SortProductSheet from '../../components/SortProductSheet';
+import { Button, Text } from '../../components/Styled';
 import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
 
-const ProductWrapper = styled.div`
+const CategoryWrapper = styled.div`
     position: relative;
     display: block;
     width: 100%;
@@ -51,7 +54,6 @@ const FloatingItem = styled.div`
         border-right: none;
     }
 `;
-
 const ItemsWrapper = styled.div`
     position: relative;
     display: flex;
@@ -65,35 +67,72 @@ const ItemsWrapper = styled.div`
     }
 `;
 
+const FooterWrapper = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    padding: 10px 0 20px;
+`;
+
 const CategoryDetail = (props: any) => {
-    const { dispatch, products } = props;
+    const { dispatch, products, productByCategory } = props;
+    const { slug } = useParams<any>();
+    // const [filteredProduct, setFilteredProduct] = useState([]);
     const [baseItems, setBaseItems] = useState([]);
     const [categoryDialog, setCategoryDialog] = useState(false);
     const [sortDialog, setSortDialog] = useState(false);
     const itemStart = 0;
-    const itemShown = 4;
-    const [lastIndex, setLastIndex] = useState(4);
+    const itemShown = 8;
+    const [lastIndex, setLastIndex] = useState(8);
     const [items, setItems] = useState([]);
     const [hasMoreItems, setHasMoreItems] = useState(true);
     const [loading, setLoading] = useState(false);
     const [activeSort, setActiveSort] = useState('');
 
-    useEffect(() => {
-        dispatch(action.fetchProduct());
-    }, []);
+    // const filterProduct = () => {
+    //     const filterItems = productByCategory.filter((item: any) => item.category.slug === slug);
+    //     if (filterItems.length > 0) {
+    //         setFilteredProduct(filterItems);
+    //         return;
+    //     }
+    //     setFilteredProduct([]);
+    // };
+
+    // useEffect(() => {
+    //     if (filteredProduct.length > 0) {
+    //         console.log('oke');
+    //     }
+    // }, [filteredProduct]);
+
+    // useEffect(() => {
+    //     dispatch(action.fetchCategoryDetail(slug, productByCategory));
+    // }, []);
 
     useEffect(() => {
-        setLastIndex(4);
-        setItems(baseItems.slice(itemStart, itemShown));
+        if (baseItems.length > 0) {
+            setTimeout(() => {
+                setLastIndex(8);
+                setItems(baseItems.slice(itemStart, itemShown));
+            }, 250);
+        }
     }, [baseItems]);
 
     useEffect(() => {
-        if (products.length > 0) {
+        setBaseItems([]);
+        setItems([]);
+        dispatch(action.fetchCategoryDetail(slug, products));
+        setCategoryDialog(false);
+    }, [slug]);
+
+    useEffect(() => {
+        if (productByCategory.length > 0) {
             setTimeout(() => {
-                setBaseItems(products);
+                setBaseItems(productByCategory);
             }, 250);
         }
-    }, [products]);
+    }, [productByCategory]);
 
     useEffect(() => {
         if (activeSort === 'newest') {
@@ -124,14 +163,16 @@ const CategoryDetail = (props: any) => {
             setLastIndex(newLastIndex);
             setItems(newItem);
             setHasMoreItems(true);
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+            }, 250);
         }, 1500);
     };
 
     const resetItems = () => {
         setItems([]);
         setLoading(true);
-        setLastIndex(4);
+        setLastIndex(8);
         setHasMoreItems(true);
         setTimeout(() => {
             setLoading(false);
@@ -141,7 +182,7 @@ const CategoryDetail = (props: any) => {
 
     const onSortLowest = () => {
         window.scrollTo(0, 0);
-        const sortItem = baseItems.sort((first: any, last: any) => {
+        const sortItem = productByCategory.sort((first: any, last: any) => {
             return parseInt(first.sizes[0].price, 10) - parseInt(last.sizes[0].price, 10);
         });
         setBaseItems(sortItem);
@@ -150,7 +191,7 @@ const CategoryDetail = (props: any) => {
 
     const onSortHighest = () => {
         window.scrollTo(0, 0);
-        const sortItem = products.sort((first: any, last: any) => {
+        const sortItem = productByCategory.sort((first: any, last: any) => {
             return parseInt(last.sizes[0].price, 10) - parseInt(first.sizes[0].price, 10);
         });
         setBaseItems(sortItem);
@@ -159,7 +200,7 @@ const CategoryDetail = (props: any) => {
 
     const onSortByName = () => {
         window.scrollTo(0, 0);
-        const sortItem = products.sort((first: any, last: any) => {
+        const sortItem = productByCategory.sort((first: any, last: any) => {
             if (first.name.toLowerCase() > last.name.toLowerCase()) return 1;
             if (first.name.toLowerCase() < last.name.toLowerCase()) return -1;
             return 0;
@@ -169,16 +210,8 @@ const CategoryDetail = (props: any) => {
     };
 
     const onSortNewest = () => {
-        setBaseItems(products);
+        setBaseItems(productByCategory);
         resetItems();
-    };
-
-    window.onscroll = () => {
-        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-            if (hasMoreItems) {
-                loadMoreItems(lastIndex);
-            }
-        }
     };
 
     return (
@@ -186,9 +219,9 @@ const CategoryDetail = (props: any) => {
             <Helmet>
                 <title>Kategori | Kaiyya Dress</title>
             </Helmet>
-            <Main useHeader paddingTop backTo="/" title="Kategori" searchBtn paddingBottom>
+            <Main useHeader paddingTop backTo="/" title="Produk" searchBtn>
                 <>
-                    <ProductWrapper>
+                    <CategoryWrapper>
                         <FloatingWrapper>
                             <FloatingItem onClick={() => setCategoryDialog(true)}>
                                 <Icon icon="grid" />
@@ -199,10 +232,10 @@ const CategoryDetail = (props: any) => {
                                 Urutkan
                             </FloatingItem>
                         </FloatingWrapper>
-                        <ItemsWrapper>
+                        <ItemsWrapper id="product-list">
                             {items.length > 0 && items.map((i: any, idx: any) => (
                                 // eslint-disable-next-line react/no-array-index-key
-                                <ProductCard key={idx} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
+                                <ProductCard key={idx} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} stock={i.stock} margin={false} type={i.type} />
                             ))}
                             {items.length < 1 && loading && (
                                 <>
@@ -213,15 +246,22 @@ const CategoryDetail = (props: any) => {
                                 </>
                             )}
                         </ItemsWrapper>
-                    </ProductWrapper>
-                    {loading && hasMoreItems && (
-                        <p className="text-center">Loading...</p>
-                    )}
-                    {!hasMoreItems && (
-                        <p className="text-center">Tidak ada data</p>
-                    )}
+                    </CategoryWrapper>
+                    <FooterWrapper>
+                        {!loading && hasMoreItems && (
+                            <Button block primary alignCenter onClick={() => loadMoreItems(lastIndex)}>Tampilkan Lebih Banyak</Button>
+                        )}
+                        {loading && hasMoreItems && (
+                            <>
+                                <Loading type="ring" />
+                            </>
+                        )}
+                        {!hasMoreItems && (
+                            <Text block alignCenter marginY>Tidak ada data</Text>
+                        )}
+                    </FooterWrapper>
                     {categoryDialog && (
-                        <CategorySheet handler={(visibility: boolean) => setCategoryDialog(visibility)} />
+                        <CategorySheet activeCategory={slug} handler={(visibility: boolean) => setCategoryDialog(visibility)} />
                     )}
                     {sortDialog && (
                         <SortProductSheet activeSort={activeSort} handler={(visibility: boolean) => setSortDialog(visibility)} onSubmit={(sort: string) => setActiveSort(sort)} />
@@ -235,7 +275,8 @@ const CategoryDetail = (props: any) => {
 const mapStateToProps = (state: any) => {
     return {
         products: state.productReducer.items,
-        isReady: state.productReducer.isReady
+        productByCategory: state.categoryReducer.detail,
+        isReady: state.categoryReducer.isReady
     };
 };
 

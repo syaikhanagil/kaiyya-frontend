@@ -20,10 +20,17 @@ const Header = styled.div`
     width: 100%;
     height: auto;
     padding: 10px;
+    text-transform: capitalize;
     background: var(--color-white);
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+    overflow: hidden;
+    p {
+        overflow: hidden;
+        text-overflow: elipsis;
+        white-space: nowrap;
+    }
     &.active {
         .feather {
             transform: rotate(180deg);
@@ -36,14 +43,14 @@ const Body = styled.div`
     display: block;
     width: 100%;
     height: 0;
-    padding: 0;
     background: #f7f7f7;
     padding: 0;
+    font-size: var(--font-extra-small);
     overflow: hidden;
     transition: height .3s ease padding .3s ease;
     &.active {
         height: 100%;
-        padding: 10px;
+        padding: 10px 1rem;
     }
 `;
 
@@ -82,7 +89,7 @@ export const AccordionHeader = (props: HeaderProps) => {
 
     return (
         <Header id={id} className={active ? 'active' : ''} onClick={() => handleOpen()}>
-            <Text>{children}</Text>
+            <Text block bold>{children}</Text>
             <Icon icon="chevron-down" />
         </Header>
     );

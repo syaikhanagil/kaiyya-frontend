@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Button, Text } from '../../components/Styled';
+import pushLocation from '../../configs/routes/pushLocation';
 import Main from '../../layouts/Main';
 
 const PageWrapper = styled.div`
@@ -17,6 +19,9 @@ const PageWrapper = styled.div`
         font-size: 2rem;
         font-weight: 900;
     }
+    p {
+        margin-bottom: 10px;
+    }
 `;
 
 const PageNotFound = () => {
@@ -24,7 +29,8 @@ const PageNotFound = () => {
         <Main backBtn>
             <PageWrapper>
                 <h2>404</h2>
-                <p>Page Not Found</p>
+                <Text block>Halaman tidak ditemukan</Text>
+                <Button primary onClick={() => pushLocation.path('/')}>Kembali</Button>
             </PageWrapper>
         </Main>
     );

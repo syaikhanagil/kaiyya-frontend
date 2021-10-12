@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
-// import ScrollContainer from 'react-indiana-drag-scroll';
 import Main from '../../layouts/Main';
 import Banner from './thisComponent/Banner';
 import ProductCard from '../../components/ProductCard';
 import ProductShimmer from '../../components/ProductShimmer';
 import JoinMitra from './thisComponent/JoinMitra';
 import Shimmer from '../../components/Shimmer';
-// import Icon from '../../components/Icon';
 import API from '../../configs/api';
 import HeaderHome from '../../components/HeaderHome';
 import Menu from './thisComponent/Menu';
+import action from '../../configs/redux/action';
+import ShareEducation from './thisComponent/ShareEducation';
+import { Text } from '../../components/Styled';
+import Icon from '../../components/Icon';
+import tiktokIcon from '../../assets/svg/tiktok.svg';
 
 const FeaturedWrapper = styled.section`
     position: relative;
@@ -24,14 +28,16 @@ const FeaturedWrapper = styled.section`
     margin-top: 10px;
 `;
 
-const FeaturedHeader = styled.div`
+const FeaturedHeader = styled.div <{ flex?: boolean }>`
     position: relative;
-    display: flex;
+    display: ${(props) => (props.flex ? 'flex' : 'block')};
     width: 100%;
     padding: 10px 1rem 5px;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    ${(props) => (props.flex && `
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    `)}
 
     p, span, a {
         position: relative;
@@ -81,60 +87,50 @@ const FeaturedBody = styled.div`
     }
 `;
 
-// const FloatingWrapper = styled.div`
-//     position: sticky;
-//     display: block;
-//     width: 100%;
-//     height: 100%;
-//     background: var(--color-white);
-//     padding: 10px 0;
-//     top: 46px;
-//     left: 0;
-//     white-space: nowrap;
-//     overflow: hidden;
-//     border-bottom: 1px solid #eee;
-//     z-index: 10;
+const SocialMediaWrapper = styled.div`
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+`;
 
-//     .scroll-container {
-//         position: relative;
-//         display: flex;
-//         overflow: hidden;
-//         padding: 0 1rem;
-//         align-items: center;
-//     }
-// `;
+const SocialMediaItem = styled.a`
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    flex-basis: 48%;
+    padding: 7px 10px;
+    margin: 0 1% 5px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
 
-// const CategoryItem = styled('div') <{ active?: boolean }>`
-//     position: relative;
-//     display: inline-block;
-//     height: auto;
-//     width: auto;
-//     min-width: 120px;
-//     padding: 6px 10px;
-//     background: #eee;
-//     margin: 0 5px;
-//     border: ${(props) => (props.active ? '1px solid var(--primary)' : '1px solid var(--transparent)')};
-//     border-radius: 4px;
-//     user-select: none;
-//     cursor: pointer;
+    &:hover {
+        border: 1px solid var(--primary);
+    }
+    .feather {
+        margin-right: 10px;
+    }
+    #icon-img {
+        height: 20px;
+        margin-right: 10px;
+    }
+`;
 
-//     .feather {
-//         fill: var(--primary);
-//         color: var(--primary-dark);
-//     }
+interface Props {
+    dispatch: any,
+    loggedIn: boolean,
+    role: string
+}
 
-//     &:first-of-type {
-//         min-width: unset;
-//         margin-left: 0;
-//         padding: 5px;
-//     }
-//     &:last-of-type {
-//         margin-right: 0;
-//     }
-
-// `;
-
-const Home = () => {
+const Home = (props: Props) => {
+    const { dispatch, loggedIn, role } = props;
     const [products, setProducts] = useState([]);
     const [productReady, setProductReady] = useState(false);
     // const [loadCategories, setLoadCategories] = useState(false);
@@ -147,7 +143,7 @@ const Home = () => {
             params: 'featured=true'
         };
         await API.fetchProductFeatured(payload).then((res: any) => {
-            const item = res.data.slice(0, 6);
+            const item = res.data.slice(0, 4);
             setProducts(item);
             setTimeout(() => {
                 setProductReady(true);
@@ -155,31 +151,11 @@ const Home = () => {
         });
     };
 
-    // const fetchCategory = async () => {
-    //     setLoadCategories(true);
-    //     await API.fetchCategory().then((res: any) => {
-    //         setCategories(res.data);
-    //         setActiveCategory(res.data[0].id);
-    //         setTimeout(() => {
-    //             setCategoriesReady(true);
-    //             setLoadCategories(false);
-    //         }, 2000);
-    //     });
-    // };
-
     useEffect(() => {
         fetchProduct();
+        dispatch(action.fetchAccountDetail());
         Cookies.remove('checkout-items');
     }, []);
-
-    // window.onscroll = () => {
-    //     const featuredProduct = document.getElementById('featured-product')?.offsetHeight || 0;
-    //     if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-    //         if (!categoriesReady && productReady) {
-    //             fetchCategory();
-    //         }
-    //     }
-    // };
 
     return (
         <>
@@ -194,11 +170,16 @@ const Home = () => {
                 <HeaderHome />
                 <Banner />
                 <Menu />
-                <JoinMitra />
+                {!loggedIn && (
+                    <JoinMitra />
+                )}
+                {loggedIn && role !== '' && role !== 'retail' && (
+                    <ShareEducation />
+                )}
                 <FeaturedWrapper id="featured-product">
                     {productReady && (
                         <>
-                            <FeaturedHeader>
+                            <FeaturedHeader flex>
                                 <div>
                                     <p>Produk Unggulan</p>
                                     <span>Produk populer by Kaiyya Dress</span>
@@ -206,15 +187,9 @@ const Home = () => {
                                 <Link to="/product">Lihat semua</Link>
                             </FeaturedHeader>
                             <FeaturedBody>
-                                {/* <ScrollContainer hideScrollbars={false} className="scroll-container">
-                                    {products.map((i: any) => (
-                                        // eslint-disable-next-line no-underscore-dangle
-                                        <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} />
-                                    ))}
-                                </ScrollContainer> */}
                                 {products.map((i: any) => (
                                     // eslint-disable-next-line no-underscore-dangle
-                                    <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
+                                    <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} stock={i.stock} margin={false} />
                                 ))}
                             </FeaturedBody>
                         </>
@@ -238,73 +213,41 @@ const Home = () => {
                         </>
                     )}
                 </FeaturedWrapper>
-                {/* <FeaturedWrapper>
-                    {categoriesReady && (
-                        <>
-                            <FeaturedHeader>
-                                <div>
-                                    <p>Kategory Unggulan</p>
-                                    <span>Produk populer by Kaiyya Dress</span>
-                                </div>
-                                <Link to="/category">Lihat semua</Link>
-                            </FeaturedHeader>
-                            <FloatingWrapper>
-                                <ScrollContainer className="scroll-container">
-                                    <CategoryItem>
-                                        <Icon icon="bookmark" />
-                                    </CategoryItem>
-                                    {categories.map((i: any, idx: any) => (
-                                        // eslint-disable-next-line react/no-array-index-key
-                                        <CategoryItem key={idx} active={i.id === activeCategory} onClick={() => setActiveCategory(i.id)}>
-                                            {i.name}
-                                        </CategoryItem>
-                                    ))}
-                                </ScrollContainer>
-                            </FloatingWrapper>
-                            <FeaturedBody>
-                                <ProductShimmer />
-                                <ProductShimmer />
-                                <ProductShimmer />
-                                <ProductShimmer />
-                            </FeaturedBody>
-                        </>
-                    )}
-                    {loadCategories && (
-                        <>
-                            <FeaturedHeader>
-                                <div>
-                                    <Shimmer height="10px" width="100px" />
-                                </div>
-                                <div>
-                                    <Shimmer height="10px" width="100px" />
-                                </div>
-                            </FeaturedHeader>
-                            <FloatingWrapper>
-                                <ScrollContainer className="scroll-container">
-                                    <CategoryItem>
-                                        <Icon icon="bookmark" />
-                                    </CategoryItem>
-                                    <CategoryItem />
-                                    <CategoryItem />
-                                    <CategoryItem />
-                                    <CategoryItem />
-                                    <CategoryItem />
-                                    <CategoryItem />
-                                    <CategoryItem />
-                                    <CategoryItem />
-                                    <CategoryItem />
-                                </ScrollContainer>
-                            </FloatingWrapper>
-                            <FeaturedBody>
-                                <ProductShimmer />
-                                <ProductShimmer />
-                            </FeaturedBody>
-                        </>
-                    )}
-                </FeaturedWrapper> */}
+
+                <FeaturedWrapper>
+                    <FeaturedHeader>
+                        <div style={{ textAlign: 'center' }}>
+                            <Text bold block alignCenter>Sosial Media</Text>
+                            <span>Follow sosial media Kaiyya</span>
+                        </div>
+                    </FeaturedHeader>
+                    <FeaturedBody>
+                        <SocialMediaWrapper>
+                            <SocialMediaItem target="_blank" href="https://www.instagram.com/kaiyyaofficial/" rel="noopener noreferrer">
+                                <Icon icon="instagram" />
+                                <Text>Instagram</Text>
+                            </SocialMediaItem>
+                            <SocialMediaItem target="_blank" href="https://www.instagram.com/kaiyyaofficial/" rel="noopener noreferrer">
+                                <Icon icon="facebook" />
+                                <Text>Facebook</Text>
+                            </SocialMediaItem>
+                            <SocialMediaItem target="_blank" href="https://www.instagram.com/kaiyyaofficial/" rel="noopener noreferrer">
+                                <Icon custom icon={tiktokIcon} />
+                                <Text>Tiktok</Text>
+                            </SocialMediaItem>
+                        </SocialMediaWrapper>
+                    </FeaturedBody>
+                </FeaturedWrapper>
             </Main>
         </>
     );
 };
 
-export default Home;
+const mapStateToProps = (state: any) => {
+    return {
+        loggedIn: state.authReducer.loggedIn,
+        role: state.accountReducer.role
+    };
+};
+
+export default connect(mapStateToProps)(Home);

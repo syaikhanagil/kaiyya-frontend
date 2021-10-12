@@ -1,6 +1,8 @@
-import React from 'react';
+/* eslint-disable react/no-danger */
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Text } from '../../components/Styled';
+import Loading from '../../components/Loading';
+import API from '../../configs/api';
 import Main from '../../layouts/Main';
 
 const Wrapper = styled.div`
@@ -8,27 +10,54 @@ const Wrapper = styled.div`
     display: block;
     width: 100%;
     height: 100%;
-    background: var(--color-white);
+`;
+
+const BannerWrapper = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+`;
+
+const ContentWrapper = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
     padding: 20px 1.5rem;
 `;
 
 const JoinMitra = () => {
+    const [content, setContent] = useState('');
+    const [banner, setBanner] = useState<any>({});
+    const [ready, setReady] = useState(false);
+
+    useEffect(() => {
+        const payload = {
+            params: '/join-mitra'
+        };
+        API.fetchPostDetail(payload).then((res: any) => {
+            setContent(res.data.content);
+            setBanner(res.data.thumbnail);
+            setTimeout(() => {
+                setReady(true);
+            }, 1000);
+        });
+    }, []);
     return (
-        <Main useHeader paddingTop backTo="/" title="Join Mitra">
-            <Wrapper>
-                <Text block>
-                    Yuk, mulai gabung dan dapatkan penghasilan tambahan deangan daftar jadi mitra kaiyya
-                    Di kaiyya terdapat 3 macam tingkat kemitraan
-                </Text>
-                <Text block>1. Distributor</Text>
-                <Text block>2. Reseller</Text>
-                <Text block>3. Sub reseller / dropship</Text>
-                <Text block bold marginY>Syarat dan ketentuan berlaku ya</Text>
-                <Text block>
-                    Untuk mengetahui lebih detail silahkan hubungi ke Minka Kaiyya di whatshap 08118085128
-                    Keuntungan menjadi Mitra Kaiyya selain mendapatkan penghasilan tambahan, banyak bonus reward yang kaiyya berikan untuk mitra berprestasi dan potongan harga buat mitra loh
-                </Text>
-            </Wrapper>
+        <Main useHeader paddingTop backTo="/" title="Join Mitra" backgroundWhite>
+            {ready && (
+                <Wrapper>
+                    <BannerWrapper>
+                        <img src={banner.src} alt={banner.name} />
+                    </BannerWrapper>
+                    <ContentWrapper dangerouslySetInnerHTML={{ __html: content }} />
+                </Wrapper>
+            )}
+            {!ready && (
+                <Wrapper>
+                    <Loading type="ring" alignCenter />
+                </Wrapper>
+            )}
         </Main>
     );
 };

@@ -3,18 +3,27 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import action from '../../configs/redux/action';
 import BottomSheet from '../BottomSheet';
+import Loading from '../Loading';
 import { Text } from '../Styled';
 
-const BankAccountItem = styled.div`
+const BankItem = styled.div`
     position: relative;
     display: block;
     width: 100%;
     height: auto;
+    padding: 5px 1rem;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+
+    &.disabled {
+        background: #f0f0f0;
+        cursor: not-allowed;
+    }
 `;
 
 interface Props {
     // eslint-disable-next-line no-unused-vars
-    onSubmit: (data: any) => void,
+    onSelect: (data: any) => void,
     // eslint-disable-next-line no-unused-vars
     handler: (visibility: boolean) => void,
     dispatch: any,
@@ -22,28 +31,31 @@ interface Props {
 }
 
 const BankSheet = (props: Props) => {
-    const { onSubmit, handler, dispatch, banks } = props;
+    const { onSelect, handler, dispatch, banks } = props;
 
     useEffect(() => {
         dispatch(action.fetchAvailableBank());
     }, []);
 
-    const handleSubmit = (data: any) => {
-        onSubmit(data);
+    const handleSelect = (data: any) => {
+        onSelect(data);
         setTimeout(() => {
             handler(false);
         }, 250);
     };
 
     return (
-        <BottomSheet handler={handler} title="Pilih Bank">
-            {banks.map((i: any, idx: any) => (
+        <BottomSheet handler={handler} fullHeight title="Pilih Bank">
+            {banks.length > 0 && banks.map((i: any, idx: any) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <BankAccountItem key={idx} onClick={() => handleSubmit(i)}>
-                    <Text block bold>{i.code}</Text>
+                <BankItem key={idx} onClick={() => handleSelect(i)}>
+                    <Text block bold>{i.code.replaceAll('_', ' ')}</Text>
                     <Text block extraSmall>{i.name}</Text>
-                </BankAccountItem>
+                </BankItem>
             ))}
+            {banks.length < 1 && (
+                <Loading type="ring" alignCenter />
+            )}
         </BottomSheet>
     );
 };

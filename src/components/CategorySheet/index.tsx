@@ -4,26 +4,43 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import action from '../../configs/redux/action';
 import BottomSheet from '../BottomSheet';
-import Shimmer from '../Shimmer';
-import { Text } from '../Styled';
+import Loading from '../Loading';
+// import Shimmer from '../Shimmer';
 
 const CategoryWrapper = styled.div`
     position: relative;
     display: block;
     width: 100%;
     height: auto;
-    padding: 10px 1.5rem;
+`;
+
+const CategoryItem = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    a {
+        position: relative;
+        display: block;
+        width: 100%;
+        padding: 5px 1.5rem;
+        text-decoration: none;
+    }
+    &.active > a {
+        font-weight: 600;
+        color: var(--primary);
+    }
 `;
 
 interface Props {
     // eslint-disable-next-line no-unused-vars
     handler: (visibility: boolean) => void,
+    activeCategory: string,
     dispatch: any,
     items: any
 }
 
 const CategorySheet = (props: Props) => {
-    const { handler, dispatch, items } = props;
+    const { handler, activeCategory, dispatch, items } = props;
 
     const fetchData = () => {
         dispatch(action.fetchCategory());
@@ -39,37 +56,12 @@ const CategorySheet = (props: Props) => {
         <BottomSheet title="Kategori" fullHeight handler={handler}>
             <CategoryWrapper>
                 {items.length > 0 && items.map((i: any) => (
-                    <Link key={i.id} to={`/category/${i.slug}`}>
-                        <Text block marginY>{i.name}</Text>
-                    </Link>
+                    <CategoryItem key={i.id} className={activeCategory === i.slug ? 'active' : ''}>
+                        <Link to={`/category/${i.slug}`}>{i.name}</Link>
+                    </CategoryItem>
                 ))}
                 {items.length < 1 && (
-                    <>
-                        <Shimmer height="14px" width="40%" />
-                        <Shimmer height="14px" width="60%" />
-                        <Shimmer height="14px" width="45%" />
-                        <Shimmer height="14px" width="55%" />
-                        <Shimmer height="14px" width="40%" />
-                        <Shimmer height="14px" width="60%" />
-                        <Shimmer height="14px" width="45%" />
-                        <Shimmer height="14px" width="55%" />
-                        <Shimmer height="14px" width="40%" />
-                        <Shimmer height="14px" width="60%" />
-                        <Shimmer height="14px" width="45%" />
-                        <Shimmer height="14px" width="55%" />
-                        <Shimmer height="14px" width="40%" />
-                        <Shimmer height="14px" width="60%" />
-                        <Shimmer height="14px" width="45%" />
-                        <Shimmer height="14px" width="55%" />
-                        <Shimmer height="14px" width="40%" />
-                        <Shimmer height="14px" width="60%" />
-                        <Shimmer height="14px" width="45%" />
-                        <Shimmer height="14px" width="55%" />
-                        <Shimmer height="14px" width="40%" />
-                        <Shimmer height="14px" width="60%" />
-                        <Shimmer height="14px" width="45%" />
-                        <Shimmer height="14px" width="55%" />
-                    </>
+                    <Loading type="ring" alignCenter />
                 )}
             </CategoryWrapper>
         </BottomSheet>

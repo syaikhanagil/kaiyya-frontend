@@ -21,8 +21,10 @@ const API = {
     editAddress: ApiConfig.PATCH('/address/edit', true),
     deleteAddress: ApiConfig.DELETE('/address', true),
 
+    createBankAccount: ApiConfig.POST('/bank', true),
     fetchBankAccount: ApiConfig.GET('/bank', true),
     fetchAvailableBank: ApiConfig.GET('/bank/available-bank', true),
+    validateBankAccount: ApiConfig.POST('/bank/validate-bank', true),
 
     fetchBanner: ApiConfig.GET('/banner', false),
 
@@ -58,6 +60,10 @@ const API = {
     createPaymentQRIS: ApiConfig.POST('/payment/qris', true),
 
     fetchPayment: ApiConfig.GET('/payment', true),
+    checkPaymentSuccess: ApiConfig.POST('/payment/check', true),
+
+    fetchPost: ApiConfig.GET('/post', false),
+    fetchPostDetail: ApiConfig.GET('/post/detail', false),
 
     fetchFaq: ApiConfig.GET('/faq', false)
 };

@@ -66,7 +66,7 @@ const CatalogDetail = () => {
                         </BannerWrapper>
                         <ItemsWrapper>
                             {detail.products && detail.products.length > 0 && detail.products.map((i: any) => (
-                                <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
+                                <ProductCard key={i.id} id={i.id} title={i.name} price={i.sizes[0].price} stock={i.stock} slug={i.slug} margin={false} />
                             ))}
                         </ItemsWrapper>
                     </>

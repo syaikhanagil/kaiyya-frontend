@@ -31,6 +31,9 @@ import EducationProgram from './Others/EducationProgram';
 import CatalogDetail from './CatalogDetail';
 import CategoryDetail from './CategoryDetail';
 import BankAccountForm from './BankAccountForm';
+import PaymentSuccess from './PaymentSuccess';
+import NewRelease from './NewRelease';
+import CommingSoon from './CommingSoon';
 
 const Home = loadable(() => import('./Home'));
 const Cart = loadable(() => import('./Cart'));
@@ -68,6 +71,7 @@ const App = () => {
             <PageRoute path="/product" component={Product} exact />
             <PageRoute path="/product/:slug" component={ProductDetail} exact />
             <PageRoute path="/preorder" component={Preorder} exact />
+            <PageRoute path="/new-release" component={NewRelease} exact />
 
             <PageRoute path="/catalog" component={Catalog} exact />
             <PageRoute path="/catalog/:slug" component={CatalogDetail} exact />
@@ -86,6 +90,7 @@ const App = () => {
             <PageRoute secure path="/shipment/:code" component={Shipment} exact />
 
             <PageRoute secure path="/payment/:paymentId" component={Payment} exact />
+            <PageRoute secure path="/payment-success/:paymentId" component={PaymentSuccess} exact />
 
             <PageRoute path="/others" component={Others} exact />
             <PageRoute path="/rules" component={Rules} exact />
@@ -94,6 +99,7 @@ const App = () => {
             <PageRoute path="/withdraw" component={Withdraw} exact />
 
             <PageRoute path="/not-found" component={PageNotFound} exact />
+            <PageRoute path="/comming-soon" component={CommingSoon} exact />
             <Redirect from="*" to="/not-found" />
         </Switch>
     );

@@ -207,10 +207,10 @@ const Account = (props: any) => {
                                     <span>Fee Edukasi</span>
                                 </MenuItem>
                             )}
-                            <MenuItem to="/rules">
+                            {/* <MenuItem to="/rules">
                                 <Icon icon="life-buoy" />
                                 <span>Rules &amp; Kode Etik</span>
-                            </MenuItem>
+                            </MenuItem> */}
                             <MenuItem to="/faq">
                                 <Icon icon="message-circle" />
                                 <span>Faq</span>

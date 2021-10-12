@@ -4,7 +4,8 @@ const initState = {
     isReady: false,
     isRequest: false,
     isError: false,
-    items: []
+    items: [],
+    detail: []
 };
 
 const categoryReducer = (state = initState, action: any) => {
@@ -33,6 +34,24 @@ const categoryReducer = (state = initState, action: any) => {
             isRequest: false,
             isError: true,
             items: []
+        };
+    }
+    if (action.type === CONSTANT.FETCH_CATEGORY_DETAIL_REQUEST) {
+        return {
+            ...state,
+            isReady: false,
+            isRequest: true,
+            isError: false,
+            detail: []
+        };
+    }
+    if (action.type === CONSTANT.FETCH_CATEGORY_DETAIL_SUCCESS) {
+        return {
+            ...state,
+            isReady: true,
+            isRequest: false,
+            isError: false,
+            detail: action.detail
         };
     }
     return state;

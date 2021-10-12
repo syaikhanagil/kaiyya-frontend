@@ -32,8 +32,8 @@ const Menu = () => {
             <MenuList>
                 <IconBox title="K-Poin" custom icon={kLogo} />
                 <IconBox title="New Release" icon="thumbs-up" link="/new-release" anims />
-                <IconBox title="Preorder" icon="package" />
-                <IconBox title="Lainnya" icon="arrow-right-circle" />
+                <IconBox title="Preorder" icon="package" link="/preorder" />
+                <IconBox title="Lainnya" icon="arrow-right-circle" link="/comming-soon" />
             </MenuList>
         </MenuWrapper>
     );

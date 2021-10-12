@@ -1,10 +1,10 @@
 import { login, register, logout } from './auth';
 import { fetchAccountDetail } from './account';
-import { fetchBankAccount, fetchAvailableBank } from './bank';
+import { createBankAccount, fetchBankAccount, fetchAvailableBank, validateBankAccount } from './bank';
 import { createAddress, fetchAddress, editAddress } from './address';
 import { addItemToCart, deleteCartItem, updateCartQty } from './cart';
 import { fetchCatalog, fetchCatalogDetail } from './catalog';
-import { fetchCategory } from './category';
+import { fetchCategory, fetchCategoryDetail } from './category';
 import { showToast, showFullscreenLoader, hideFullscreenLoader } from './global';
 import { createOrder, fetchOrder, cancelOrder } from './order';
 import { fetchProduct, fetchProductDetail } from './product';
@@ -20,13 +20,16 @@ const action = {
     fetchAddress,
     editAddress,
 
+    createBankAccount,
     fetchAvailableBank,
     fetchBankAccount,
+    validateBankAccount,
 
     fetchCatalog,
     fetchCatalogDetail,
 
     fetchCategory,
+    fetchCategoryDetail,
 
     fetchProduct,
     fetchProductDetail,

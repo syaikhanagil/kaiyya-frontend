@@ -22,6 +22,19 @@ const Thumbnail = styled.div`
     }
 `;
 
+const Badge = styled.div`
+    position: absolute;
+    display: block;
+    width: auto;
+    background: var(--color-black);
+    padding: 0 10px;
+    color: var(--color-white);
+    font-size: 12px;
+    text-transform: uppercase;
+    border-radius: 0 0 25px 0;
+    z-index: 1;
+`;
+
 const Wrapper = styled('div') <{useMargin?: boolean}>`
     position: relative;
     display: inline-block;
@@ -64,7 +77,7 @@ const LinkWrapper = styled(Link)`
     height: 100%;
     left: 0;
     top: 0;
-    z-index: 1;
+    z-index: 2;
 `;
 
 interface Props {
@@ -72,11 +85,13 @@ interface Props {
     title: string,
     price: any,
     slug: string,
-    margin?: boolean
+    margin?: boolean,
+    type?: string,
+    stock: number
 }
 
 const ProductCard = (props: Props) => {
-    const { id, title, price, slug, margin } = props;
+    const { id, title, price, slug, margin, type, stock } = props;
     const [thumb, setThumb] = useState<any>({});
 
     const getProductThumbnail = async () => {
@@ -96,6 +111,12 @@ const ProductCard = (props: Props) => {
         <Wrapper useMargin={margin}>
             <LinkWrapper to={`/product/${slug}`} />
             <Thumbnail>
+                {type === 'preorder' && (
+                    <Badge>Preorder</Badge>
+                )}
+                {stock < 1 && (
+                    <Badge>Sold Out</Badge>
+                )}
                 {thumb.src && (<img src={thumb.src} alt={thumb.name} />)}
                 {!thumb.src && (<Shimmer height="245px" />)}
             </Thumbnail>
@@ -108,7 +129,8 @@ const ProductCard = (props: Props) => {
 };
 
 ProductCard.defaultProps = {
-    margin: true
+    margin: true,
+    type: 'ready-stock'
 };
 
 export default ProductCard;

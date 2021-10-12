@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import BankSheet from '../../components/BankSheet';
 import Icon from '../../components/Icon';
-// import { Button } from '../../components/Styled';
+import { Button } from '../../components/Styled';
+import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
 
 const Wrapper = styled.div`
@@ -70,19 +71,29 @@ const SectionWrapper = styled.div`
     }
 `;
 
-// const SubmitWrapper = styled.div`
-//     position: relative;
-//     display: block;
-//     width: 100%;
-//     padding: 0 1.5rem;
-//     margin: 10px 0;
-// `;
+const SubmitWrapper = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0 1.5rem;
+    margin: 10px 0;
+`;
 
 const BankAccountForm = () => {
+    const dispatch = useDispatch();
     const [bankDialog, setBankDialog] = useState(false);
     const [bankName, setBankName] = useState('');
     const [bankData, setBankData] = useState<any>({});
     const [bankNumber, setBankNumber] = useState('');
+
+    const handleSubmit = () => {
+        const data = {
+            bankNameHolder: bankName,
+            bankCode: bankData.code,
+            bankNumber
+        };
+        dispatch(action.createBankAccount(data));
+    };
 
     return (
         <Main useHeader paddingTop title="Tambah Rekening Bank">
@@ -110,12 +121,29 @@ const BankAccountForm = () => {
                 <SectionWrapper>
                     <div>
                         <label htmlFor="number">Nomor Rekening</label>
-                        <input type="text" required name="number" id="number" autoComplete="off" placeholder="Nomor Rekening" onChange={(event: React.ChangeEvent<HTMLInputElement>) => setBankNumber(event.target.value)} value={bankNumber} />
+                        <input
+                            type="text"
+                            required
+                            name="number"
+                            id="number"
+                            autoComplete="off"
+                            placeholder="Nomor Rekening"
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                const regex = /^[0-9]{0,20}$/;
+                                if (regex.test(event.target.value)) {
+                                    setBankNumber(event.target.value);
+                                }
+                            }}
+                            value={bankNumber}
+                        />
                     </div>
                 </SectionWrapper>
             </Wrapper>
+            <SubmitWrapper>
+                <Button block fullWidth primary disabled={!bankNumber || !bankName || !bankData} onClick={() => handleSubmit()}>Simpan</Button>
+            </SubmitWrapper>
             {bankDialog && (
-                <BankSheet onSubmit={(i: any) => setBankData(i)} handler={(visibility: boolean) => setBankDialog(visibility)} />
+                <BankSheet onSelect={(i: any) => setBankData(i)} handler={(visibility: boolean) => setBankDialog(visibility)} />
             )}
         </Main>
     );

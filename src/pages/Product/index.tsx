@@ -206,7 +206,7 @@ const Product = (props: any) => {
                         <ItemsWrapper id="product-list">
                             {items.length > 0 && items.map((i: any, idx: any) => (
                                 // eslint-disable-next-line react/no-array-index-key
-                                <ProductCard key={idx} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
+                                <ProductCard key={idx} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} stock={i.stock} margin={false} type={i.type} />
                             ))}
                             {items.length < 1 && loading && (
                                 <>
@@ -232,7 +232,7 @@ const Product = (props: any) => {
                         )}
                     </FooterWrapper>
                     {categoryDialog && (
-                        <CategorySheet handler={(visibility: boolean) => setCategoryDialog(visibility)} />
+                        <CategorySheet activeCategory="" handler={(visibility: boolean) => setCategoryDialog(visibility)} />
                     )}
                     {sortDialog && (
                         <SortProductSheet activeSort={activeSort} handler={(visibility: boolean) => setSortDialog(visibility)} onSubmit={(sort: string) => setActiveSort(sort)} />

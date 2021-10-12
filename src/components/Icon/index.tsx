@@ -18,7 +18,7 @@ const FeatherWrapper = styled.i`
 const ImageWrapper = styled.div`
     position: relative;
     display: inline-block;
-    width: 100%;
+    width: auto;
     height: 100%;
     vertical-align: middle;
     img {
@@ -41,7 +41,7 @@ const Icon = (props: Props) => {
         <>
             {!custom && (<FeatherWrapper data-feather={icon} />)}
             {custom && (
-                <ImageWrapper>
+                <ImageWrapper id="icon-img">
                     <img src={icon} alt="kaiyya-icon" />
                 </ImageWrapper>
             )}

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Accordion, { AccordionBody, AccordionHeader } from '../../components/Accordion';
+import Loading from '../../components/Loading';
 import API from '../../configs/api';
 import Main from '../../layouts/Main';
 
@@ -24,6 +25,7 @@ const Faq = () => {
             }, 1000);
         });
     }, []);
+
     return (
         <Main useHeader paddingTop backTo="/" title="Faq">
             <Wrapper>
@@ -36,6 +38,9 @@ const Faq = () => {
                         </AccordionBody>
                     </Accordion>
                 ))}
+                {!ready && (
+                    <Loading type="ring" alignCenter />
+                )}
             </Wrapper>
         </Main>
     );

@@ -46,17 +46,19 @@ const RelatedItems = styled.div`
 
 interface Props {
     categoryId: string,
+    slug: string,
     products: any
 }
 
 const RelatedProduct = (props: Props) => {
-    const { categoryId, products } = props;
+    const { categoryId, slug, products } = props;
     const dispatch = useDispatch();
     const [items, setItems] = useState([]);
 
     const filterProduct = () => {
-        const filterItems = products.filter((item: any) => item.category === categoryId);
+        const filterItems = products.filter((item: any) => item.slug !== slug);
         if (filterItems.length > 0) {
+            console.log(filterItems[0].slug, categoryId);
             setItems(filterItems.slice(0, 6));
         }
     };
@@ -83,7 +85,7 @@ const RelatedProduct = (props: Props) => {
             <RelatedItems>
                 {items.length > 0 && items.map((i: any, idx: any) => (
                     // eslint-disable-next-line react/no-array-index-key
-                    <ProductCard key={idx} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} margin={false} />
+                    <ProductCard key={idx} id={i.id} title={i.name} price={i.sizes[0].price} slug={i.slug} stock={i.stock} margin={false} />
                 ))}
                 {items.length < 1 && (
                     <>

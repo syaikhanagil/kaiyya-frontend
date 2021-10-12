@@ -84,12 +84,12 @@ const Withdraw = (props: Props) => {
     const { dispatch, addons } = props;
     const [bankAccount, setBankAccount] = useState<any>({});
     const [amount, setAmount] = useState('0');
-    const [banckAccountDialog, setBankAccountDialog] = useState(true);
+    const [banckAccountDialog, setBankAccountDialog] = useState(false);
 
     useEffect(() => {
         dispatch(action.fetchAccountDetail());
         setBankAccount({
-            name: ''
+            bank_name_holder: ''
         });
     }, []);
 
@@ -108,11 +108,11 @@ const Withdraw = (props: Props) => {
                 <SectionWrapper flex onClick={() => setBankAccountDialog(true)}>
                     <div>
                         <Text block bold extraSmall>Tarik Imbalan ke Rekening</Text>
-                        {!bankAccount.name && (
+                        {!bankAccount.bank_name_holder && (
                             <Text block>Pilih Rekening Penarikan</Text>
                         )}
-                        {bankAccount.name && (
-                            <Text block>{bankAccount.name}</Text>
+                        {bankAccount.bank_name_holder && (
+                            <Text block>{bankAccount.bank_name_holder}</Text>
                         )}
                     </div>
                     <div>
@@ -120,7 +120,7 @@ const Withdraw = (props: Props) => {
                     </div>
                 </SectionWrapper>
                 <SectionWrapper>
-                    <Text block bold extraSmall>Jumlah Penarikan Dana</Text>
+                    <Text block bold extraSmall>Jumlah Penarikan Imbalan</Text>
                     <AmountWrapper>
                         <p>Rp</p>
                         <AmountInput id="amount" onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInput(event.target.value)} value={amount} placeholder="0" autoComplete="off" />
@@ -140,7 +140,7 @@ const Withdraw = (props: Props) => {
                     <Button block fullWidth disabled={!amount || amount.length < 6} primary>Lanjutkan</Button>
                 </FloatingWrapper>
                 {banckAccountDialog && (
-                    <BankAccountSheet handler={(visibility: boolean) => setBankAccountDialog(visibility)} />
+                    <BankAccountSheet onSelect={(data: any) => setBankAccount(data)} handler={(visibility: boolean) => setBankAccountDialog(visibility)} />
                 )}
             </WithdrawWrapper>
         </Main>
