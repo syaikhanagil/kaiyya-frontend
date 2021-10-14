@@ -2,4 +2,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: http://www.kaiyya.com/sitemap.xml
+Sitemap: https://www.kaiyya.com/sitemap.xml
