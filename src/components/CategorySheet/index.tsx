@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import action from '../../configs/redux/action';
 import BottomSheet from '../BottomSheet';
@@ -57,7 +56,7 @@ const CategorySheet = (props: Props) => {
             <CategoryWrapper>
                 {items.length > 0 && items.map((i: any) => (
                     <CategoryItem key={i.id} className={activeCategory === i.slug ? 'active' : ''}>
-                        <Link to={`/category/${i.slug}`}>{i.name}</Link>
+                        <a href={`/category/${i.slug}`}>{i.name}</a>
                     </CategoryItem>
                 ))}
                 {items.length < 1 && (

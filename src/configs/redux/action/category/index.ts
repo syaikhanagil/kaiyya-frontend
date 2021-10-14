@@ -11,28 +11,15 @@ export const fetchCategory = () => {
     };
 };
 
-export const fetchCategoryDetail = (slug: string, products = []) => {
+export const fetchCategoryDetail = (slug: string) => {
+    const data = {
+        params: `/${slug}`
+    };
     return (dispatch: any) => {
-        if (products.length < 1) {
-            dispatch({ type: CONSTANT.FETCH_PRODUCT_REQUEST });
-            API.fetchProduct().then((res: any) => {
-                const items = res.data;
-                dispatch({ type: CONSTANT.FETCH_PRODUCT_SUCCESS, items });
-                dispatch({ type: CONSTANT.FETCH_CATEGORY_DETAIL_REQUEST });
-                const filterItems = items.filter((product: any) => product.category.slug === slug);
-                if (filterItems.length > 0) {
-                    dispatch({ type: CONSTANT.FETCH_CATEGORY_DETAIL_SUCCESS, detail: filterItems });
-                    return;
-                }
-                dispatch({ type: CONSTANT.FETCH_CATEGORY_DETAIL_SUCCESS, detail: [] });
-            });
-            return;
-        }
-        const filterItems = products.filter((product: any) => product.category.slug === slug);
-        if (filterItems.length > 0) {
-            dispatch({ type: CONSTANT.FETCH_CATEGORY_DETAIL_SUCCESS, detail: filterItems });
-            return;
-        }
-        dispatch({ type: CONSTANT.FETCH_CATEGORY_DETAIL_SUCCESS, detail: [] });
+        dispatch({ type: CONSTANT.FETCH_CATEGORY_DETAIL_REQUEST });
+        API.fetchCategoryDetail(data).then((res: any) => {
+            const detail = res.data;
+            dispatch({ type: CONSTANT.FETCH_CATEGORY_DETAIL_SUCCESS, detail });
+        });
     };
 };

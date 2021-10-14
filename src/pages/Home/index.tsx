@@ -235,6 +235,10 @@ const Home = (props: Props) => {
                                 <Icon custom icon={tiktokIcon} />
                                 <Text>Tiktok</Text>
                             </SocialMediaItem>
+                            <SocialMediaItem target="_blank" href="https://www.instagram.com/kaiyyaofficial/" rel="noopener noreferrer">
+                                <Icon icon="youtube" />
+                                <Text>Youtube</Text>
+                            </SocialMediaItem>
                         </SocialMediaWrapper>
                     </FeaturedBody>
                 </FeaturedWrapper>

@@ -27,11 +27,12 @@ interface Props {
     // eslint-disable-next-line no-unused-vars
     handler: (visibility: boolean) => void,
     dispatch: any,
-    banks: any
+    banks: any,
+    isReady: boolean
 }
 
 const BankSheet = (props: Props) => {
-    const { onSelect, handler, dispatch, banks } = props;
+    const { onSelect, handler, dispatch, banks, isReady } = props;
 
     useEffect(() => {
         dispatch(action.fetchAvailableBank());
@@ -46,14 +47,14 @@ const BankSheet = (props: Props) => {
 
     return (
         <BottomSheet handler={handler} fullHeight title="Pilih Bank">
-            {banks.length > 0 && banks.map((i: any, idx: any) => (
+            {isReady && banks.length > 0 && banks.map((i: any, idx: any) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <BankItem key={idx} onClick={() => handleSelect(i)}>
                     <Text block bold>{i.code.replaceAll('_', ' ')}</Text>
                     <Text block extraSmall>{i.name}</Text>
                 </BankItem>
             ))}
-            {banks.length < 1 && (
+            {!isReady && banks.length < 1 && (
                 <Loading type="ring" alignCenter />
             )}
         </BottomSheet>
@@ -62,7 +63,8 @@ const BankSheet = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
     return {
-        banks: state.bankReducer.banks
+        banks: state.bankReducer.banks,
+        isReady: state.bankReducer.isReady
     };
 };
 

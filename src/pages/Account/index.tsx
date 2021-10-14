@@ -199,7 +199,7 @@ const Account = (props: any) => {
                             </MenuItem>
                             <MenuItem to="/account/address">
                                 <Icon icon="map-pin" />
-                                <span>Pengaturan Alamat</span>
+                                <span>Alamat Pengiriman</span>
                             </MenuItem>
                             {role && role !== 'retail' && (
                                 <MenuItem to="/fee-education">

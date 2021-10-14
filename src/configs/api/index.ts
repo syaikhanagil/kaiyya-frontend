@@ -19,7 +19,8 @@ const API = {
     fetchAddress: ApiConfig.GET('/address', true),
     fetchAddressDetail: ApiConfig.GET('/address/detail', true),
     editAddress: ApiConfig.PATCH('/address/edit', true),
-    deleteAddress: ApiConfig.DELETE('/address', true),
+    deleteAddress: ApiConfig.POST('/address/delete', true),
+    setAsDefaultAddress: ApiConfig.POST('/address/set-default', true),
 
     createBankAccount: ApiConfig.POST('/bank', true),
     fetchBankAccount: ApiConfig.GET('/bank', true),

@@ -102,6 +102,10 @@ const Withdraw = (props: Props) => {
         setAmount('0');
     };
 
+    const handleSubmit = () => {
+        console.log(amount);
+    };
+
     return (
         <Main useHeader backBtn title="Penarikan Imbalan" paddingTop>
             <WithdrawWrapper>
@@ -125,7 +129,7 @@ const Withdraw = (props: Props) => {
                         <p>Rp</p>
                         <AmountInput id="amount" onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInput(event.target.value)} value={amount} placeholder="0" autoComplete="off" />
                     </AmountWrapper>
-                    <Text block marginY>{`Jumlah imbalan saat ini ${priceFormat(addons.referral_point)}`}</Text>
+                    <Text block extraSmall marginY>{`Jumlah imbalan saat ini ${priceFormat(addons.referral_point)}`}</Text>
                 </SectionWrapper>
                 <SectionWrapper flex>
                     <div>
@@ -137,7 +141,7 @@ const Withdraw = (props: Props) => {
                     </div>
                 </SectionWrapper>
                 <FloatingWrapper>
-                    <Button block fullWidth disabled={!amount || amount.length < 6} primary>Lanjutkan</Button>
+                    <Button block fullWidth disabled={!amount || parseInt(amount.replaceAll(',', ''), 10) < 25000 || !bankAccount.bank_name_holder} primary onClick={() => handleSubmit()}>Lanjutkan</Button>
                 </FloatingWrapper>
                 {banckAccountDialog && (
                     <BankAccountSheet onSelect={(data: any) => setBankAccount(data)} handler={(visibility: boolean) => setBankAccountDialog(visibility)} />

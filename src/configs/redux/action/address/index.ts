@@ -40,8 +40,26 @@ export const editAddress = (addressId: string, payload: any) => {
     };
 };
 
-export const deleteAddress = () => {
+export const setDefaultAddress = (addressId: string) => {
+    const data = {
+        params: `/${addressId}`
+    };
     return (dispatch: any) => {
-        dispatch({ type: CONSTANT.FETCH_ADDRESS_REQUEST });
+        dispatch({ type: CONSTANT.SET_FULLSCREEN_LOADER, visible: true });
+        API.setAsDefaultAddress(data).then(() => {
+            window.location.reload();
+        });
+    };
+};
+
+export const deleteAddress = (addressId: string) => {
+    const data = {
+        params: `/${addressId}`
+    };
+    return (dispatch: any) => {
+        dispatch({ type: CONSTANT.SET_FULLSCREEN_LOADER, visible: true });
+        API.setAsDefaultAddress(data).then(() => {
+            window.location.reload();
+        });
     };
 };

@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Icon from '../../../components/Icon';
-import pushLocation from '../../../configs/routes/pushLocation';
+import { Text } from '../../../components/Styled';
+// import pushLocation from '../../../configs/routes/pushLocation';
 // import pushLocation from '../../../configs/routes/pushLocation';
 
 const AddressItemWrapper = styled.div`
@@ -32,22 +33,26 @@ const AddressItemWrapper = styled.div`
     }
 `;
 
-const Text = styled('p') <{ bold?: boolean, extraSmall?: boolean, block?: boolean }>`
-    position: relative;
-    display: ${(props) => (props.block ? 'block' : 'inline-block')};
-    font-weight: ${(props) => (props.bold ? '600' : '400')};
-    font-size: ${(props) => (props.extraSmall ? 'var(--font-extra-small)' : 'var(--font-small)')};
+const Badge = styled.div`
+    position: absolute;
+    top: 10px;
+    right: 1rem;
+    padding: 2px 10px;
+    background: var(--primary-transparent);
+    border-radius: 50px;
 `;
 
 interface Props {
-    data: any
+    data: any,
+    // eslint-disable-next-line no-unused-vars
+    onSelect: (id: string) => void
 }
 
 const AddressItem = (props: Props) => {
-    const { data } = props;
+    const { data, onSelect } = props;
 
     return (
-        <AddressItemWrapper onClick={() => pushLocation.path(`/account/address/edit/${data.id}`)}>
+        <AddressItemWrapper onClick={() => onSelect(data.id)}>
             <div id="info">
                 <Text block bold>{data.name}</Text>
                 <Text block bold extraSmall>{data.phone}</Text>
@@ -61,6 +66,11 @@ const AddressItem = (props: Props) => {
             <div id="action">
                 <Icon icon="edit" />
             </div>
+            {data.is_default && (
+                <Badge>
+                    <Text extraSmall>Alamat Utama</Text>
+                </Badge>
+            )}
         </AddressItemWrapper>
     );
 };

@@ -182,6 +182,24 @@ const OrderDetail = () => {
                             </SectionWrapper>
                             <TitleWrapper>
                                 <div>
+                                    <Text block bold>Catatan</Text>
+                                </div>
+                                <div>
+                                    {orderDetail.notes !== 'none' && (
+                                        <Text block bold alignRight className="action" onClick={() => onCopyClick(orderDetail.address.detail)}>Salin</Text>
+                                    )}
+                                </div>
+                            </TitleWrapper>
+                            <SectionWrapper>
+                                {orderDetail.notes && orderDetail.notes !== 'none' && (
+                                    <Text extraSmall>{orderDetail.notes}</Text>
+                                )}
+                                {orderDetail.notes === 'none' && (
+                                    <Text extraSmall>Tidak ada catatan</Text>
+                                )}
+                            </SectionWrapper>
+                            <TitleWrapper>
+                                <div>
                                     <Text block bold marginY>No. Pesanan</Text>
                                 </div>
                                 <div>

@@ -89,7 +89,7 @@ class Payment extends React.Component<Props, State> {
             <Main useHeader backTo="/orders" title="Pembayaran">
                 <PaymentWrapper>
                     {data.method === 'qris' && (
-                        <QrisMethod data={data} />
+                        <QrisMethod data={data} expired={expired} paid={paid} />
                     )}
                     {data.method === 'virtual-account' && (
                         <>

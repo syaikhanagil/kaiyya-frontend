@@ -27,15 +27,17 @@ const Badge = styled.div`
     display: block;
     width: auto;
     background: var(--color-black);
-    padding: 0 10px;
+    padding: 0 15px 0 10px;
     color: var(--color-white);
     font-size: 12px;
     text-transform: uppercase;
-    border-radius: 0 0 25px 0;
-    z-index: 1;
+    border-radius: 0 25px 0 0;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
 `;
 
-const Wrapper = styled('div') <{useMargin?: boolean}>`
+const Wrapper = styled('div') <{ useMargin?: boolean }>`
     position: relative;
     display: inline-block;
     width: 100%;
@@ -71,13 +73,24 @@ const Wrapper = styled('div') <{useMargin?: boolean}>`
     }
 `;
 
+const SoldLayer = styled.div`
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, .1);
+    z-index: 1;
+`;
+
 const LinkWrapper = styled(Link)`
     position: absolute;
     width: 100%;
     height: 100%;
     left: 0;
     top: 0;
-    z-index: 2;
+    z-index: 3;
 `;
 
 interface Props {
@@ -114,8 +127,16 @@ const ProductCard = (props: Props) => {
                 {type === 'preorder' && (
                     <Badge>Preorder</Badge>
                 )}
+                {stock > 0 && stock < 7 && (
+                    <>
+                        <Badge>Stok Terbatas</Badge>
+                    </>
+                )}
                 {stock < 1 && (
-                    <Badge>Sold Out</Badge>
+                    <>
+                        <SoldLayer />
+                        <Badge>Sold Out</Badge>
+                    </>
                 )}
                 {thumb.src && (<img src={thumb.src} alt={thumb.name} />)}
                 {!thumb.src && (<Shimmer height="245px" />)}

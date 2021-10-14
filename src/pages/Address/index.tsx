@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Icon from '../../components/Icon';
+import Loading from '../../components/Loading';
 import { Text } from '../../components/Styled';
 import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
+import ActionDialog from './thisComponent/ActionDialog';
 import AddressItem from './thisComponent/AddressItem';
 
 const AddressWrapper = styled.div`
@@ -29,7 +31,14 @@ const NoItemWrapper = styled.div`
 `;
 
 const Address = (props: any) => {
-    const { dispatch, items } = props;
+    const { dispatch, items, isReady } = props;
+    const [actionDialog, setActionDialog] = useState(false);
+    const [selectedId, setSelectedId] = useState('');
+
+    const handleSelect = (id: string) => {
+        setSelectedId(id);
+        setActionDialog(true);
+    };
 
     const fetchData = () => {
         dispatch(action.fetchAddress());
@@ -40,26 +49,33 @@ const Address = (props: any) => {
     }, []);
 
     return (
-        <Main useHeader paddingTop backTo="/" title="Alamat" moreBtn moreIcon="plus" onMoreClick={() => { window.location.href = '/account/address/new'; }}>
+        <Main useHeader paddingTop backTo="/account" title="Alamat" moreBtn moreIcon="plus" onMoreClick={() => { window.location.href = '/account/address/new'; }}>
             <AddressWrapper>
-                {items.length < 1 && (
+                {!isReady && (
+                    <Loading type="ring" alignCenter />
+                )}
+                {isReady && items.length < 1 && (
                     <NoItemWrapper>
                         <Icon icon="map-pin" />
                         <Text bold block alignCenter marginY>Belum ada alamat yang disimpan</Text>
                     </NoItemWrapper>
                 )}
-                {items.map((item: any, idx: any) => (
+                {isReady && items.map((item: any, idx: any) => (
                     // eslint-disable-next-line react/no-array-index-key
-                    <AddressItem key={idx} data={item} />
+                    <AddressItem key={idx} data={item} onSelect={(id: string) => handleSelect(id)} />
                 ))}
             </AddressWrapper>
+            {actionDialog && (
+                <ActionDialog id={selectedId} handler={(visibility: boolean) => setActionDialog(visibility)} />
+            )}
         </Main>
     );
 };
 
 const mapStateToProps = (state: any) => {
     return {
-        items: state.addressReducer.items
+        items: state.addressReducer.items,
+        isReady: state.addressReducer.isReady
     };
 };
 

@@ -129,9 +129,9 @@ const BalanceCard = (props: Props) => {
                     <MenuItem onClick={() => pushLocation.path('/withdraw')}>
                         <Icon icon="pocket" />
                     </MenuItem>
-                    <MenuItem onClick={() => pushLocation.path('/education-program')}>
+                    {/* <MenuItem onClick={() => pushLocation.path('/education-program')}>
                         <Icon icon="plus" />
-                    </MenuItem>
+                    </MenuItem> */}
                 </MenuBox>
             </BalanceContent>
             <BalanceFooter>

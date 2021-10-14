@@ -315,6 +315,7 @@ class EditAddress extends React.Component<any, State> {
                 </Wrapper>
                 <SubmitWrapper>
                     <Button disabled={!name || !phone || !province || !city || !subdistrict || !detail} block fullWidth primary onClick={this.handleSubmit}>Simpan Alamat</Button>
+                    <Button style={{ marginTop: 10 }} block fullWidth outline onClick={this.handleSubmit}>Hapus Alamat</Button>
                 </SubmitWrapper>
             </Main>
         );

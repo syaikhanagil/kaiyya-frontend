@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import BottomSheet from '../../../components/BottomSheet';
 import { Button, Text } from '../../../components/Styled';
+import pushLocation from '../../../configs/routes/pushLocation';
 
 const Wrapper = styled.div`
     position: relative;
@@ -37,7 +38,7 @@ const BackDialog = (props: Props) => {
             <Wrapper>
                 <Text block>Anda belum melakukan pembayaran, apakah anda ingin kembali kehalaman sebelumnya?</Text>
                 <SubmitWrapper>
-                    <Button block fullWidth primary>Ya, Kembali.</Button>
+                    <Button block fullWidth primary onClick={() => pushLocation.path('/orders')}>Ya, Kembali.</Button>
                     <Button block fullWidth outline onClick={() => handler(false)}>Tidak.</Button>
                 </SubmitWrapper>
             </Wrapper>

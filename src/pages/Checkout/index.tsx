@@ -97,6 +97,16 @@ const FloatingWrapper = styled.div`
     }
 `;
 
+const NotesInput = styled.input`
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    color: var(--color-black);
+    outline: none;
+    border: none;
+`;
+
 const SubtotalWrapper = styled.div`
     position: relative;
     display: block;
@@ -135,6 +145,7 @@ const Checkout = (props: any) => {
     const [courierCost, setCourierCost] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
     const [weightTotal, setWeightTotal] = useState(0);
+    const [notes, setNotes] = useState('');
 
     const fetchData = () => {
         dispatch(action.fetchAddress());
@@ -208,6 +219,7 @@ const Checkout = (props: any) => {
             paymentMethodType,
             products: items,
             discount: addons.discount,
+            notes,
             subtotal
         };
         // console.log(data);
@@ -288,6 +300,18 @@ const Checkout = (props: any) => {
                             {paymentMethod && (
                                 <Text extraSmall>{paymentMethod}</Text>
                             )}
+                        </div>
+                        <div>
+                            <Icon icon="chevron-right" />
+                        </div>
+                    </SectionWrapper>
+                    <SectionWrapper onClick={() => document.getElementById('notes')?.focus()}>
+                        <div>
+                            <Icon icon="feather" />
+                        </div>
+                        <div>
+                            <Text block bold>Catatan</Text>
+                            <NotesInput id="notes" placeholder="Catatan Pesanan" autoComplete="off" autoFocus={false} value={notes} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setNotes(event.target.value)} />
                         </div>
                         <div>
                             <Icon icon="chevron-right" />

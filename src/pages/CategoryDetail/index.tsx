@@ -14,7 +14,7 @@ import { Button, Text } from '../../components/Styled';
 import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
 
-const CategoryWrapper = styled.div`
+const ProductWrapper = styled.div`
     position: relative;
     display: block;
     width: 100%;
@@ -77,9 +77,8 @@ const FooterWrapper = styled.div`
 `;
 
 const CategoryDetail = (props: any) => {
-    const { dispatch, products, productByCategory } = props;
+    const { dispatch, products } = props;
     const { slug } = useParams<any>();
-    // const [filteredProduct, setFilteredProduct] = useState([]);
     const [baseItems, setBaseItems] = useState([]);
     const [categoryDialog, setCategoryDialog] = useState(false);
     const [sortDialog, setSortDialog] = useState(false);
@@ -91,48 +90,22 @@ const CategoryDetail = (props: any) => {
     const [loading, setLoading] = useState(false);
     const [activeSort, setActiveSort] = useState('');
 
-    // const filterProduct = () => {
-    //     const filterItems = productByCategory.filter((item: any) => item.category.slug === slug);
-    //     if (filterItems.length > 0) {
-    //         setFilteredProduct(filterItems);
-    //         return;
-    //     }
-    //     setFilteredProduct([]);
-    // };
-
-    // useEffect(() => {
-    //     if (filteredProduct.length > 0) {
-    //         console.log('oke');
-    //     }
-    // }, [filteredProduct]);
-
-    // useEffect(() => {
-    //     dispatch(action.fetchCategoryDetail(slug, productByCategory));
-    // }, []);
+    useEffect(() => {
+        dispatch(action.fetchCategoryDetail(slug));
+    }, []);
 
     useEffect(() => {
-        if (baseItems.length > 0) {
-            setTimeout(() => {
-                setLastIndex(8);
-                setItems(baseItems.slice(itemStart, itemShown));
-            }, 250);
-        }
+        setLastIndex(6);
+        setItems(baseItems.slice(itemStart, itemShown));
     }, [baseItems]);
 
     useEffect(() => {
-        setBaseItems([]);
-        setItems([]);
-        dispatch(action.fetchCategoryDetail(slug, products));
-        setCategoryDialog(false);
-    }, [slug]);
-
-    useEffect(() => {
-        if (productByCategory.length > 0) {
+        if (products.length > 0) {
             setTimeout(() => {
-                setBaseItems(productByCategory);
+                setBaseItems(products);
             }, 250);
         }
-    }, [productByCategory]);
+    }, [products]);
 
     useEffect(() => {
         if (activeSort === 'newest') {
@@ -182,7 +155,7 @@ const CategoryDetail = (props: any) => {
 
     const onSortLowest = () => {
         window.scrollTo(0, 0);
-        const sortItem = productByCategory.sort((first: any, last: any) => {
+        const sortItem = baseItems.sort((first: any, last: any) => {
             return parseInt(first.sizes[0].price, 10) - parseInt(last.sizes[0].price, 10);
         });
         setBaseItems(sortItem);
@@ -191,7 +164,7 @@ const CategoryDetail = (props: any) => {
 
     const onSortHighest = () => {
         window.scrollTo(0, 0);
-        const sortItem = productByCategory.sort((first: any, last: any) => {
+        const sortItem = products.sort((first: any, last: any) => {
             return parseInt(last.sizes[0].price, 10) - parseInt(first.sizes[0].price, 10);
         });
         setBaseItems(sortItem);
@@ -200,7 +173,7 @@ const CategoryDetail = (props: any) => {
 
     const onSortByName = () => {
         window.scrollTo(0, 0);
-        const sortItem = productByCategory.sort((first: any, last: any) => {
+        const sortItem = products.sort((first: any, last: any) => {
             if (first.name.toLowerCase() > last.name.toLowerCase()) return 1;
             if (first.name.toLowerCase() < last.name.toLowerCase()) return -1;
             return 0;
@@ -210,18 +183,18 @@ const CategoryDetail = (props: any) => {
     };
 
     const onSortNewest = () => {
-        setBaseItems(productByCategory);
+        setBaseItems(products);
         resetItems();
     };
 
     return (
         <>
             <Helmet>
-                <title>Kategori | Kaiyya Dress</title>
+                <title>Produk | Kaiyya Dress</title>
             </Helmet>
             <Main useHeader paddingTop backTo="/" title="Produk" searchBtn>
                 <>
-                    <CategoryWrapper>
+                    <ProductWrapper>
                         <FloatingWrapper>
                             <FloatingItem onClick={() => setCategoryDialog(true)}>
                                 <Icon icon="grid" />
@@ -246,7 +219,7 @@ const CategoryDetail = (props: any) => {
                                 </>
                             )}
                         </ItemsWrapper>
-                    </CategoryWrapper>
+                    </ProductWrapper>
                     <FooterWrapper>
                         {!loading && hasMoreItems && (
                             <Button block primary alignCenter onClick={() => loadMoreItems(lastIndex)}>Tampilkan Lebih Banyak</Button>
@@ -261,7 +234,7 @@ const CategoryDetail = (props: any) => {
                         )}
                     </FooterWrapper>
                     {categoryDialog && (
-                        <CategorySheet activeCategory={slug} handler={(visibility: boolean) => setCategoryDialog(visibility)} />
+                        <CategorySheet activeCategory="" handler={(visibility: boolean) => setCategoryDialog(visibility)} />
                     )}
                     {sortDialog && (
                         <SortProductSheet activeSort={activeSort} handler={(visibility: boolean) => setSortDialog(visibility)} onSubmit={(sort: string) => setActiveSort(sort)} />
@@ -274,8 +247,7 @@ const CategoryDetail = (props: any) => {
 
 const mapStateToProps = (state: any) => {
     return {
-        products: state.productReducer.items,
-        productByCategory: state.categoryReducer.detail,
+        products: state.categoryReducer.detail,
         isReady: state.categoryReducer.isReady
     };
 };

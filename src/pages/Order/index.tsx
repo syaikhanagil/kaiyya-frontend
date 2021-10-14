@@ -106,14 +106,13 @@ const Order = (props: any) => {
         const onprocess = orders.filter((item: any) => item.status === 'onprocess');
         const shipment = orders.filter((item: any) => item.status === 'shipment');
         const done = orders.filter((item: any) => item.status === 'done');
-        const cancel = orders.filter((item: any) => item.status === 'cancel');
 
         setFilterList([
             { id: 0, type: 'unpaid', name: 'Belum Bayar', total: unpaid.length },
             { id: 1, type: 'onprocess', name: 'Diproses', total: onprocess.length },
             { id: 2, type: 'shipment', name: 'Dikirim', total: shipment.length },
             { id: 3, type: 'done', name: 'Selesai', total: done.length },
-            { id: 4, type: 'cancel', name: 'Dibatalkan', total: cancel.length }
+            { id: 4, type: 'cancel', name: 'Dibatalkan', total: 0 }
         ]);
     };
 
@@ -137,9 +136,14 @@ const Order = (props: any) => {
                         {filterList.map((i) => (
                             <OrderFilter key={i.id} className={activeMenu === i.type ? 'active' : ''} onClick={() => onFilterClick(i.type)}>
                                 <span>{i.name}</span>
-                                {i.total > 0 && (
+                                {i.total > 0 && i.total < 10 && (
                                     <div id="counter">
                                         <span>{i.total}</span>
+                                    </div>
+                                )}
+                                {i.total > 0 && i.total > 9 && (
+                                    <div id="counter">
+                                        <span>9+</span>
                                     </div>
                                 )}
                             </OrderFilter>

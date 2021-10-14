@@ -360,6 +360,36 @@ const ProductDetail = (props: any) => {
         <>
             <Helmet>
                 <title>{detailData.name}</title>
+                <meta name="description" content={detailData.detail} />
+                <meta property="og:title" content={detailData.name} />
+                <meta property="og:description" content={detailData.detail} />
+                <meta property="og:url" content={`https://www.kaiyya.com/product/${detailData.slug}`} />
+                <meta property="og:image" content="https://kaiyya-id.s3.ap-southeast-1.amazonaws.com/post/welcome-banner.jpg" />
+                <script type="application/ld+json">
+                    {`
+                        {
+                            "@context": "https://schema.org/",
+                            "@type": "Product",
+                            "name": "${detailData.name}",
+                            "description": "${detailData.detail}"
+                                "@type": "Brand",
+                                "name": "Kaiyya"
+                            },
+                            "aggregateRating": {
+                                "@type": "AggregateRating",
+                                "ratingValue": "4.4",
+                                "reviewCount": "100"
+                            },
+                            "offers": {
+                                "@type": "Offer",
+                                "url": "https://www.kaiyya.com/product/${detailData.slug}",
+                                "priceCurrency": "IDR",
+                                "price": "250000",
+                                "availability": "https://schema.org/InStock"
+                            }
+                        }
+                    `}
+                </script>
             </Helmet>
             <Main useHeader backBtn transparentHeader paddingTop={false} paddingBottom={false} cartBtn searchBtn moreBtn moreIcon="share-2" onMoreClick={() => { setShareDialog(true); }}>
                 <ProductWrapper>

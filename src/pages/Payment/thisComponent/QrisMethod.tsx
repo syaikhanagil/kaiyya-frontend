@@ -5,6 +5,8 @@ import { Text } from '../../../components/Styled';
 import logoQris from '../../../assets/img/logo-qris.png';
 import priceFormat from '../../../helpers/price';
 import Card from '../../../components/Card';
+import stamp from '../../../assets/img/stempel.png';
+import Countdown from '../../../components/Countdown';
 
 const QrisWrapper = styled.div`
     position: relative;
@@ -48,22 +50,64 @@ const SectionWrapper = styled.div`
     border-top: 1px solid #eee;
 `;
 
+const PaidStamp = styled.div`
+    position: absolute;
+    display: block;
+    width: 55px;
+    top: 0;
+    right: 0;
+    transform: rotate(10deg);
+    z-index: 1;
+    img {
+        width: 100%;
+        -webkit-filter: grayscale(1) invert(1);
+        filter: grayscale(1) invert(1);
+    }
+`;
+
+const ExpiredWrapper = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 5px 0;
+    background: var(--color-white);
+`;
+
 interface Props {
-    data: any
+    data: any,
+    expired: string,
+    paid: boolean
 }
 
 const QrisMethod = (props: Props) => {
-    const { data } = props;
+    const { data, expired, paid } = props;
     return (
         <QrisWrapper>
             <Card rounded border>
                 <QRWrapper>
-                    <QRCode size={220} value={data.qris_src} />
+                    {paid && (
+                        <QRCode size={220} value={`PEMBAYARAN PESANAN SEBESAR ${data.amount} TELAH LUNAS`} />
+                    )}
+                    {!paid && (
+                        <QRCode size={220} value={data.qris_src} />
+                    )}
                 </QRWrapper>
                 <QrisLogo>
                     <img src={logoQris} alt="qris" />
                 </QrisLogo>
+                {!paid && expired !== '' && (
+                    <ExpiredWrapper>
+                        <Text block bold>Bayar Sebelum</Text>
+                        <Countdown endTime={expired} alignCenter />
+                    </ExpiredWrapper>
+                )}
                 <SectionWrapper>
+                    {paid && (
+                        <PaidStamp>
+                            <img src={stamp} alt="kaiyya-stamp" />
+                        </PaidStamp>
+                    )}
                     <Text bold>Jumlah Pembayaran</Text>
                     <Text bold>{priceFormat(data.amount)}</Text>
                 </SectionWrapper>
