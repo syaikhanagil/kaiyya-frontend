@@ -76,12 +76,12 @@ const FloatingWrapper = styled.div`
 `;
 
 interface Props {
-    dispatch: any,
-    addons: any
+    dispatch: any
+    // addons: any
 }
 
 const Withdraw = (props: Props) => {
-    const { dispatch, addons } = props;
+    const { dispatch } = props;
     const [bankAccount, setBankAccount] = useState<any>({});
     const [amount, setAmount] = useState('0');
     const [banckAccountDialog, setBankAccountDialog] = useState(false);
@@ -109,6 +109,14 @@ const Withdraw = (props: Props) => {
     return (
         <Main useHeader backBtn title="Penarikan Imbalan" paddingTop>
             <WithdrawWrapper>
+                <SectionWrapper>
+                    <Text block bold extraSmall>Masukkan jumlah penarikan imbalan</Text>
+                    <AmountWrapper>
+                        <p>Rp</p>
+                        <AmountInput id="amount" onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInput(event.target.value)} value={amount} placeholder="0" autoComplete="off" />
+                    </AmountWrapper>
+                    <Text block extraSmall marginY>Jumlah minimum penarukan imbalan adalah Rp 25,000</Text>
+                </SectionWrapper>
                 <SectionWrapper flex onClick={() => setBankAccountDialog(true)}>
                     <div>
                         <Text block bold extraSmall>Tarik Imbalan ke Rekening</Text>
@@ -116,20 +124,16 @@ const Withdraw = (props: Props) => {
                             <Text block>Pilih Rekening Penarikan</Text>
                         )}
                         {bankAccount.bank_name_holder && (
-                            <Text block>{bankAccount.bank_name_holder}</Text>
+                            <>
+                                <Text block>{bankAccount.bank_name_holder}</Text>
+                                <Text extraSmall style={{ marginRight: 5 }}>{bankAccount.bank_code}</Text>
+                                <Text extraSmall>{bankAccount.bank_number}</Text>
+                            </>
                         )}
                     </div>
                     <div>
                         <Icon icon="chevron-right" />
                     </div>
-                </SectionWrapper>
-                <SectionWrapper>
-                    <Text block bold extraSmall>Jumlah Penarikan Imbalan</Text>
-                    <AmountWrapper>
-                        <p>Rp</p>
-                        <AmountInput id="amount" onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInput(event.target.value)} value={amount} placeholder="0" autoComplete="off" />
-                    </AmountWrapper>
-                    <Text block extraSmall marginY>{`Jumlah imbalan saat ini ${priceFormat(addons.referral_point)}`}</Text>
                 </SectionWrapper>
                 <SectionWrapper flex>
                     <div>

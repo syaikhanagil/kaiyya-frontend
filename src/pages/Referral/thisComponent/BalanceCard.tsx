@@ -26,7 +26,7 @@ const BalanceContent = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    p {
+    .balance {
         font-size: 24px;
         font-weight: 600;
         margin: 0;
@@ -50,11 +50,16 @@ const MenuItem = styled.div`
     display: block;
     width: 100%;
     flex-basis: 30%;
-    padding: 10px;
+    padding: 10px 15px;
     margin: 0 5px;
     border-radius: 4px;
     border: 2px dashed #eee;
+    text-align: center;
     cursor: pointer;
+    .feather {
+        width: 20px;
+        height: 20px;
+    }
     
 `;
 
@@ -123,15 +128,13 @@ const BalanceCard = (props: Props) => {
         <BalanceWrapper>
             <BalanceContent>
                 <div className="balance-counter">
-                    <p>{priceFormat(addons.referral_point)}</p>
+                    <p className="balance">{priceFormat(addons.referral_point)}</p>
                 </div>
                 <MenuBox>
                     <MenuItem onClick={() => pushLocation.path('/withdraw')}>
                         <Icon icon="pocket" />
+                        <Text block extraSmall>Tarik</Text>
                     </MenuItem>
-                    {/* <MenuItem onClick={() => pushLocation.path('/education-program')}>
-                        <Icon icon="plus" />
-                    </MenuItem> */}
                 </MenuBox>
             </BalanceContent>
             <BalanceFooter>

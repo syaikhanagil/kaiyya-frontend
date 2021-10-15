@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import BankSheet from '../../components/BankSheet';
 import Icon from '../../components/Icon';
-import { Button } from '../../components/Styled';
+import { Button, Text } from '../../components/Styled';
 import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
 
@@ -139,6 +139,10 @@ const BankAccountForm = () => {
                     </div>
                 </SectionWrapper>
             </Wrapper>
+            <div style={{ padding: '0 1.5rem' }}>
+                <Icon icon="info" />
+                <Text extraSmall style={{ marginLeft: 5 }}>Pastikan data yang anda Input sudah benar.</Text>
+            </div>
             <SubmitWrapper>
                 <Button block fullWidth primary disabled={!bankNumber || !bankName || !bankData} onClick={() => handleSubmit()}>Simpan</Button>
             </SubmitWrapper>
