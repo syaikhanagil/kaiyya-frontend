@@ -63,6 +63,13 @@ const API = {
     fetchPayment: ApiConfig.GET('/payment', true),
     checkPaymentSuccess: ApiConfig.POST('/payment/check', true),
 
+    createWithdrawal: ApiConfig.POST('/disbursement', true),
+    fetchWithdrawal: ApiConfig.GET('/disbursement', true),
+    fetchWithdrawalDetail: ApiConfig.GET('/disbursement/detail', true),
+
+    fetchNotification: ApiConfig.GET('/notification', true),
+    fetchNotificationDetail: ApiConfig.GET('/notification/detail', true),
+
     fetchPost: ApiConfig.GET('/post', false),
     fetchPostDetail: ApiConfig.GET('/post/detail', false),
 

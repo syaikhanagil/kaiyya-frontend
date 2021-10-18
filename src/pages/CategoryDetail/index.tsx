@@ -190,9 +190,9 @@ const CategoryDetail = (props: any) => {
     return (
         <>
             <Helmet>
-                <title>Produk | Kaiyya Dress</title>
+                <title>Kategori | Kaiyya Dress</title>
             </Helmet>
-            <Main useHeader paddingTop backTo="/" title="Produk" searchBtn>
+            <Main useHeader paddingTop backTo="/" title="Kategori" searchBtn>
                 <>
                     <ProductWrapper>
                         <FloatingWrapper>

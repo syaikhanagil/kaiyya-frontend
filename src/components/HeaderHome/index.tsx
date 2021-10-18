@@ -5,19 +5,27 @@ import styled from 'styled-components';
 import CONSTANT from '../../constant';
 import Icon from '../Icon';
 
+// const HeaderTop = styled.div`
+//     position: relative;
+//     display: block;
+//     width: 100%;
+//     background: var(--color-primary);
+//     font-size: var(--font-extra-small);
+// `;
+
 const HeaderWrapper = styled.header`
     position: fixed;
     display: block;
     width: 100%;
     max-width: 480px;
     height: auto;
-    background: var(--transparent);
-    border-bottom: 1px solid var(--transparent);
+    background: var(--color-white);
     top: 0;
     left: 50%;
-    color: var(--color-white);
+    color: var(--color-black);
     transform: translateX(-50%);
     transition: .25s ease;
+    border-bottom: 1px solid #eee;
     z-index: 99;
 
     &.fixed {
@@ -37,9 +45,10 @@ const ItemWrapper = styled.div`
     width: 100%;
     height: 100%;
     margin: auto;
-    padding: 5px 1rem;
+    padding: 5px 1rem 5px;
     align-items: center;
     flex-direction: row;
+    border-radius: 15px 15px 0 0;
 `;
 
 const Item = styled('div') <{ alignRight?: boolean }>`
@@ -77,7 +86,7 @@ const ActionLink = styled(Link)`
         background: #00000025;
     }
 
-    #cart-counter {
+    #counter {
         position: absolute;
         display: flex;
         width: 16px;
@@ -103,12 +112,15 @@ const SearchBar = styled.div`
     background: #eee;
     color: #474747;
     align-items: center;
+    border-radius: 4px;
     justify-content: space-between;
     cursor: pointer;
+    margin-right: 5px;
 `;
 
 interface Props {
     cartItems: any,
+    notificationItems: any,
     dispatch: any
 }
 
@@ -133,18 +145,29 @@ class HeaderHome extends React.Component<Props, any> {
     }
 
     render() {
-        const { cartItems, dispatch } = this.props;
+        const { notificationItems, cartItems, dispatch } = this.props;
         return (
             <HeaderWrapper id="header">
+                {/* <HeaderTop>
+                    Oke
+                </HeaderTop> */}
                 <ItemWrapper>
                     <SearchBar onClick={() => dispatch({ type: CONSTANT.SET_SEARCH_DIALOG, visible: true })}>
                         <p>Cari disini</p>
                         <Icon icon="search" />
                     </SearchBar>
                     <Item alignRight>
+                        <ActionLink to="/notification">
+                            <Icon icon="bell" />
+                            {notificationItems.length > 0 && (
+                                <div id="counter">
+                                    <span>{notificationItems.length}</span>
+                                </div>
+                            )}
+                        </ActionLink>
                         <ActionLink to="/cart">
                             <Icon icon="shopping-cart" />
-                            <div id="cart-counter">
+                            <div id="counter">
                                 <span>{cartItems.length}</span>
                             </div>
                         </ActionLink>
@@ -160,6 +183,7 @@ class HeaderHome extends React.Component<Props, any> {
 
 const mapStateToProps = (state: any) => {
     return {
+        notificationItems: state.notificationReducer.items,
         cartItems: state.cartReducer.items
     };
 };

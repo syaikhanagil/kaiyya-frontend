@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Icon from '../../../components/Icon';
 import { Text } from '../../../components/Styled';
 import action from '../../../configs/redux/action';
-import pushLocation from '../../../configs/routes/pushLocation';
+// import pushLocation from '../../../configs/routes/pushLocation';
 import priceFormat from '../../../helpers/price';
 
 const BalanceWrapper = styled.div`
@@ -50,7 +50,6 @@ const MenuItem = styled.div`
     display: block;
     width: 100%;
     flex-basis: 30%;
-    padding: 10px 15px;
     margin: 0 5px;
     border-radius: 4px;
     border: 2px dashed #eee;
@@ -60,7 +59,13 @@ const MenuItem = styled.div`
         width: 20px;
         height: 20px;
     }
-    
+    a {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 10px 15px;
+    }
 `;
 
 const BalanceFooter = styled.div`
@@ -131,9 +136,11 @@ const BalanceCard = (props: Props) => {
                     <p className="balance">{priceFormat(addons.referral_point)}</p>
                 </div>
                 <MenuBox>
-                    <MenuItem onClick={() => pushLocation.path('/withdraw')}>
-                        <Icon icon="pocket" />
-                        <Text block extraSmall>Tarik</Text>
+                    <MenuItem>
+                        <Link to="/withdraw">
+                            <Icon icon="pocket" />
+                            <Text block extraSmall>Tarik</Text>
+                        </Link>
                     </MenuItem>
                 </MenuBox>
             </BalanceContent>

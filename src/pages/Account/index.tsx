@@ -202,18 +202,28 @@ const Account = (props: any) => {
                                 <span>Alamat Pengiriman</span>
                             </MenuItem>
                             {role && role !== 'retail' && (
-                                <MenuItem to="/fee-education">
-                                    <Icon icon="user-plus" />
-                                    <span>Fee Edukasi</span>
-                                </MenuItem>
+                                <>
+                                    <MenuItem to="/mitra">
+                                        <Icon icon="user" />
+                                        <span>Mitra Saya</span>
+                                    </MenuItem>
+                                    <MenuItem to="/fee-education">
+                                        <Icon icon="user-plus" />
+                                        <span>Fee Edukasi</span>
+                                    </MenuItem>
+                                    <MenuItem to="/rules">
+                                        <Icon icon="book-open" />
+                                        <span>Panduan Edukasi</span>
+                                    </MenuItem>
+                                </>
                             )}
-                            {/* <MenuItem to="/rules">
-                                <Icon icon="life-buoy" />
+                            <MenuItem to="/rules">
+                                <Icon icon="book" />
                                 <span>Rules &amp; Kode Etik</span>
-                            </MenuItem> */}
+                            </MenuItem>
                             <MenuItem to="/faq">
                                 <Icon icon="message-circle" />
-                                <span>Faq</span>
+                                <span>Frequently Asked Questions</span>
                             </MenuItem>
                         </MenuList>
                     </section>

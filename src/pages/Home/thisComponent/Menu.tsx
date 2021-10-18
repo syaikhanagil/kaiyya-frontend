@@ -10,7 +10,7 @@ const MenuWrapper = styled.div`
     height: auto;
     padding: 10px 1rem;
     background: var(--color-white);
-    margin: 0 1rem;
+    margin: 0;
     border-radius: 4px;
 `;
 

@@ -11,7 +11,7 @@ const Wrapper = styled.div`
     display: block;
     width: 100%;
     height: 100%;
-    padding: 0;
+    padding: 10px 0 0;
 `;
 
 const Faq = () => {
@@ -27,7 +27,7 @@ const Faq = () => {
     }, []);
 
     return (
-        <Main useHeader paddingTop backTo="/" title="Faq">
+        <Main useHeader paddingTop backTo="/" title="Faq" paddingBottom backgroundWhite>
             <Wrapper>
                 {ready && items.map((i: any, idx: any) => (
                     // eslint-disable-next-line react/no-array-index-key

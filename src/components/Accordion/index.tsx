@@ -8,9 +8,9 @@ const AccordionWrapper = styled.div`
     display: block;
     width: 100%;
     height: auto;
+    margin: 0;
+    padding: 5px 1rem;
     border-radius: 4px;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
     // box-shadow: 0 3px 6px rgba(0, 0, 0, .05);
 `;
 
@@ -21,17 +21,22 @@ const Header = styled.div`
     height: auto;
     padding: 10px;
     text-transform: capitalize;
+    border-radius: 4px;
     background: var(--color-white);
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
+    border: 1px solid #eee;
+    user-select: none;
     overflow: hidden;
+    cursor: pointer;
     p {
         overflow: hidden;
         text-overflow: elipsis;
         white-space: nowrap;
     }
     &.active {
+        border-radius: 4px 4px 0 0;
+        border-bottom: none;
         .feather {
             transform: rotate(180deg);
         }
@@ -47,10 +52,12 @@ const Body = styled.div`
     padding: 0;
     font-size: var(--font-extra-small);
     overflow: hidden;
+    border-radius: 0 0 4px 4px;
     transition: height .3s ease padding .3s ease;
     &.active {
         height: 100%;
         padding: 10px 1rem;
+        border: 1px solid #eee;
     }
 `;
 

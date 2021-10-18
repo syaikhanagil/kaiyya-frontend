@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Icon from '../Icon';
+import Overlay from '../Overlay';
 
 const DialogWrapper = styled.div`
     position: fixed;
@@ -9,7 +9,7 @@ const DialogWrapper = styled.div`
     max-width: 220px;
     height: 100%;
     max-height: 220px;
-    background: rgba(255, 255, 255, .9);
+    background: rgba(255, 255, 255, 1);
     flex-direction: column;
     padding: 10px;
     align-items: center;
@@ -19,13 +19,10 @@ const DialogWrapper = styled.div`
     left: 50%;
     border-radius: 6px;
     transform: translate(-50%, -50%);
-    z-index: 9;
+    z-index: 100;
     
     p {
-        display: block;
-        font-size: var(--font-small);
         margin-top: 10px;
-        text-align: center;
     }
 
     .feather {
@@ -34,13 +31,20 @@ const DialogWrapper = styled.div`
     }
 `;
 
-const AddToCartDialog = () => {
+interface Props {
+    children: any
+}
+
+const Dialog = (props: Props) => {
+    const { children } = props;
     return (
-        <DialogWrapper>
-            <Icon icon="check" />
-            <p>Produk ditambahkan ke Keranjang</p>
-        </DialogWrapper>
+        <>
+            <Overlay />
+            <DialogWrapper>
+                {children}
+            </DialogWrapper>
+        </>
     );
 };
 
-export default AddToCartDialog;
+export default Dialog;

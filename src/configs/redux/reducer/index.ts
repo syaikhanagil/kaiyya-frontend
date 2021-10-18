@@ -7,10 +7,12 @@ import bannerReducer from './banner';
 import cartReducer from './cart';
 import catalogReducer from './catalog';
 import categoryReducer from './category';
+import notificationReducer from './notification';
 import globalReducer from './global';
 import orderReducer from './order';
 import productReducer from './product';
 import referralReducer from './referral';
+import withdrawReducer from './withdraw';
 
 const allReducer = {
     accountReducer,
@@ -24,7 +26,9 @@ const allReducer = {
     globalReducer,
     orderReducer,
     productReducer,
-    referralReducer
+    referralReducer,
+    notificationReducer,
+    withdrawReducer
 };
 
 const reducer = combineReducers(allReducer);

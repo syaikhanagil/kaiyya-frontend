@@ -166,7 +166,7 @@ const Home = (props: Props) => {
                 <meta name="description" content="Kaiyya Dress - Busana muslim modern dan stylish." />
                 <meta property="og:type" content="website" />
             </Helmet>
-            <Main useNavigation paddingBottom activeMenu="home">
+            <Main paddingTop useNavigation paddingBottom activeMenu="home">
                 <HeaderHome />
                 <Banner />
                 <Menu />
@@ -227,7 +227,7 @@ const Home = (props: Props) => {
                                 <Icon icon="instagram" />
                                 <Text>Instagram</Text>
                             </SocialMediaItem>
-                            <SocialMediaItem target="_blank" href="https://www.instagram.com/kaiyyaofficial/" rel="noopener noreferrer">
+                            <SocialMediaItem target="_blank" href="https://www.facebook.com/Kaiyya-105215328056641/" rel="noopener noreferrer">
                                 <Icon icon="facebook" />
                                 <Text>Facebook</Text>
                             </SocialMediaItem>

@@ -13,6 +13,7 @@ const BannerWrapper = styled.div`
     width: 100%;
     height: auto;
     min-height: 230px;
+    background: var(--color-white);
 
     @media only screen and (max-width: 375px) {
         min-height: 160px;
@@ -22,8 +23,8 @@ const BannerWrapper = styled.div`
         position: relative;
         display: flex !important;
         bottom: 0;
-        margin: -50px auto 0;
-        padding: 0 1rem 10px;
+        margin: 0 auto;
+        padding: 5px 1rem;
         list-style-type: none;
         z-index: 1;
 
@@ -38,14 +39,15 @@ const BannerWrapper = styled.div`
 
                 &::before {
                     content: '';
-                    height: 2px;
-                    width: 10px;
-                    background: var(--color-white);
+                    width: 6px;
+                    height: 6px;
+                    background: #e7e7e7;
                     top: 50%;
                     left: 50%;
-                    border: 1px solid #fff;
+                    border-radius: 50px;
                     opacity: 1;
                     transform: translate(-50%, -50%);
+                    transition: .3s ease;
                 }
             }
 
@@ -59,11 +61,10 @@ const BannerWrapper = styled.div`
 
                     &::before {
                         content: '';
-                        width: 6px;
+                        width: 10px;
                         height: 6px;
-                        background: var(--transparent);
+                        background: var(--primary);
                         border-radius: 50px;
-                        border: 2px solid #fff;
                     }
                 }
             }
@@ -124,7 +125,7 @@ const Banner = () => {
                 <BannerWrapper>
                     <Slider {...sliderSettings}>
                         {items.map((i: any) => (
-                            <BannerItem key={i.id} onClick={() => pushLocation.path('/catalog')}>
+                            <BannerItem key={i.id} onClick={() => pushLocation.path(i.link)}>
                                 <img src={i.src} alt={i.name} />
                             </BannerItem>
                         ))}

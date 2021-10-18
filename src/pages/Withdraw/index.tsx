@@ -3,11 +3,14 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import BankAccountSheet from '../../components/BankAccountSheet';
 import Icon from '../../components/Icon';
+import NumberKeyboard from '../../components/NumberKeyboard';
 import { Button, Text } from '../../components/Styled';
+import API from '../../configs/api';
 import action from '../../configs/redux/action';
 import priceFormat from '../../helpers/price';
 import priceInput from '../../helpers/priceInput';
 import Main from '../../layouts/Main';
+import WithdrawDialog from './thisComponent/WithdrawDialog';
 
 const WithdrawWrapper = styled.div`
     position: relative;
@@ -22,7 +25,7 @@ const SectionWrapper = styled.div <{ flex?: boolean }>`
     height: 100%;
     background: var(--color-white);
     padding: 10px 1rem;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     cursor: pointer;
     ${(props) => (props.flex && `
         flex-direction: row;
@@ -52,6 +55,9 @@ const AmountInput = styled.input`
     width: 100%;
     outline: none;
     font-size: 24px;
+    &:disabled {
+        background: var(--color-white);
+    }
 `;
 
 const FloatingWrapper = styled.div`
@@ -61,13 +67,14 @@ const FloatingWrapper = styled.div`
     max-width: 480px;
     height: auto;
     background: var(--color-white);
-    padding: 10px 1rem;
+    padding: 0 1rem 10px;
     left: 50%;
     bottom: 0;
-    transform: translateX(-50%);
+    flex-direction: column;
     align-items: center;
-    overflow: hidden;
     box-shadow: 0 -3px 6px rgba(0, 0, 0, .1);
+    transform: translateX(-50%);
+    overflow: hidden;
     z-indeX: 1;
 
     @media only screen and (max-width: 768px) {
@@ -77,14 +84,17 @@ const FloatingWrapper = styled.div`
 
 interface Props {
     dispatch: any
-    // addons: any
+    addons: any
 }
 
 const Withdraw = (props: Props) => {
-    const { dispatch } = props;
+    const { dispatch, addons } = props;
     const [bankAccount, setBankAccount] = useState<any>({});
-    const [amount, setAmount] = useState('0');
-    const [banckAccountDialog, setBankAccountDialog] = useState(false);
+    const [amount, setAmount] = useState(0);
+    const [total, setTotal] = useState('0');
+    const [subtotal, setSubtotal] = useState(0);
+    const [bankAccountDialog, setBankAccountDialog] = useState(false);
+    const [withdrawDialog, setWithdrawDialog] = useState(false);
 
     useEffect(() => {
         dispatch(action.fetchAccountDetail());
@@ -95,39 +105,64 @@ const Withdraw = (props: Props) => {
 
     const handleInput = (value: any) => {
         if (value.length > 0) {
-            const total = priceInput(value);
-            if (total) setAmount(total);
+            const val = priceInput(value);
+            if (val) setTotal(val);
             return;
         }
-        setAmount('0');
+        setTotal('0');
     };
 
+    useEffect(() => {
+        const val = total.replaceAll(',', '').replaceAll('.', '');
+        setAmount(parseInt(val, 10));
+    }, [total]);
+
+    useEffect(() => {
+        if (amount > 5000) {
+            setSubtotal(amount - 5000);
+            return;
+        }
+        setSubtotal(0);
+    }, [amount]);
+
     const handleSubmit = () => {
-        console.log(amount);
+        const data = {
+            body: {
+                amount,
+                bankCode: bankAccount.bank_code,
+                bankNameHolder: bankAccount.bank_name_holder,
+                bankNumber: bankAccount.bank_number
+            }
+        };
+        dispatch(action.showFullscreenLoader());
+        API.createWithdrawal(data).then(() => {
+            dispatch(action.hideFullscreenLoader());
+            setWithdrawDialog(true);
+        });
     };
 
     return (
-        <Main useHeader backBtn title="Penarikan Imbalan" paddingTop>
+        <Main useHeader backBtn title="Penarikan Imbalan" paddingTop paddingBottom>
             <WithdrawWrapper>
                 <SectionWrapper>
-                    <Text block bold extraSmall>Masukkan jumlah penarikan imbalan</Text>
+                    <Text block bold extraSmall>Silahkan masukkan jumlah penarikan imbalan</Text>
                     <AmountWrapper>
                         <p>Rp</p>
-                        <AmountInput id="amount" onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInput(event.target.value)} value={amount} placeholder="0" autoComplete="off" />
+                        <AmountInput id="amount" disabled onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => event.preventDefault()} value={total} placeholder="0" autoComplete="off" />
                     </AmountWrapper>
-                    <Text block extraSmall marginY>Jumlah minimum penarukan imbalan adalah Rp 25,000</Text>
+                    <Text block extraSmall marginY>Jumlah minimum penarikan imbalan adalah Rp 25,000</Text>
                 </SectionWrapper>
                 <SectionWrapper flex onClick={() => setBankAccountDialog(true)}>
                     <div>
-                        <Text block bold extraSmall>Tarik Imbalan ke Rekening</Text>
+                        <Text block bold extraSmall>Rekening Penarikan</Text>
                         {!bankAccount.bank_name_holder && (
-                            <Text block>Pilih Rekening Penarikan</Text>
+                            <Text extraSmall block>Pilih Rekening Penarikan</Text>
                         )}
                         {bankAccount.bank_name_holder && (
                             <>
-                                <Text block>{bankAccount.bank_name_holder}</Text>
                                 <Text extraSmall style={{ marginRight: 5 }}>{bankAccount.bank_code}</Text>
                                 <Text extraSmall>{bankAccount.bank_number}</Text>
+                                <Text extraSmall block>{bankAccount.bank_name_holder}</Text>
                             </>
                         )}
                     </div>
@@ -137,18 +172,25 @@ const Withdraw = (props: Props) => {
                 </SectionWrapper>
                 <SectionWrapper flex>
                     <div>
-                        <Text block bold extraSmall>Biaya Admin</Text>
-                        <Text block extraSmall>Biaya admin yang dikenakan untuk penarikan</Text>
+                        <Text block extraSmall>Jumlah penarikan</Text>
+                        <Text block extraSmall>Biaya admin penarikan</Text>
+                        <Text block extraSmall>Jumlah yang akan diterima</Text>
                     </div>
                     <div>
-                        <Text block bold extraSmall>{priceFormat(5000)}</Text>
+                        <Text block bold extraSmall alignRight>{priceFormat(amount)}</Text>
+                        <Text block bold extraSmall alignRight>{priceFormat(5000)}</Text>
+                        <Text block bold extraSmall alignRight>{priceFormat(subtotal)}</Text>
                     </div>
                 </SectionWrapper>
                 <FloatingWrapper>
-                    <Button block fullWidth disabled={!amount || parseInt(amount.replaceAll(',', ''), 10) < 25000 || !bankAccount.bank_name_holder} primary onClick={() => handleSubmit()}>Lanjutkan</Button>
+                    <NumberKeyboard value={total} onType={(val: string) => handleInput(val)} />
+                    <Button block fullWidth disabled={!amount || amount < 25000 || !bankAccount.bank_name_holder || amount > parseInt(addons.referral_point, 10)} primary onClick={() => handleSubmit()}>Lanjutkan</Button>
                 </FloatingWrapper>
-                {banckAccountDialog && (
+                {bankAccountDialog && (
                     <BankAccountSheet onSelect={(data: any) => setBankAccount(data)} handler={(visibility: boolean) => setBankAccountDialog(visibility)} />
+                )}
+                {withdrawDialog && (
+                    <WithdrawDialog handler={(visibility: boolean) => setWithdrawDialog(visibility)} />
                 )}
             </WithdrawWrapper>
         </Main>
@@ -157,7 +199,8 @@ const Withdraw = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
     return {
-        addons: state.accountReducer.addons
+        addons: state.accountReducer.addons,
+        items: state.withdrawReducer.items
     };
 };
 

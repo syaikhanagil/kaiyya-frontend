@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import Main from '../../layouts/Main';
 import IncomeItem from './thisComponent/IncomeItem';
 import API from '../../configs/api';
+import { Text } from '../../components/Styled';
+import Loading from '../../components/Loading';
 
 const FeeWrapper = styled.div`
     position: relative;
@@ -66,6 +68,7 @@ const FeeWrapper = styled.div`
 const FeeEducation = () => {
     // const today = new Date();
     const [items, setItems] = useState<any>([]);
+    const [ready, setReady] = useState(false);
     // const [startDate, setStartDate] = useState(today);
     // const [endDate, setEndDate] = useState(new Date(new Date().setDate(today.getDate() - 30)));
 
@@ -80,6 +83,9 @@ const FeeEducation = () => {
     useEffect(() => {
         API.fetchReferralProfit().then((res: any) => {
             setItems(res.data);
+            setTimeout(() => {
+                setReady(true);
+            }, 1000);
         });
     }, []);
 
@@ -105,10 +111,16 @@ const FeeEducation = () => {
                         <button type="button" id="submit">Filter</button>
                     </div>
                 </FeeHeader> */}
-                {items.map((i: any, idx: any) => (
+                {ready && items.map((i: any, idx: any) => (
                     // eslint-disable-next-line react/no-array-index-key
                     <IncomeItem key={idx} data={i} />
                 ))}
+                {ready && items.length < 1 && (
+                    <Text block alignCenter marginY>Belum ada riwayat imbalan</Text>
+                )}
+                {!ready && (
+                    <Loading type="ring" alignCenter />
+                )}
             </FeeWrapper>
         </Main>
     );

@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import Slider from 'react-slick';
 import styled from 'styled-components';
-import AddToCartDialog from '../../components/AddToCartDialog';
-// import FloatingCart from '../../components/FloatingCart';
 import Icon from '../../components/Icon';
 import Shimmer from '../../components/Shimmer';
 import API from '../../configs/api';
@@ -23,6 +21,7 @@ import SizeChartSheet from '../../components/SizeChartSheet';
 import RelatedProduct from './thisComponent/RelatedProduct';
 import pushLocation from '../../configs/routes/pushLocation';
 import { Text } from '../../components/Styled';
+import AddToCartDialog from './thisComponent/AddToCartDialog';
 
 const ProductWrapper = styled.div`
     position: relative;

@@ -34,6 +34,7 @@ import BankAccountForm from './BankAccountForm';
 import PaymentSuccess from './PaymentSuccess';
 import NewRelease from './NewRelease';
 import CommingSoon from './CommingSoon';
+import Notification from './Notification';
 
 const Home = loadable(() => import('./Home'));
 const Cart = loadable(() => import('./Cart'));
@@ -81,6 +82,8 @@ const App = () => {
             <PageRoute path="/chat" component={Chat} exact />
 
             <PageRoute path="/cart" component={Cart} exact />
+
+            <PageRoute path="/notification" component={Notification} exact />
 
             <PageRoute secure path="/checkout" component={Checkout} exact />
 
