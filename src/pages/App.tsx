@@ -83,7 +83,7 @@ const App = () => {
 
             <PageRoute path="/cart" component={Cart} exact />
 
-            <PageRoute path="/notification" component={Notification} exact />
+            <PageRoute secure path="/notification" component={Notification} exact />
 
             <PageRoute secure path="/checkout" component={Checkout} exact />
 

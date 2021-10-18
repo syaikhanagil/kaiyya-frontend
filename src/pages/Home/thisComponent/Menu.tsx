@@ -33,7 +33,7 @@ const Menu = () => {
                 <IconBox title="K-Poin" custom icon={kLogo} />
                 <IconBox title="New Release" icon="thumbs-up" link="/new-release" anims />
                 <IconBox title="Preorder" icon="package" link="/preorder" />
-                <IconBox title="Lainnya" icon="arrow-right-circle" link="/comming-soon" />
+                <IconBox title="Promo" icon="percent" link="/comming-soon" />
             </MenuList>
         </MenuWrapper>
     );
