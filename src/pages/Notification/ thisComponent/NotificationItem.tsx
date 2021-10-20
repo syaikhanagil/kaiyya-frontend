@@ -9,6 +9,19 @@ const NotificationItemWrapper = styled.div`
     height: 100%;
     padding: 10px 1rem;
     background: var(--color-white);
+    
+    &.unread > p#title {
+        color: var(--primary);
+    }
+    p#message {
+        color: #777;
+    }
+    #indicator {
+        position: relative;
+        height: 10px;
+        width: 10px;
+        border-radius: 50px;
+    }
 `;
 
 interface Props {
@@ -18,9 +31,14 @@ interface Props {
 const NotificationItem = (props: Props) => {
     const { data } = props;
     return (
-        <NotificationItemWrapper>
-            <Text block bold extraSmall>{data.title}</Text>
-            <Text block extraSmall>{data.message}</Text>
+        <NotificationItemWrapper className={data.status}>
+            <Text block bold extraSmall id="title">
+                {data.title}
+                {data.status === 'unread' && (
+                    <div id="indicator" />
+                )}
+            </Text>
+            <Text block extraSmall id="message">{data.message}</Text>
         </NotificationItemWrapper>
     );
 };

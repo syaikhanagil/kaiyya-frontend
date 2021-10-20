@@ -88,6 +88,7 @@ const SearchContainer = styled.div`
     background: #f0f0f0;
     color: #474747;
     margin-left: 10px;
+    border-radius: 4px;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;

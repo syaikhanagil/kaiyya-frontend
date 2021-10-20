@@ -8,7 +8,6 @@ import Main from '../../layouts/Main';
 import Banner from './thisComponent/Banner';
 import ProductCard from '../../components/ProductCard';
 import ProductShimmer from '../../components/ProductShimmer';
-import JoinMitra from './thisComponent/JoinMitra';
 import Shimmer from '../../components/Shimmer';
 import API from '../../configs/api';
 import HeaderHome from '../../components/HeaderHome';
@@ -87,6 +86,24 @@ const FeaturedBody = styled.div`
     }
 `;
 
+const JoinMitraWrapper = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 10px 0;
+    background: var(--color-white);
+    padding: 15px 1rem;
+
+    a {
+        display: block;
+        font-weight: 600;
+        font-size: var(--font-small);
+        color: var(--primary);
+        text-decoration: none;
+        margin: 10px 0 0;
+    }
+`;
+
 const SocialMediaWrapper = styled.div`
     position: relative;
     display: flex;
@@ -139,12 +156,8 @@ const Home = (props: Props) => {
     // const [activeCategory, setActiveCategory] = useState('');
 
     const fetchProduct = async () => {
-        const payload = {
-            params: 'featured=true'
-        };
-        await API.fetchProductFeatured(payload).then((res: any) => {
-            const item = res.data.slice(0, 4);
-            setProducts(item);
+        await API.fetchFeaturedProduct().then((res: any) => {
+            setProducts(res.data);
             setTimeout(() => {
                 setProductReady(true);
             }, 1000);
@@ -156,6 +169,10 @@ const Home = (props: Props) => {
         dispatch(action.fetchAccountDetail());
         Cookies.remove('checkout-items');
     }, []);
+
+    // const getFeaturedProduct = () => {
+
+    // };
 
     return (
         <>
@@ -171,7 +188,11 @@ const Home = (props: Props) => {
                 <Banner />
                 <Menu />
                 {!loggedIn && (
-                    <JoinMitra />
+                    <JoinMitraWrapper>
+                        <Text block bold>Join Mitra Kaiyya</Text>
+                        <Text block extraSmall>Berikan edukasi yang bermanfaat kepada mitra anda, dan dapatkan penghasilan tambahan.</Text>
+                        <a href="/join-mitra">Join sekarang</a>
+                    </JoinMitraWrapper>
                 )}
                 {loggedIn && role !== '' && role !== 'retail' && (
                     <ShareEducation />

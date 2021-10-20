@@ -219,9 +219,12 @@ const CategoryDetail = (props: any) => {
                                 </>
                             )}
                         </ItemsWrapper>
+                        {products.length < 1 && (
+                            <Text block alignCenter marginY>Belum ada produk</Text>
+                        )}
                     </ProductWrapper>
                     <FooterWrapper>
-                        {!loading && hasMoreItems && (
+                        {!loading && products.length > 8 && hasMoreItems && (
                             <Button block primary alignCenter onClick={() => loadMoreItems(lastIndex)}>Tampilkan Lebih Banyak</Button>
                         )}
                         {loading && hasMoreItems && (

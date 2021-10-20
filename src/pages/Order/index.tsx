@@ -5,6 +5,7 @@ import ScrollContainer from 'react-indiana-drag-scroll';
 import Main from '../../layouts/Main';
 import action from '../../configs/redux/action';
 import OrderItem from './thisComponent/OrderItem';
+import Loading from '../../components/Loading';
 
 const OrderWrapper = styled.div`
     position: relative;
@@ -81,6 +82,7 @@ const Order = (props: any) => {
     const { dispatch, orders } = props;
     const [activeMenu, setActiveMenu] = useState('unpaid');
     const [listItems, setListItems] = useState([]);
+    const [ready, setReady] = useState(false);
     const [filterList, setFilterList] = useState([
         { id: 0, type: 'unpaid', name: 'Belum Bayar', total: 0 },
         { id: 1, type: 'onprocess', name: 'Diproses', total: 0 },
@@ -88,10 +90,6 @@ const Order = (props: any) => {
         { id: 3, type: 'done', name: 'Selesai', total: 0 },
         { id: 4, type: 'cancel', name: 'Dibatalkan', total: 0 }
     ]);
-
-    const onFilterClick = (type: string) => {
-        setActiveMenu(type);
-    };
 
     const fetchData = () => {
         dispatch(action.fetchOrder());
@@ -106,7 +104,6 @@ const Order = (props: any) => {
         const onprocess = orders.filter((item: any) => item.status === 'onprocess');
         const shipment = orders.filter((item: any) => item.status === 'shipment');
         const done = orders.filter((item: any) => item.status === 'done');
-
         setFilterList([
             { id: 0, type: 'unpaid', name: 'Belum Bayar', total: unpaid.length },
             { id: 1, type: 'onprocess', name: 'Diproses', total: onprocess.length },
@@ -114,6 +111,9 @@ const Order = (props: any) => {
             { id: 3, type: 'done', name: 'Selesai', total: done.length },
             { id: 4, type: 'cancel', name: 'Dibatalkan', total: 0 }
         ]);
+        setTimeout(() => {
+            setReady(true);
+        }, 500);
     };
 
     const filterItems = (key: string) => {
@@ -124,6 +124,7 @@ const Order = (props: any) => {
     };
 
     useEffect(() => {
+        setReady(false);
         setListItems(filterItems(activeMenu));
         counterItem();
     }, [orders, activeMenu]);
@@ -134,7 +135,7 @@ const Order = (props: any) => {
                 <OrderHeader>
                     <ScrollContainer className="scroll-container">
                         {filterList.map((i) => (
-                            <OrderFilter key={i.id} className={activeMenu === i.type ? 'active' : ''} onClick={() => onFilterClick(i.type)}>
+                            <OrderFilter key={i.id} className={activeMenu === i.type ? 'active' : ''} onClick={() => setActiveMenu(i.type)}>
                                 <span>{i.name}</span>
                                 {i.total > 0 && i.total < 10 && (
                                     <div id="counter">
@@ -151,10 +152,13 @@ const Order = (props: any) => {
                     </ScrollContainer>
                 </OrderHeader>
                 <OrderBody>
-                    {listItems.map((i: any, idx: any) => (
+                    {ready && listItems.map((i: any, idx: any) => (
                         // eslint-disable-next-line react/no-array-index-key
                         <OrderItem key={idx} data={i} />
                     ))}
+                    {!ready && (
+                        <Loading type="ring" alignCenter />
+                    )}
                 </OrderBody>
             </OrderWrapper>
         </Main>

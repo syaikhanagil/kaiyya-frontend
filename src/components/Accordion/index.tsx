@@ -11,7 +11,6 @@ const AccordionWrapper = styled.div`
     margin: 0;
     padding: 5px 1rem;
     border-radius: 4px;
-    // box-shadow: 0 3px 6px rgba(0, 0, 0, .05);
 `;
 
 const Header = styled.div`
@@ -40,6 +39,16 @@ const Header = styled.div`
         .feather {
             transform: rotate(180deg);
         }
+        &::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 50px;
+        }
     }
 `;
 
@@ -48,7 +57,7 @@ const Body = styled.div`
     display: block;
     width: 100%;
     height: 0;
-    background: #f7f7f7;
+    background: #fff;
     padding: 0;
     font-size: var(--font-extra-small);
     overflow: hidden;
@@ -58,6 +67,7 @@ const Body = styled.div`
         height: 100%;
         padding: 10px 1rem;
         border: 1px solid #eee;
+        border-top: none;
     }
 `;
 

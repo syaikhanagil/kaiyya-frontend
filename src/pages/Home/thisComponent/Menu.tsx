@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import IconBox from '../../../components/IconBox';
-import kLogo from '../../../assets/img/k-logo.png';
+// import kLogo from '../../../assets/img/k-logo.png';
 
 const MenuWrapper = styled.div`
     position: relative;
@@ -19,10 +19,12 @@ const MenuList = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
     #box {
+        position: relative;
         width: 100%;
-        margin: 0;
-        flex-basis: 22.5%;
+        margin: 5px 0;
+        flex-basis: 23.5%;
     }
 `;
 
@@ -30,10 +32,11 @@ const Menu = () => {
     return (
         <MenuWrapper>
             <MenuList>
-                <IconBox title="K-Poin" custom icon={kLogo} />
+                {/* <IconBox title="K-Poin" custom icon={kLogo} /> */}
                 <IconBox title="New Release" icon="thumbs-up" link="/new-release" anims />
                 <IconBox title="Preorder" icon="package" link="/preorder" />
-                <IconBox title="Promo" icon="percent" link="/comming-soon" />
+                <IconBox title="Promo" icon="percent" link="/promo" />
+                <IconBox title="Katalog" icon="grid" link="/catalog" />
             </MenuList>
         </MenuWrapper>
     );

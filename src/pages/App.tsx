@@ -12,8 +12,7 @@ import Catalog from './Catalog';
 import Chat from './Chat';
 import Checkout from './Checkout';
 import PageNotFound from './Error/PageNotFound';
-// import Home from './Home';
-import Others from './Others';
+
 import JoinMitra from './Others/JoinMitra';
 import Payment from './Payment';
 import Preorder from './Preorder';
@@ -35,6 +34,11 @@ import PaymentSuccess from './PaymentSuccess';
 import NewRelease from './NewRelease';
 import CommingSoon from './CommingSoon';
 import Notification from './Notification';
+import Help from './Help';
+import Feedback from './Feedback';
+import MyMitra from './MyMitra/Index';
+import MitraKaiyya from './MitraKaiyya';
+import Promo from './Promo';
 
 const Home = loadable(() => import('./Home'));
 const Cart = loadable(() => import('./Cart'));
@@ -54,6 +58,8 @@ const App = () => {
             <PageRoute path="/reset-password/:token" component={Auth} exact />
             <PageRoute path="/create-password" component={Auth} exact />
             <PageRoute path="/join-mitra" component={JoinMitra} exact />
+            <PageRoute path="/mitra" component={MitraKaiyya} exact />
+            <PageRoute path="/my-mitra" component={MyMitra} exact />
 
             <PageRoute secure path="/account" component={Account} exact />
 
@@ -73,6 +79,7 @@ const App = () => {
             <PageRoute path="/product/:slug" component={ProductDetail} exact />
             <PageRoute path="/preorder" component={Preorder} exact />
             <PageRoute path="/new-release" component={NewRelease} exact />
+            <PageRoute path="/promo" component={Promo} exact />
 
             <PageRoute path="/catalog" component={Catalog} exact />
             <PageRoute path="/catalog/:slug" component={CatalogDetail} exact />
@@ -95,11 +102,14 @@ const App = () => {
             <PageRoute secure path="/payment/:paymentId" component={Payment} exact />
             <PageRoute secure path="/payment-success/:paymentId" component={PaymentSuccess} exact />
 
-            <PageRoute path="/others" component={Others} exact />
+            <PageRoute path="/help" component={Help} exact />
             <PageRoute path="/rules" component={Rules} exact />
             <PageRoute path="/faq" component={Faq} exact />
-            <PageRoute path="/education-program" component={EducationProgram} exact />
-            <PageRoute path="/withdraw" component={Withdraw} exact />
+
+            <PageRoute secure path="/education-program" component={EducationProgram} exact />
+            <PageRoute secure path="/withdraw" component={Withdraw} exact />
+
+            <PageRoute secure path="/feedback" component={Feedback} exact />
 
             <PageRoute path="/not-found" component={PageNotFound} exact />
             <PageRoute path="/comming-soon" component={CommingSoon} exact />

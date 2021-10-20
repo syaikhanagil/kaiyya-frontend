@@ -27,7 +27,7 @@ const Faq = () => {
     }, []);
 
     return (
-        <Main useHeader paddingTop backTo="/" title="Faq" paddingBottom backgroundWhite>
+        <Main useHeader paddingTop backBtn title="Faq" paddingBottom backgroundWhite>
             <Wrapper>
                 {ready && items.map((i: any, idx: any) => (
                     // eslint-disable-next-line react/no-array-index-key

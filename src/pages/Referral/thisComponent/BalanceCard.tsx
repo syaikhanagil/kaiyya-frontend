@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -34,39 +34,39 @@ const BalanceContent = styled.div`
     .balance-counter {
         padding: 10px;
         border-radius: 4px;
-        border: 2px dashed #eee;
+        // border: 2px dashed #eee;
     }
 `;
 
-const MenuBox = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-`;
+// const MenuBox = styled.div`
+//     position: relative;
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+// `;
 
-const MenuItem = styled.div`
-    position: relative;
-    display: block;
-    width: 100%;
-    flex-basis: 30%;
-    margin: 0 5px;
-    border-radius: 4px;
-    border: 2px dashed #eee;
-    text-align: center;
-    cursor: pointer;
-    .feather {
-        width: 20px;
-        height: 20px;
-    }
-    a {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 100%;
-        padding: 10px 15px;
-    }
-`;
+// const MenuItem = styled.div`
+//     position: relative;
+//     display: block;
+//     width: 100%;
+//     flex-basis: 30%;
+//     margin: 0 5px;
+//     border-radius: 4px;
+//     border: 2px dashed #eee;
+//     text-align: center;
+//     cursor: pointer;
+//     .feather {
+//         width: 20px;
+//         height: 20px;
+//     }
+//     a {
+//         position: relative;
+//         display: block;
+//         width: 100%;
+//         height: 100%;
+//         padding: 10px 15px;
+//     }
+// `;
 
 const BalanceFooter = styled.div`
     position: relative;
@@ -105,17 +105,16 @@ const BalanceFooter = styled.div`
 `;
 
 interface Props {
-    downline: any,
+    // downline: any,
     dispatch: any,
     addons: any
 }
 
 const BalanceCard = (props: Props) => {
-    const { dispatch, downline, addons } = props;
-    const [mitra, setMitra] = useState([]);
+    const { dispatch, addons } = props;
+    // const [mitra, setMitra] = useState([]);
 
     const fetchData = async () => {
-        dispatch(action.fetchReferralDownline());
         dispatch(action.fetchAccountDetail());
     };
 
@@ -123,39 +122,36 @@ const BalanceCard = (props: Props) => {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        if (downline.length > 0) {
-            setMitra(downline);
-        }
-    }, [downline]);
-
     return (
         <BalanceWrapper>
             <BalanceContent>
                 <div className="balance-counter">
                     <p className="balance">{priceFormat(addons.referral_point)}</p>
                 </div>
-                <MenuBox>
+                {/* <MenuBox>
                     <MenuItem>
                         <Link to="/withdraw">
                             <Icon icon="pocket" />
                             <Text block extraSmall>Tarik</Text>
                         </Link>
                     </MenuItem>
-                </MenuBox>
+                </MenuBox> */}
             </BalanceContent>
             <BalanceFooter>
-                <div>
+                <Link to="/withdraw">
                     <Text extraSmall>
-                        <Icon icon="user" />
-                        Mitra Saya
+                        <Icon icon="log-out" />
+                        <Text extraSmall>Penarikan</Text>
                     </Text>
-                    <Text extraSmall alignRight>{`${mitra.length} Mitra`}</Text>
-                </div>
+                    {/* <Text extraSmall alignRight>
+                        <Icon icon="chevron-right" />
+                    </Text> */}
+                    {/* <Text extraSmall alignRight>{`${mitra.length} Mitra`}</Text> */}
+                </Link>
                 <Link to="/income-history">
                     <Text extraSmall>
                         <Icon icon="rotate-ccw" />
-                        Riwayat Imbalan
+                        <Text extraSmall>Riwayat Imbalan</Text>
                     </Text>
                     <Text extraSmall alignRight>
                         <Icon icon="chevron-right" />

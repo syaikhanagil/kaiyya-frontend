@@ -53,6 +53,61 @@ export const Input = styled('input') <{ floatingLabel?: boolean, rounded?: boole
     &:hover {
         border: 1px solid var(--primary);
     }
+    &:disabled {
+        background: var(--color-white);
+        cursor: not-allowed;
+    }
+    ${(props) => (props.rounded ? 'border-radius: 50px;' : 'border-radius: 6px;')}
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover, 
+    &:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    }
+    ${(props) => (props.floatingLabel && `
+        &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: var(--transparent);
+            opacity: 0; /* Firefox */
+        }
+        &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: var(--transparent);
+        }
+        
+        &::-ms-input-placeholder { /* Microsoft Edge */
+            color: var(--transparent);
+        }
+        z-index: 1;
+        &:focus,
+        &:not(:placeholder-shown){
+            &+label {
+                top: 0;
+                left: 10px;
+                font-size: var(--font-extra-small);
+                background: var(--color-white);
+                cursor: default;
+                z-index: 1;
+            }
+        }
+    `)}
+`;
+
+/**
+ * Text Area
+ */
+export const TextArea = styled('textarea') <{ floatingLabel?: boolean, rounded?: boolean }>`
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 40px;
+    padding: 10px 15px;
+    background: var(--transparent);
+    font-size: var(--font-small);
+    outline: none;
+    border: 1px solid #c0c0c0;
+    transition: .25s ease;
+    &:hover {
+        border: 1px solid var(--primary);
+    }
     ${(props) => (props.rounded ? 'border-radius: 50px;' : 'border-radius: 6px;')}
     &:-webkit-autofill,
     &:-webkit-autofill:hover, 

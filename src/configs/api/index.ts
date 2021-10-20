@@ -34,7 +34,7 @@ const API = {
     fetchImages: ApiConfig.GET('/images', false),
 
     fetchProduct: ApiConfig.GET('/product', false),
-    fetchProductFeatured: ApiConfig.GET('/product?featured=true', false),
+    fetchFeaturedProduct: ApiConfig.GET('/product/featured', false),
     fetchProductDetail: ApiConfig.GET('/product/detail/', false),
 
     fetchCategory: ApiConfig.GET('/category', false),
@@ -73,7 +73,8 @@ const API = {
     fetchPost: ApiConfig.GET('/post', false),
     fetchPostDetail: ApiConfig.GET('/post/detail', false),
 
-    fetchFaq: ApiConfig.GET('/faq', false)
+    fetchFaq: ApiConfig.GET('/faq', false),
+    fetchRules: ApiConfig.GET('/rules', false)
 };
 
 export default API;

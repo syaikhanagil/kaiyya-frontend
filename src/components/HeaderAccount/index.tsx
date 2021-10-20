@@ -2,17 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import action from '../../configs/redux/action';
-import CONSTANT from '../../constant';
+// import action from '../../configs/redux/action';
+// import CONSTANT from '../../constant';
 import Icon from '../Icon';
-
-// const HeaderTop = styled.div`
-//     position: relative;
-//     display: block;
-//     width: 100%;
-//     background: var(--color-primary);
-//     font-size: var(--font-extra-small);
-// `;
 
 const HeaderWrapper = styled.header`
     position: fixed;
@@ -20,13 +12,13 @@ const HeaderWrapper = styled.header`
     width: 100%;
     max-width: 480px;
     height: auto;
-    background: var(--color-white);
+    background: var(--transparent);
     top: 0;
     left: 50%;
     color: var(--color-black);
     transform: translateX(-50%);
     transition: .25s ease;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--transparent);
     z-index: 99;
 
     &.fixed {
@@ -47,9 +39,11 @@ const ItemWrapper = styled.div`
     height: 100%;
     margin: auto;
     padding: 5px 1rem 5px;
+    justify-content: space-between;
     align-items: center;
     flex-direction: row;
     border-radius: 15px 15px 0 0;
+    color: var(--color-white);
 `;
 
 const Item = styled('div') <{ alignRight?: boolean }>`
@@ -59,6 +53,17 @@ const Item = styled('div') <{ alignRight?: boolean }>`
     height: 100%;
     justify-content: ${(props) => (props.alignRight ? 'flex-end' : 'flex-start')};
     align-items: center;
+`;
+
+const PageTitle = styled.span`
+    position: relative;
+    display: block;
+    width: auto;
+    padding: 0 5px;
+    font-size: var(--font-small);
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 `;
 
 // const ActionBtn = styled.button`
@@ -104,21 +109,6 @@ const ActionLink = styled(Link)`
     }
 `;
 
-const SearchBar = styled.div`
-    position: relative;
-    display: flex;
-    width: 100%;
-    height: 32px;
-    padding: 0 10px;
-    background: #eee;
-    color: #474747;
-    align-items: center;
-    border-radius: 4px;
-    justify-content: space-between;
-    cursor: pointer;
-    margin-right: 5px;
-`;
-
 interface Props {
     loggedIn: boolean,
     cartItems: any,
@@ -126,32 +116,14 @@ interface Props {
     dispatch: any
 }
 
-interface State {
-    notification: number
-}
-
-class HeaderHome extends React.Component<Props, State> {
+class HeaderAccount extends React.Component<Props, any> {
     constructor(props: Props) {
         super(props);
         this.handleScroll = this.handleScroll.bind(this);
-        this.state = {
-            notification: 0
-        };
     }
 
     componentDidMount() {
-        const { loggedIn } = this.props;
         window.addEventListener('scroll', this.handleScroll);
-        if (loggedIn) {
-            this.fetchNotification();
-        }
-    }
-
-    componentDidUpdate(prevProps: any) {
-        // eslint-disable-next-line react/destructuring-assignment
-        if (prevProps.notificationItems !== this.props.notificationItems) {
-            this.countNotification();
-        }
     }
 
     handleScroll() {
@@ -164,31 +136,19 @@ class HeaderHome extends React.Component<Props, State> {
         }
     }
 
-    fetchNotification() {
-        const { dispatch } = this.props;
-        dispatch(action.fetchNotification());
-    }
-
-    countNotification() {
-        const { notificationItems } = this.props;
-        const unreadItems = notificationItems.filter((item: any) => item.status === 'unread');
-        if (unreadItems.length > 0) {
-            this.setState({ notification: unreadItems.length });
-        }
-        // const { notification } = this.state;
-    }
-
     render() {
-        const { cartItems, dispatch } = this.props;
-        const { notification } = this.state;
+        // const { cartItems } = this.props;
+        // const { notification } = this.state;
         return (
             <HeaderWrapper id="header">
                 <ItemWrapper>
-                    <SearchBar onClick={() => dispatch({ type: CONSTANT.SET_SEARCH_DIALOG, visible: true })}>
-                        <p>Cari disini</p>
-                        <Icon icon="search" />
-                    </SearchBar>
-                    <Item alignRight>
+                    <Item>
+                        <ActionLink to="/">
+                            <Icon icon="arrow-left" />
+                        </ActionLink>
+                        <PageTitle>Akun</PageTitle>
+                    </Item>
+                    {/* <Item alignRight>
                         <ActionLink to="/notification">
                             <Icon icon="bell" />
                             {notification !== 0 && (
@@ -203,10 +163,10 @@ class HeaderHome extends React.Component<Props, State> {
                                 <span>{cartItems.length}</span>
                             </div>
                         </ActionLink>
-                        {/* <ActionBtn onClick={() => {}}>
+                        <ActionBtn onClick={() => {}}>
                             <Icon icon="more-vertical" />
-                        </ActionBtn> */}
-                    </Item>
+                        </ActionBtn>
+                    </Item> */}
                 </ItemWrapper>
             </HeaderWrapper>
         );
@@ -221,4 +181,4 @@ const mapStateToProps = (state: any) => {
     };
 };
 
-export default connect(mapStateToProps)(HeaderHome);
+export default connect(mapStateToProps)(HeaderAccount);

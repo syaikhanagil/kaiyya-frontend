@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import BottomSheet from '../../components/BottomSheet';
+import HeaderAccount from '../../components/HeaderAccount';
 // import Card from '../../components/Card';
 import Icon from '../../components/Icon';
 // import IconBox from '../../components/IconBox';
@@ -11,14 +12,25 @@ import { Button, Text } from '../../components/Styled';
 import action from '../../configs/redux/action';
 // import { Button } from '../../components/Styled';
 import Main from '../../layouts/Main';
+import Menu from './thisComponent/Menu';
 
 const AccountHeader = styled.div`
     position: relative;
     display: block;
     width: 100%;
     height: 100%;
-    padding: 10px 1rem;
-    background: var(--color-white);
+    padding: 60px 1rem 40px;
+    overflow: hidden;
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--primary);
+        // border-radius: 0 0 7% 7%;
+    }
 `;
 
 const ProfileWrapper = styled.div`
@@ -28,6 +40,7 @@ const ProfileWrapper = styled.div`
     width: 100%;
     height: 100%;
     align-items: center;
+    color: var(--color-white);  
 
     .profile {
         display: flex;
@@ -79,7 +92,6 @@ const MenuItem = styled(Link)`
     border-bottom: 1px solid #f0f0f0;
     text-decoration: none;
     transition: .25s ease;
-    
 
     .feather,
     span {
@@ -141,7 +153,8 @@ const Account = (props: any) => {
 
     return (
         <>
-            <Main useHeader paddingTop backBtn title="Akun" useNavigation activeMenu="account" cartBtn searchBtn>
+            <Main useNavigation activeMenu="account">
+                <HeaderAccount />
                 <AccountHeader>
                     <ProfileWrapper>
                         <div className="profile">
@@ -172,25 +185,8 @@ const Account = (props: any) => {
                         )}
                     </ProfileWrapper>
                 </AccountHeader>
+                <Menu />
                 <AccountBody>
-                    {/* <section className="my-2">
-                        <Card header title="Semua Pesanan" actionIcon="chevron-right">
-                            <div className="flex space-x-4">
-                                <div className="flex-1">
-                                    <IconBox icon="credit-card" title="Belum Bayar" />
-                                </div>
-                                <div className="flex-1">
-                                    <IconBox icon="clock" title="Diproses" />
-                                </div>
-                                <div className="flex-1">
-                                    <IconBox icon="truck" title="Dikirim" />
-                                </div>
-                                <div className="flex-1">
-                                    <IconBox icon="check-circle" title="Selesai" />
-                                </div>
-                            </div>
-                        </Card>
-                    </section> */}
                     <section className="my-2">
                         <MenuList>
                             <MenuItem to="/settings/account">
@@ -203,13 +199,9 @@ const Account = (props: any) => {
                             </MenuItem>
                             {role && role !== 'retail' && (
                                 <>
-                                    <MenuItem to="/mitra">
+                                    <MenuItem to="/my-mitra">
                                         <Icon icon="user" />
                                         <span>Mitra Saya</span>
-                                    </MenuItem>
-                                    <MenuItem to="/fee-education">
-                                        <Icon icon="user-plus" />
-                                        <span>Fee Edukasi</span>
                                     </MenuItem>
                                     <MenuItem to="/rules">
                                         <Icon icon="book-open" />
@@ -217,13 +209,9 @@ const Account = (props: any) => {
                                     </MenuItem>
                                 </>
                             )}
-                            <MenuItem to="/rules">
-                                <Icon icon="book" />
-                                <span>Rules &amp; Kode Etik</span>
-                            </MenuItem>
-                            <MenuItem to="/faq">
-                                <Icon icon="message-circle" />
-                                <span>Frequently Asked Questions</span>
+                            <MenuItem to="/feedback">
+                                <Icon icon="smile" />
+                                <span>Feedback</span>
                             </MenuItem>
                         </MenuList>
                     </section>
