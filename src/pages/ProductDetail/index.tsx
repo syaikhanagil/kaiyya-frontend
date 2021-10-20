@@ -476,7 +476,7 @@ const ProductDetail = (props: any) => {
                             </ChatBtn>
                         )}
                         {detailData.type === 'preorder' && (
-                            <CartBtn onClick={() => pushLocation.path('/')}>
+                            <CartBtn onClick={() => pushLocation.path(detailData.form_link)}>
                                 <span>Beli Sekarang</span>
                             </CartBtn>
                         )}

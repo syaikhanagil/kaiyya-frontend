@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import briLogo from '../../../assets/svg/bri-logo.svg';
 import bniLogo from '../../../assets/svg/bni-logo.svg';
+import sampoernaLogo from '../../../assets/img/bss-logo.png';
 import mandiriLogo from '../../../assets/svg/mandiri-logo.svg';
 import bcaLogo from '../../../assets/svg/bca-logo.svg';
 import permataLogo from '../../../assets/svg/permata-logo.svg';
@@ -20,6 +21,7 @@ import stamp from '../../../assets/img/stempel.png';
 import Countdown from '../../../components/Countdown';
 import BackDialog from './BackDialog';
 import pushLocation from '../../../configs/routes/pushLocation';
+import SampoernaContent from './SampoernaContent';
 
 const VirtualAccountWrapper = styled.div`
     position: relative;
@@ -207,6 +209,9 @@ const VirtualAccountMethod = (props: Props) => {
                     {data.bank_code === 'PERMATA' && (
                         <img src={permataLogo} alt="kaiyya-permata-va" />
                     )}
+                    {data.bank_code === 'SAHABAT_SAMPOERNA' && (
+                        <img src={sampoernaLogo} alt="kaiyya-sampoerna-va" />
+                    )}
                 </div>
                 <div className="va">
                     <Text block extraSmall className="title">{`${data.bank_code} VIRTUAL ACCOUNT`}</Text>
@@ -245,6 +250,9 @@ const VirtualAccountMethod = (props: Props) => {
                     )}
                     {data.bank_code === 'PERMATA' && (
                         <PermataContent tabActive={tab} vaNumber={data.virtual_account_number} />
+                    )}
+                    {data.bank_code === 'SAHABAT_SAMPOERNA' && (
+                        <SampoernaContent tabActive={tab} vaNumber={data.virtual_account_number} />
                     )}
                 </TabContent>
             </HowToPayWrapper>

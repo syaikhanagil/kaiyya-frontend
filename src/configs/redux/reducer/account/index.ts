@@ -12,6 +12,7 @@ const initState = {
         referral_point: 0,
         referral_profit: 0,
         shopping_point: 0,
+        shopping_rates: 1000,
         discount: 0
     }
 };
