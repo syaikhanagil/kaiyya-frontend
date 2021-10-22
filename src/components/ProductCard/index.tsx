@@ -127,9 +127,9 @@ const ProductCard = (props: Props) => {
                 {type === 'preorder' && (
                     <Badge>Preorder</Badge>
                 )}
-                {stock > 0 && stock < 7 && (
+                {stock > 0 && stock < 6 && (
                     <>
-                        <Badge>Stok Terbatas</Badge>
+                        <Badge>{`Stok Tersisa ${stock}`}</Badge>
                     </>
                 )}
                 {stock < 1 && (
