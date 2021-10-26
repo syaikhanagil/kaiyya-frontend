@@ -8,6 +8,10 @@ const initState = {
     fullname: '',
     email: '',
     role: '',
+    verified: {
+        status: false,
+        admin: false
+    },
     addons: {
         referral_point: 0,
         referral_profit: 0,
@@ -46,6 +50,7 @@ const accountReducer = (state = initState, action: any) => {
             fullname: action.data.fullname,
             email: action.data.email,
             role: action.data.role,
+            verified: action.data.verified,
             addons: action.data.addons
         };
     }
@@ -59,6 +64,10 @@ const accountReducer = (state = initState, action: any) => {
             fullname: '',
             email: '',
             role: '',
+            verified: {
+                status: false,
+                admin: false
+            },
             addons: {
                 referral_point: 0,
                 referral_profit: 0,

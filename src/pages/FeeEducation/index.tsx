@@ -7,6 +7,7 @@ import IncomeItem from './thisComponent/IncomeItem';
 import API from '../../configs/api';
 import { Text } from '../../components/Styled';
 import Loading from '../../components/Loading';
+import pushLocation from '../../configs/routes/pushLocation';
 
 const FeeWrapper = styled.div`
     position: relative;
@@ -44,6 +45,7 @@ const FeeWrapper = styled.div`
 //             border-radius: 4px;
 //             outline: none;
 //         }
+
 //         #submit {
 //             position: relative;
 //             display: block;
@@ -98,7 +100,7 @@ const FeeEducation = () => {
     // }, [endDate]);
 
     return (
-        <Main useHeader paddingTop title="Riwayat Imbalan">
+        <Main useHeader paddingTop title="Riwayat Imbalan" moreBtn moreIcon="home" onMoreClick={() => pushLocation.path('/')}>
             <FeeWrapper>
                 {/* <FeeHeader>
                     <div id="filter-date">

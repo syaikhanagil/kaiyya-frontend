@@ -3,14 +3,14 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import CategorySheet from '../../components/CategorySheet';
-import Icon from '../../components/Icon';
 import Loading from '../../components/Loading';
 // import Icon from '../../components/Icon';
 import ProductCard from '../../components/ProductCard';
 import ProductShimmer from '../../components/ProductShimmer';
 import SortProductSheet from '../../components/SortProductSheet';
 import { Button, Text } from '../../components/Styled';
-import action from '../../configs/redux/action';
+import API from '../../configs/api';
+// import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
 
 const PreorderWrapper = styled.div`
@@ -20,39 +20,6 @@ const PreorderWrapper = styled.div`
     height: 100%;
 `;
 
-const FloatingWrapper = styled.div`
-    position: sticky;
-    display: flex;
-    width: 100%;
-    height: auto;
-    background: var(--color-white);
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    top: 46px;
-    z-index: 10;
-`;
-
-const FloatingItem = styled.div`
-    width: 100%;
-    text-align: center;
-    padding: 10px 0;
-    border-bottom: 2px solid #eee;
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
-    text-transform: uppercase;
-    cursor: pointer;
-    .feather {
-        margin-top: -2px;
-        margin-right: 5px;
-    }
-    &:first-of-type {
-        border-left: none;
-    }
-    &:last-of-type {
-        border-right: none;
-    }
-`;
 const ItemsWrapper = styled.div`
     position: relative;
     display: flex;
@@ -75,8 +42,9 @@ const FooterWrapper = styled.div`
     padding: 10px 0 20px;
 `;
 
-const Preorder = (props: any) => {
-    const { dispatch, products } = props;
+const Preorder = () => {
+    // const { products } = props;
+    const [products, setProducts] = useState([]);
     const [baseItems, setBaseItems] = useState([]);
     const [categoryDialog, setCategoryDialog] = useState(false);
     const [sortDialog, setSortDialog] = useState(false);
@@ -89,7 +57,10 @@ const Preorder = (props: any) => {
     const [activeSort, setActiveSort] = useState('');
 
     useEffect(() => {
-        dispatch(action.fetchProduct());
+        // dispatch(action.fetchProduct());
+        API.fetchProductPreorder().then((res: any) => {
+            setProducts(res.data);
+        });
     }, []);
 
     useEffect(() => {
@@ -193,16 +164,6 @@ const Preorder = (props: any) => {
             <Main useHeader paddingTop backTo="/" title="Pre-Order" searchBtn>
                 <>
                     <PreorderWrapper>
-                        <FloatingWrapper>
-                            <FloatingItem onClick={() => setCategoryDialog(true)}>
-                                <Icon icon="grid" />
-                                Kategori
-                            </FloatingItem>
-                            <FloatingItem onClick={() => setSortDialog(true)}>
-                                <Icon icon="chevrons-down" />
-                                Urutkan
-                            </FloatingItem>
-                        </FloatingWrapper>
                         <ItemsWrapper id="product-list">
                             {items.length > 0 && items.map((i: any, idx: any) => (
                                 // eslint-disable-next-line react/no-array-index-key

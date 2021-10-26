@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Loading from '../../components/Loading';
+import { Button } from '../../components/Styled';
 import API from '../../configs/api';
+import pushLocation from '../../configs/routes/pushLocation';
 import Main from '../../layouts/Main';
 
 const Wrapper = styled.div`
@@ -26,6 +28,15 @@ const ContentWrapper = styled.div`
     padding: 20px 1.5rem;
 `;
 
+const FloatingWrapper = styled.div`
+    position: sticky;
+    width: 100%;
+    background: var(--color-white);
+    padding: 5px 1rem;
+    bottom: 0;
+    left: 0;
+`;
+
 const JoinMitra = () => {
     const [content, setContent] = useState('');
     const [banner, setBanner] = useState<any>({});
@@ -44,13 +55,16 @@ const JoinMitra = () => {
         });
     }, []);
     return (
-        <Main useHeader paddingTop backTo="/" title="Join Mitra" backgroundWhite>
+        <Main useHeader paddingTop backTo="/" title="Join Mitra" paddingBottom backgroundWhite>
             {ready && (
                 <Wrapper>
                     <BannerWrapper>
                         <img src={banner.src} alt={banner.name} />
                     </BannerWrapper>
                     <ContentWrapper dangerouslySetInnerHTML={{ __html: content }} />
+                    <FloatingWrapper>
+                        <Button primary block fullWidth onClick={() => pushLocation.path('/register?as=mitra')}>Join Sekarang</Button>
+                    </FloatingWrapper>
                 </Wrapper>
             )}
             {!ready && (

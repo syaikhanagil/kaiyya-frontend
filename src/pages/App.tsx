@@ -6,8 +6,7 @@ import Address from './Address';
 import CreateAddress from './Address/CreateAddress';
 import EditAddress from './Address/EditAddress';
 
-import Auth from './Auth';
-// import Cart from './Cart';
+// import Auth from './Auth';
 import Catalog from './Catalog';
 import Chat from './Chat';
 import Checkout from './Checkout';
@@ -39,6 +38,14 @@ import Feedback from './Feedback';
 import MyMitra from './MyMitra/Index';
 import MitraKaiyya from './MitraKaiyya';
 import Promo from './Promo';
+import Login from './Auth/Login';
+import Register from './Auth/Register';
+import Verify from './Auth/Verify';
+import ResetPassword from './Auth/ResetPassword';
+import ResetPasswordConfirm from './Auth/ResetPasswordConfirm';
+import NewPassword from './Auth/NewPassword';
+import ReferralSearch from './Auth/ReferralSearch';
+import ContactUs from './Others/ContactUs';
 
 const Home = loadable(() => import('./Home'));
 const Cart = loadable(() => import('./Cart'));
@@ -50,16 +57,18 @@ const App = () => {
         <Switch>
             <PageRoute path="/" component={Home} exact />
 
-            <PageRoute path="/login" component={Auth} exact />
-            <PageRoute path="/register" component={Auth} exact />
-            <PageRoute path="/verify" component={Auth} exact />
-            <PageRoute path="/ref/:code" component={Auth} exact />
-            <PageRoute path="/reset-password" component={Auth} exact />
-            <PageRoute path="/reset-password/:token" component={Auth} exact />
-            <PageRoute path="/create-password" component={Auth} exact />
+            <PageRoute auth path="/login" component={Login} exact />
+            <PageRoute auth path="/register" component={Register} exact />
+            <PageRoute auth path="/register/:ref?" component={Register} exact />
+            <PageRoute auth path="/verify" component={Verify} exact />
+            <PageRoute auth path="/ref/:code" component={ReferralSearch} exact />
+            <PageRoute auth path="/reset-password" component={ResetPassword} exact />
+            <PageRoute auth path="/reset-password/:token" component={ResetPasswordConfirm} exact />
+            <PageRoute auth path="/create-password" component={NewPassword} exact />
             <PageRoute path="/join-mitra" component={JoinMitra} exact />
             <PageRoute path="/mitra" component={MitraKaiyya} exact />
             <PageRoute path="/my-mitra" component={MyMitra} exact />
+            <PageRoute path="/contact-us" component={ContactUs} exact />
 
             <PageRoute secure path="/account" component={Account} exact />
 

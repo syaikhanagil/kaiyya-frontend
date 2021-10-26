@@ -41,13 +41,10 @@ const MenuItem = styled(Link)`
 
 const Help = () => {
     return (
-        <Main useHeader paddingTop title="Bantuan" backgroundWhite>
+        <Main useHeader paddingTop backTo="/" title="Bantuan" backgroundWhite>
             <MenuList>
-                <MenuItem to="/rules">
+                <MenuItem to="/contact-us">
                     <span>Hubungi Kami</span>
-                </MenuItem>
-                <MenuItem to="/rules">
-                    <span>Tentang Kami</span>
                 </MenuItem>
                 <MenuItem to="/rules">
                     <span>Rules dan Kode Etik</span>

@@ -58,7 +58,7 @@ export const deleteAddress = (addressId: string) => {
     };
     return (dispatch: any) => {
         dispatch({ type: CONSTANT.SET_FULLSCREEN_LOADER, visible: true });
-        API.setAsDefaultAddress(data).then(() => {
+        API.deleteAddress(data).then(() => {
             window.location.reload();
         });
     };

@@ -6,8 +6,11 @@ import briLogo from '../../assets/svg/bri-logo.svg';
 import bniLogo from '../../assets/svg/bni-logo.svg';
 import mandiriLogo from '../../assets/svg/mandiri-logo.svg';
 import permataLogo from '../../assets/svg/permata-logo.svg';
+import cimbLogo from '../../assets/svg/cimb-logo.svg';
 import sampoernaLogo from '../../assets/img/bss-logo.png';
 import bcaLogo from '../../assets/svg/bca-logo.svg';
+import bjbLogo from '../../assets/svg/bjb-logo.svg';
+import bsiLogo from '../../assets/svg/bsi-logo.svg';
 import qrisLogo from '../../assets/svg/qris-logo.svg';
 
 const PaymentMethodWrapper = styled.div`
@@ -184,12 +187,48 @@ const PaymentMethodSheet = (props: Props) => {
                             <img src={sampoernaLogo} alt="sahabat-sampoerna-va" />
                         </div>
                     </PaymentItem>
-                    {/* <PaymentItem className="disabled">
+                    <PaymentItem
+                        className={selectedMethod === 'BANK SYARIAH INDONESIA VA' ? 'active' : ''}
+                        onClick={() => {
+                            setSelectedMethod('BANK SYARIAH INDONESIA VA');
+                            setSelectedMethodCode('BSI');
+                            setSelectedMethodType('virtual-account');
+                        }}
+                    >
                         <div className="logo">
-                            <img src={sampoernaLogo} alt="sahabat-sampoerna-va" />
+                            <img src={bsiLogo} alt="bsi-va" />
+                        </div>
+                    </PaymentItem>
+                    <PaymentItem
+                        className={selectedMethod === 'BJB VA' ? 'active' : ''}
+                        onClick={() => {
+                            setSelectedMethod('BJB VA');
+                            setSelectedMethodCode('BJB');
+                            setSelectedMethodType('virtual-account');
+                        }}
+                    >
+                        <div className="logo">
+                            <img src={bjbLogo} alt="bjb-va" />
+                        </div>
+                    </PaymentItem>
+                    {/* <PaymentItem
+                        className={selectedMethod === 'CIMB NIAGA VA' ? 'active' : ''}
+                        onClick={() => {
+                            setSelectedMethod('CIMB NIAGA VA');
+                            setSelectedMethodCode('CIMB');
+                            setSelectedMethodType('virtual-account');
+                        }}
+                    >
+                        <div className="logo">
+                            <img src={cimbLogo} alt="cimb-va" />
+                        </div>
+                    </PaymentItem> */}
+                    <PaymentItem className="disabled">
+                        <div className="logo">
+                            <img src={cimbLogo} alt="cimb-va" />
                         </div>
                         <span>Tidak Tersedia</span>
-                    </PaymentItem> */}
+                    </PaymentItem>
                     {/* <PaymentItem className="disabled">
                         <div className="logo">
                             <img src={bniLogo} alt="bni-va" />

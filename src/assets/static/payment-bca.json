@@ -1,0 +1,56 @@
+{
+    "mbanking": {
+        "title": "Pembayaran Via M-Banking",
+        "body": [
+            {
+                "content": "1. Pilih \"Pembayaran\" dan pilih \"Briva\""
+            },
+            {
+                "content": "2. Masukkan Nomor Virtual Account anda dan jumlah yang ingin anda bayarkan."
+            },
+            {
+                "content": "3. Masukkan PIN Mobile Banking BRI."
+            },
+            {
+                "content": "4. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+            }
+        ]
+    },
+    "ibanking": {
+        "title": "Pembayaran Via I-Banking",
+        "body": [
+            {
+                "content": "1. Pilih \"Pembayaran\" dan pilih \"Briva\"."
+            },
+            {
+                "content": "2. Masukkan Nomor Virtual Account dan jumlah yang ingin anda bayarkan"
+            },
+            {
+                "content": "3. Masukkan password anda kemudian masukkan mToken internet banking."
+            },
+            {
+                "content": "4.Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+            }
+        ]
+    },
+    "atm": {
+        "title": "Pembayaran Via ATM",
+        "body": [
+            {
+                "content": "1. Pilih \"Transaksi Lain\" dan pilih \"Pembayaran\"."
+            },
+            {
+                "content": "2. Pilih menu \"Lainnya\" dan pilih \"Briva\"."
+            },
+            {
+                "content": "3. Masukkan Nomor Virtual Account dan jumlah yang ingin anda bayarkan."
+            },
+            {
+                "content": "4. Periksa data transaksi dan tekan \"YA\"."
+            },
+            {
+                "content": "5. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis. Proses ini mungkin memakan waktu hingga 5 menit"
+            }
+        ]
+    }
+}

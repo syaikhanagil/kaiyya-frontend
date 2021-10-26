@@ -53,6 +53,7 @@ const FloatingItem = styled.div`
         border-right: none;
     }
 `;
+
 const ItemsWrapper = styled.div`
     position: relative;
     display: flex;

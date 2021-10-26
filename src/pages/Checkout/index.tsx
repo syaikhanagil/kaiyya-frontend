@@ -12,6 +12,7 @@ import { Button } from '../../components/Styled';
 import priceFormat from '../../helpers/price';
 import action from '../../configs/redux/action';
 import discount from '../../helpers/discount';
+import UnverifiedNotif from '../../components/UnverifiedNotif';
 // import calculatePoint from '../../helpers/point';
 // import API from '../../configs/api';
 
@@ -127,7 +128,7 @@ const SubtotalWrapper = styled.div`
 `;
 
 const Checkout = (props: any) => {
-    const { dispatch, address, fullname, addons } = props;
+    const { dispatch, address, fullname, addons, verified } = props;
     const cookiesItem = Cookies.get('checkout-items') || undefined;
     const items = cookiesItem ? JSON.parse(cookiesItem) : [];
     const [shipmentAddress, setShipmentAddress] = useState<any>({});
@@ -261,6 +262,9 @@ const Checkout = (props: any) => {
                         // eslint-disable-next-line react/no-array-index-key
                         <CheckoutItem key={idx} slug={i.product.slug} size={i.size.name} qty={i.qty} />
                     ))}
+                    {!verified.admin && (
+                        <UnverifiedNotif />
+                    )}
                     <SectionWrapper
                         onClick={() => {
                             if (!shipmentAddressId) {
@@ -365,7 +369,8 @@ const mapStateToProps = (state: any) => {
     return {
         address: state.addressReducer.items,
         fullname: state.accountReducer.fullname,
-        addons: state.accountReducer.addons
+        addons: state.accountReducer.addons,
+        verified: state.accountReducer.verified
     };
 };
 

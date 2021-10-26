@@ -34,7 +34,7 @@ const BackDialog = (props: Props) => {
     const { handler } = props;
 
     return (
-        <BottomSheet title="Konfirmasi" handler={handler}>
+        <BottomSheet title="Kembali" handler={handler}>
             <Wrapper>
                 <Text block>Anda belum melakukan pembayaran, apakah anda ingin kembali kehalaman sebelumnya?</Text>
                 <SubmitWrapper>

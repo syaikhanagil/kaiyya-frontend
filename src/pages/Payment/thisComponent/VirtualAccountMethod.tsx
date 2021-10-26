@@ -8,20 +8,25 @@ import bniLogo from '../../../assets/svg/bni-logo.svg';
 import sampoernaLogo from '../../../assets/img/bss-logo.png';
 import mandiriLogo from '../../../assets/svg/mandiri-logo.svg';
 import bcaLogo from '../../../assets/svg/bca-logo.svg';
+import bsiLogo from '../../../assets/svg/bsi-logo.svg';
+import bjbLogo from '../../../assets/svg/bjb-logo.svg';
 import permataLogo from '../../../assets/svg/permata-logo.svg';
 import { Button, Text } from '../../../components/Styled';
 import priceFormat from '../../../helpers/price';
 import MandiriContent from './MandiriContent';
-import BriContent from './BriContent';
-import BniContent from './BniContent';
+// import BriContent from './BriContent';
+// import BniContent from './BniContent';
+import PermataContent from './PermataContent';
+import SampoernaContent from './SampoernaContent';
 import action from '../../../configs/redux/action';
 import clipboardCopy from '../../../helpers/clipboard';
-import PermataContent from './PermataContent';
 import stamp from '../../../assets/img/stempel.png';
 import Countdown from '../../../components/Countdown';
 import BackDialog from './BackDialog';
 import pushLocation from '../../../configs/routes/pushLocation';
-import SampoernaContent from './SampoernaContent';
+import briData from '../../../assets/static/payment-bri.json';
+import bniData from '../../../assets/static/payment-bni.json';
+import bsiData from '../../../assets/static/payment-bsi.json';
 
 const VirtualAccountWrapper = styled.div`
     position: relative;
@@ -206,6 +211,12 @@ const VirtualAccountMethod = (props: Props) => {
                     {data.bank_code === 'BCA' && (
                         <img src={bcaLogo} alt="kaiyya-bca-va" />
                     )}
+                    {data.bank_code === 'BSI' && (
+                        <img src={bsiLogo} alt="kaiyya-bsi-va" />
+                    )}
+                    {data.bank_code === 'BJB' && (
+                        <img src={bjbLogo} alt="kaiyya-bjb-va" />
+                    )}
                     {data.bank_code === 'PERMATA' && (
                         <img src={permataLogo} alt="kaiyya-permata-va" />
                     )}
@@ -240,19 +251,22 @@ const VirtualAccountMethod = (props: Props) => {
                 </TabHeader>
                 <TabContent>
                     {data.bank_code === 'BRI' && (
-                        <BriContent tabActive={tab} vaNumber={data.virtual_account_number} />
-                    )}
-                    {data.bank_code === 'MANDIRI' && (
-                        <MandiriContent tabActive={tab} vaNumber={data.virtual_account_number} />
+                        <HowToPayContent data={briData} activeTab={tab} />
                     )}
                     {data.bank_code === 'BNI' && (
-                        <BniContent tabActive={tab} vaNumber={data.virtual_account_number} />
+                        <HowToPayContent data={bniData} activeTab={tab} />
+                    )}
+                    {data.bank_code === 'BSI' && (
+                        <HowToPayContent data={bsiData} activeTab={tab} />
+                    )}
+                    {data.bank_code === 'MANDIRI' && (
+                        <MandiriContent vaNumber={data.virtual_account_number} activeTab={tab} />
                     )}
                     {data.bank_code === 'PERMATA' && (
-                        <PermataContent tabActive={tab} vaNumber={data.virtual_account_number} />
+                        <PermataContent vaNumber={data.virtual_account_number} activeTab={tab} />
                     )}
                     {data.bank_code === 'SAHABAT_SAMPOERNA' && (
-                        <SampoernaContent tabActive={tab} vaNumber={data.virtual_account_number} />
+                        <SampoernaContent vaNumber={data.virtual_account_number} activeTab={tab} />
                     )}
                 </TabContent>
             </HowToPayWrapper>
@@ -268,6 +282,32 @@ const VirtualAccountMethod = (props: Props) => {
                 <BackDialog handler={(visibility: boolean) => setBackDialog(visibility)} />
             )}
         </VirtualAccountWrapper>
+    );
+};
+
+interface HawToPayProps {
+    data: any,
+    activeTab: string
+    // vaNumber: string
+}
+
+const HowToPayContent = (props: HawToPayProps) => {
+    const { activeTab, data } = props;
+    return (
+        <>
+            {activeTab === 'm-banking' && data.mbanking && data.mbanking.body.map((i: any, idx: any) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <Text key={idx} block extraSmall marginY>{i.content}</Text>
+            ))}
+            {activeTab === 'i-banking' && data.ibanking && data.ibanking.body.map((i: any, idx: any) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <Text key={idx} block extraSmall marginY>{i.content}</Text>
+            ))}
+            {activeTab === 'atm' && data.atm && data.atm.body.map((i: any, idx: any) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <Text key={idx} block extraSmall marginY>{i.content}</Text>
+            ))}
+        </>
     );
 };
 

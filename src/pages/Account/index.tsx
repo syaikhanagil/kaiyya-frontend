@@ -9,6 +9,7 @@ import Icon from '../../components/Icon';
 // import IconBox from '../../components/IconBox';
 import Shimmer from '../../components/Shimmer';
 import { Button, Text } from '../../components/Styled';
+import UnverifiedNotif from '../../components/UnverifiedNotif';
 import action from '../../configs/redux/action';
 // import { Button } from '../../components/Styled';
 import Main from '../../layouts/Main';
@@ -60,8 +61,25 @@ const ProfileWrapper = styled.div`
     .info {
         display: block;
         width: auto;
+
+        #name {
+            position: relative;
+
+            .feather {
+                width: 14px;
+                height: 14px;
+                margin-left: 5px;
+            }
+        }
+
+        .role {
+            background: rgba(0, 0, 0, .25);
+            padding: 1px 10px;
+            border-radius: 50px;
+            text-transform: capitalize;
+        }
     }
-    
+
     .auth {
         display: block;
         width: auto;
@@ -84,6 +102,31 @@ const MenuList = styled.div`
 `;
 
 const MenuItem = styled(Link)`
+    position: relative;
+    display: block;
+    padding: 10px 1rem;
+    background: var(--color-white);
+    color: var(--color-black);
+    border-bottom: 1px solid #f0f0f0;
+    text-decoration: none;
+    transition: .25s ease;
+
+    .feather,
+    span {
+        vertical-align: middle;
+    }
+    
+    span {
+        margin-left: 10px;
+    }
+
+    &:hover {
+        background: #f7f7f7;
+        cursor: pointer;
+    }
+`;
+
+const MenuItemHref = styled.a`
     position: relative;
     display: block;
     padding: 10px 1rem;
@@ -134,7 +177,7 @@ const LogoutDialogWrapper = styled.div`
 `;
 
 const Account = (props: any) => {
-    const { dispatch, loggedIn, fullname, email, role, isReady } = props;
+    const { dispatch, loggedIn, fullname, email, role, verified, isReady } = props;
     const [logoutDialog, setLogoutDialog] = useState(false);
 
     const fetchData = async () => {
@@ -168,7 +211,13 @@ const Account = (props: any) => {
                                     )}
                                     {isReady && (
                                         <>
-                                            <Text block>{fullname}</Text>
+                                            <div id="name">
+                                                <Text>{fullname}</Text>
+                                                {verified.admin && (
+                                                    <Icon icon="check-circle" />
+                                                )}
+                                            </div>
+                                            <Text extraSmall className="role">{role}</Text>
                                             <Text block extraSmall>{email}</Text>
                                         </>
                                     )}
@@ -186,6 +235,7 @@ const Account = (props: any) => {
                     </ProfileWrapper>
                 </AccountHeader>
                 <Menu />
+                <UnverifiedNotif />
                 <AccountBody>
                     <section className="my-2">
                         <MenuList>
@@ -203,13 +253,13 @@ const Account = (props: any) => {
                                         <Icon icon="user" />
                                         <span>Mitra Saya</span>
                                     </MenuItem>
-                                    <MenuItem to="/rules">
+                                    <MenuItemHref href="https://t.me/kaiyyaofficialpusat">
                                         <Icon icon="book-open" />
                                         <span>Panduan Edukasi</span>
-                                    </MenuItem>
+                                    </MenuItemHref>
                                 </>
                             )}
-                            <MenuItem to="/feedback">
+                            <MenuItem to="/">
                                 <Icon icon="smile" />
                                 <span>Feedback</span>
                             </MenuItem>
@@ -245,6 +295,7 @@ const mapStateToProps = (state: any) => {
         fullname: state.accountReducer.fullname,
         email: state.accountReducer.email,
         role: state.accountReducer.role,
+        verified: state.accountReducer.verified,
         isReady: state.accountReducer.isReady
     };
 };

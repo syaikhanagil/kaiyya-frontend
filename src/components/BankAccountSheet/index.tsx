@@ -27,11 +27,12 @@ interface Props {
     onSelect: (data: any) => void,
     // eslint-disable-next-line no-unused-vars
     handler: (visibility: boolean) => void,
-    items: any
+    items: any,
+    isReady: boolean
 }
 
 const BankAccountSheet = (props: Props) => {
-    const { onSelect, handler, items } = props;
+    const { onSelect, handler, items, isReady } = props;
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -47,7 +48,7 @@ const BankAccountSheet = (props: Props) => {
 
     return (
         <BottomSheet fullHeight handler={handler} title="Nomor Rekening" actionTitle="Tambah Rekening" onActionClick={() => pushLocation.path('/bank-account/new')}>
-            {items.length > 0 && items.map((i: any, idx: any) => (
+            {isReady && items.length > 0 && items.map((i: any, idx: any) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <BankAccountItem key={idx} onClick={() => handleSelect(i)}>
                     <Text block bold>{i.bank_code}</Text>
@@ -55,7 +56,7 @@ const BankAccountSheet = (props: Props) => {
                     <Text block extraSmall>{i.bank_number}</Text>
                 </BankAccountItem>
             ))}
-            {items.length < 1 && (
+            {!isReady && items.length < 1 && (
                 <Loading type="ring" alignCenter />
             )}
         </BottomSheet>
@@ -64,7 +65,8 @@ const BankAccountSheet = (props: Props) => {
 
 const mapStateToProps = (state: any) => {
     return {
-        items: state.bankReducer.items
+        items: state.bankReducer.items,
+        isReady: state.bankReducer.isReady
     };
 };
 

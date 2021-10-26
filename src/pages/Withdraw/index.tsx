@@ -11,6 +11,7 @@ import priceFormat from '../../helpers/price';
 import priceInput from '../../helpers/priceInput';
 import Main from '../../layouts/Main';
 import WithdrawDialog from './thisComponent/WithdrawDialog';
+import pushLocation from '../../configs/routes/pushLocation';
 
 const WithdrawWrapper = styled.div`
     position: relative;
@@ -142,9 +143,10 @@ const Withdraw = (props: Props) => {
     };
 
     return (
-        <Main useHeader backBtn title="Penarikan Imbalan" paddingTop paddingBottom>
+        <Main useHeader backBtn title="Penarikan Imbalan" paddingTop paddingBottom moreBtn moreIcon="home" onMoreClick={() => pushLocation.path('/')}>
             <WithdrawWrapper>
                 <SectionWrapper>
+                    <Text block bold extraSmall style={{ marginBottom: 5 }}>{`Imbalan yang bisa ditarik adalah ${priceFormat(addons.referral_point)}`}</Text>
                     <Text block bold extraSmall>Silahkan masukkan jumlah penarikan imbalan</Text>
                     <AmountWrapper>
                         <p>Rp</p>

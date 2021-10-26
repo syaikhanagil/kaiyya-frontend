@@ -4,11 +4,12 @@ import Cookies from 'js-cookie';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import Main from '../../layouts/Main';
-import { Button, Input, InputWrapper, Label, Select } from '../../components/Styled';
+import { Button, Input, InputWrapper, Label, Select, Text } from '../../components/Styled';
 import Icon from '../../components/Icon';
 import action from '../../configs/redux/action';
 // import logo from '../../assets/img/logo-kaiyya.png';
 import banner from '../../assets/img/banner-web-login.jpg';
+import RulesSheet from '../../components/RulesSheet';
 
 const RegisterWrapper = styled.div`
     position: relative;
@@ -46,6 +47,18 @@ const FormWrapper = styled.div`
         width: 100%;
         height: 100%;
         text-align: default;
+    }
+    .ref {
+        position: relative;
+        display: inline-block;
+        width: auto;
+        margin: 0 auto 15px;
+        text-align: center;
+        padding: 4px 10px;
+        span {
+            font-weight: 600;
+            margin-left: 5px;
+        }
     }
 `;
 
@@ -116,6 +129,20 @@ const InfoWrapper = styled.div`
 //     }
 // `;
 
+const AlertWrapper = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+
+    .feather {
+        height: 14px;
+        width: 14px;
+        margin-right: 5px;
+    }
+`;
+
 const ErrorWrapper = styled.div`
     position: relative;
     display: block;
@@ -132,7 +159,8 @@ interface State {
     role: string,
     password: string,
     passwordView: boolean,
-    registerAs: string
+    registerAs: string,
+    rulesDialog: boolean
 }
 
 interface Props {
@@ -150,7 +178,8 @@ class Register extends React.Component<Props, State> {
             role: 'retail',
             password: '',
             passwordView: true,
-            registerAs: 'personal'
+            registerAs: 'personal',
+            rulesDialog: false
         };
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -161,6 +190,7 @@ class Register extends React.Component<Props, State> {
         if (search !== '?ref=true') {
             Cookies.remove('referral');
             Cookies.remove('referral_role');
+            Cookies.remove('referral_name');
         } else {
             const referralRole = Cookies.get('referral_role') || '';
             if (referralRole === 'distributor') {
@@ -213,9 +243,10 @@ class Register extends React.Component<Props, State> {
 
     render() {
         const { errorAt } = this.props;
-        const { fullname, email, phone, role, password, passwordView, registerAs } = this.state;
+        const { fullname, email, phone, role, password, passwordView, registerAs, rulesDialog } = this.state;
         const referral = Cookies.get('referral') || '';
         const referralRole = Cookies.get('referral_role') || '';
+        const referralName = Cookies.get('referral_name') || '';
         return (
             <>
                 <Helmet>
@@ -228,16 +259,23 @@ class Register extends React.Component<Props, State> {
                         </BannerWrapper>
                         <FormWrapper>
                             <p className="title">Selamat Datang!</p>
-                            <p className="title">{errorAt}</p>
                             {!referral && !referralRole && (
                                 <RoleSelector>
                                     <span role="button" onClick={() => this.setState({ registerAs: 'personal', role: 'retail' })} className={registerAs === 'personal' ? 'active' : ''}>Personal</span>
                                     <span role="button" onClick={() => this.setState({ registerAs: 'mitra', role: '' })} className={registerAs === 'mitra' ? 'active' : ''}>Mitra</span>
                                 </RoleSelector>
                             )}
+                            {referralName && (
+                                <div className="ref">
+                                    <Text block extraSmall>
+                                        Anda diundang oleh
+                                        <span>{referralName}</span>
+                                    </Text>
+                                </div>
+                            )}
                             <form autoComplete="off" onSubmit={this.handleSubmit}>
                                 <InputWrapper>
-                                    <Input floatingLabel name="fullname" id="fullname" placeholder="Full Name" onChange={this.handleInput} value={fullname} />
+                                    <Input floatingLabel name="fullname" id="fullname" placeholder="Full Name" onChange={this.handleInput} autoComplete="off" style={{ textTransform: 'capitalize' }} value={fullname} />
                                     <Label floatingLabel htmlFor="fullname">Nama</Label>
                                 </InputWrapper>
                                 <InputWrapper error={errorAt === 'email'}>
@@ -265,24 +303,6 @@ class Register extends React.Component<Props, State> {
                                             <option value="distributor">Distributor</option>
                                             <option value="reseller">Reseller</option>
                                             <option value="subreseller">Sub-Reseller</option>
-                                            {/* {referral && referralRole === 'distributor' && (
-                                                <>
-                                                    <option value="reseller">Reseller</option>
-                                                    <option value="subreseller">Sub-Reseller</option>
-                                                </>
-                                            )}
-                                            {referral && referralRole === 'reseller' && (
-                                                <>
-                                                    <option value="subreseller">Sub-Reseller</option>
-                                                </>
-                                            )}
-                                            {!referral && (
-                                                <>
-                                                    <option value="distributor">Distributor</option>
-                                                    <option value="reseller">Reseller</option>
-                                                    <option value="subreseller">Sub-Reseller</option>
-                                                </>
-                                            )} */}
                                         </Select>
                                         <Label htmlFor="role">Mendaftar sebagai</Label>
                                     </InputWrapper>
@@ -294,6 +314,12 @@ class Register extends React.Component<Props, State> {
                                         <Icon icon="eye" />
                                     </div>
                                 </InputWrapper>
+                                <AlertWrapper>
+                                    <Icon icon="alert-circle" />
+                                    <Text extraSmall>Pastikan anda sudah membaca </Text>
+                                    <Text bold extraSmall style={{ margin: '0 5px', cursor: 'pointer' }} onClick={() => this.setState({ rulesDialog: true })}>Rules &amp; Kode Etik</Text>
+                                    <Text extraSmall>Kaiyya</Text>
+                                </AlertWrapper>
                                 <Button type="submit" disabled={!email || !fullname || !phone || !password} fullWidth block primary onClick={this.handleSubmit}>Register</Button>
                                 <InfoWrapper>
                                     <span>Sudah memiliki akun?</span>
@@ -302,6 +328,9 @@ class Register extends React.Component<Props, State> {
                             </form>
                         </FormWrapper>
                     </RegisterWrapper>
+                    {rulesDialog && (
+                        <RulesSheet handler={(visibility: boolean) => this.setState({ rulesDialog: visibility })} />
+                    )}
                 </Main>
             </>
         );

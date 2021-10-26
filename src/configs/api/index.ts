@@ -34,6 +34,8 @@ const API = {
     fetchImages: ApiConfig.GET('/images', false),
 
     fetchProduct: ApiConfig.GET('/product', false),
+    fetchProductPreorder: ApiConfig.GET('/product/type/preorder', false),
+    fetchProductNewRelease: ApiConfig.GET('/product/type/new-release', false),
     fetchFeaturedProduct: ApiConfig.GET('/product/featured', false),
     fetchProductDetail: ApiConfig.GET('/product/detail/', false),
 

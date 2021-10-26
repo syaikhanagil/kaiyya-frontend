@@ -30,6 +30,7 @@ interface Props {
 }
 const IncomeItem = (props: Props) => {
     const { data } = props;
+    // console.log(data);
     return (
         <IncomeWrapper>
             <div id="income-content">

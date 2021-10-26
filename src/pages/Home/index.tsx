@@ -252,7 +252,7 @@ const Home = (props: Props) => {
                                 <Icon icon="facebook" />
                                 <Text>Facebook</Text>
                             </SocialMediaItem>
-                            <SocialMediaItem target="_blank" href="https://www.instagram.com/kaiyyaofficial/" rel="noopener noreferrer">
+                            <SocialMediaItem target="_blank" href="https://www.tiktok.com/@kaiyyaofficial?utm_medium=social&utm_source=Kaiyya&utm_campaign=tiktok" rel="noopener noreferrer">
                                 <Icon custom icon={tiktokIcon} />
                                 <Text>Tiktok</Text>
                             </SocialMediaItem>

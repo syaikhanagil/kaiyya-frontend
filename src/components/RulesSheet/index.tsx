@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Accordion, { AccordionBody, AccordionHeader } from '../../components/Accordion';
-import Loading from '../../components/Loading';
 import API from '../../configs/api';
-import Main from '../../layouts/Main';
+import Accordion, { AccordionBody, AccordionHeader } from '../Accordion';
+import BottomSheet from '../BottomSheet';
+import Loading from '../Loading';
 
-const Wrapper = styled.div`
+const RulesWrapper = styled.div`
     position: relative;
-    display: block;
     width: 100%;
-    height: 100%;
-    padding: 0;
+    padding: 10px 1rem;
 `;
 
-const Rules = () => {
+interface Props {
+    // eslint-disable-next-line no-unused-vars
+    handler: (visibility: boolean) => void
+}
+
+const RulesSheet = (props: Props) => {
+    const { handler } = props;
     const [items, setItems] = useState([]);
     const [ready, setReady] = useState(false);
 
@@ -27,8 +31,8 @@ const Rules = () => {
     }, []);
 
     return (
-        <Main useHeader paddingTop backTo="/help" title="Rules &amp; Kode Etik" backgroundWhite>
-            <Wrapper>
+        <BottomSheet title="Rules &amp; Kode Etik" handler={handler} fullHeight>
+            <RulesWrapper>
                 {ready && items.map((i: any, idx: any) => (
                     // eslint-disable-next-line react/no-array-index-key
                     <Accordion key={idx}>
@@ -41,9 +45,9 @@ const Rules = () => {
                 {!ready && (
                     <Loading type="ring" alignCenter />
                 )}
-            </Wrapper>
-        </Main>
+            </RulesWrapper>
+        </BottomSheet>
     );
 };
 
-export default Rules;
+export default RulesSheet;

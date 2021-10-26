@@ -9,7 +9,7 @@ interface ParamTypes {
     code: string
 }
 
-const Referral = () => {
+const ReferralSearch = () => {
     const { code } = useParams<ParamTypes>();
 
     const fetchData = async () => {
@@ -20,6 +20,7 @@ const Referral = () => {
         };
         await API.checkReferralCode(payload).then((res: any) => {
             Cookies.set('referral', code);
+            Cookies.set('referral_name', res.data.fullname);
             Cookies.set('referral_role', res.data.role);
             window.location.href = '/register?ref=true';
         }).catch(() => {
@@ -39,4 +40,4 @@ const Referral = () => {
     );
 };
 
-export default Referral;
+export default ReferralSearch;

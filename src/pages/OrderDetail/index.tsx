@@ -151,6 +151,7 @@ const OrderDetail = () => {
                             <SectionWrapper>
                                 <Text block extraSmall>{orderDetail.courier.name}</Text>
                                 <Text block extraSmall>{orderDetail.courier.service}</Text>
+                                <Text block bold extraSmall>{priceFormat(orderDetail.courier.cost)}</Text>
                                 <Text block extraSmall>{orderDetail.resi}</Text>
                                 {!orderDetail.resi && orderDetail.status !== 'unpaid' && orderDetail.status !== 'cancel' && (
                                     <Text block bold extraSmall marginY>Admin belum menginput no. resi</Text>
@@ -161,7 +162,7 @@ const OrderDetail = () => {
                                     <Text block bold>Alamat Pengiriman</Text>
                                 </div>
                                 <div>
-                                    <Text block bold alignRight className="action" onClick={() => onCopyClick(orderDetail.address.detail)}>Salin</Text>
+                                    {/* <Text block bold alignRight className="action" onClick={() => onCopyClick(orderDetail.address.detail)}>Salin</Text> */}
                                 </div>
                             </TitleWrapper>
                             <SectionWrapper>
@@ -185,16 +186,16 @@ const OrderDetail = () => {
                                     <Text block bold>Catatan</Text>
                                 </div>
                                 <div>
-                                    {orderDetail.notes !== 'none' && (
+                                    {/* {orderDetail.notes !== 'none' && (
                                         <Text block bold alignRight className="action" onClick={() => onCopyClick(orderDetail.address.detail)}>Salin</Text>
-                                    )}
+                                    )} */}
                                 </div>
                             </TitleWrapper>
                             <SectionWrapper>
                                 {orderDetail.notes && orderDetail.notes !== 'none' && (
                                     <Text extraSmall>{orderDetail.notes}</Text>
                                 )}
-                                {orderDetail.notes === 'none' && (
+                                {!orderDetail.notes && (
                                     <Text extraSmall>Tidak ada catatan</Text>
                                 )}
                             </SectionWrapper>

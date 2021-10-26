@@ -73,7 +73,7 @@ const Menu = (props: Props) => {
                         <Icon icon="award" />
                         <Text extraSmall>K-Poin</Text>
                     </div>
-                    <Text extraSmall bold>8000 Poin</Text>
+                    <Text extraSmall bold>0 Poin</Text>
                 </MenuItem>
                 <MenuItem>
                     <Link to={role && role !== 'retail' ? '/fee-education' : '/join-mitra'}>

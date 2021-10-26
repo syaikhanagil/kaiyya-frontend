@@ -255,7 +255,7 @@ export const FlexBox = styled('div') <{column?: boolean, row?: boolean, wrap?: b
  * Text Paragraph
  */
 
-export const Text = styled('p') <{ badge?:boolean, bold?: boolean, extraSmall?: boolean, block?: boolean, marginY?: boolean, alignCenter?: boolean, alignRight?: boolean, }>`
+export const Text = styled('p') <{ badge?:boolean, bold?: boolean, extraSmall?: boolean, block?: boolean, marginY?: boolean, alignCenter?: boolean, alignRight?: boolean, alignLeft?: boolean }>`
     position: relative;
     display: ${(props) => (props.block ? 'block' : 'inline-block')};
     font-weight: ${(props) => (props.bold ? '600' : '400')};
@@ -263,6 +263,7 @@ export const Text = styled('p') <{ badge?:boolean, bold?: boolean, extraSmall?: 
     ${(props) => (props.marginY && 'margin-top: 5px; margin-bottom: 5px;')}
     ${(props) => (props.alignCenter && 'text-align: center;')}
     ${(props) => (props.alignRight && 'text-align: right;')}
+    ${(props) => (props.alignLeft && 'text-align: left;')}
     ${(props) => (props.badge && `
         background: #f0f0f0;
         border-radius: 4px;
