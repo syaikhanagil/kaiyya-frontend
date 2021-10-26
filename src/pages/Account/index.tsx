@@ -235,7 +235,9 @@ const Account = (props: any) => {
                     </ProfileWrapper>
                 </AccountHeader>
                 <Menu />
-                <UnverifiedNotif />
+                {verified.admin && role && role !== 'retail' && (
+                    <UnverifiedNotif />
+                )}
                 <AccountBody>
                     <section className="my-2">
                         <MenuList>
