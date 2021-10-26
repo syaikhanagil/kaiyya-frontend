@@ -235,7 +235,7 @@ const Account = (props: any) => {
                     </ProfileWrapper>
                 </AccountHeader>
                 <Menu />
-                {verified.admin && role && role !== 'retail' && (
+                {!verified.admin && role && role !== 'retail' && (
                     <UnverifiedNotif />
                 )}
                 <AccountBody>
