@@ -41,7 +41,7 @@ const MenuItem = styled(Link)`
 
 const Help = () => {
     return (
-        <Main useHeader paddingTop backTo="/" title="Bantuan" backgroundWhite>
+        <Main useHeader paddingTop backTo="/" title="Bantuan" backgroundWhite useNavigation activeMenu="help">
             <MenuList>
                 <MenuItem to="/contact-us">
                     <span>Hubungi Kami</span>

@@ -64,6 +64,7 @@ const ProfileWrapper = styled.div`
 
         #name {
             position: relative;
+            text-transform: capitalize;
 
             .feather {
                 width: 14px;
