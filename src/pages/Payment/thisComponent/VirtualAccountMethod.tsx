@@ -260,13 +260,13 @@ const VirtualAccountMethod = (props: Props) => {
                         <HowToPayContent data={bsiData} activeTab={tab} />
                     )}
                     {data.bank_code === 'MANDIRI' && (
-                        <MandiriContent vaNumber={data.virtual_account_number} activeTab={tab} />
+                        <MandiriContent vaNumber={data.virtual_account_number} tabActive={tab} />
                     )}
                     {data.bank_code === 'PERMATA' && (
-                        <PermataContent vaNumber={data.virtual_account_number} activeTab={tab} />
+                        <PermataContent vaNumber={data.virtual_account_number} tabActive={tab} />
                     )}
                     {data.bank_code === 'SAHABAT_SAMPOERNA' && (
-                        <SampoernaContent vaNumber={data.virtual_account_number} activeTab={tab} />
+                        <SampoernaContent vaNumber={data.virtual_account_number} tabActive={tab} />
                     )}
                 </TabContent>
             </HowToPayWrapper>
