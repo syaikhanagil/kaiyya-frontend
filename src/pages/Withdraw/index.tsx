@@ -17,13 +17,14 @@ const WithdrawWrapper = styled.div`
     position: relative;
     display: block;
     width: 100%;
+    height: 100vh;
 `;
 
 const SectionWrapper = styled.div <{ flex?: boolean }>`
     position: relative;
     display: ${(props) => (props.flex ? 'flex' : 'block')};
     width: 100%;
-    height: 100%;
+    height: auto;
     background: var(--color-white);
     padding: 10px 1rem;
     margin-bottom: 5px;
@@ -40,8 +41,8 @@ const AmountWrapper = styled.div`
     display: flex;
     width: 100%;
     flex-direction: row;
-    font-size: 24px;
-    padding-bottom: 10px;
+    font-size: 20px;
+    padding-bottom: 5px;
     border-bottom: 1px solid #eee;
 
     p {
@@ -55,7 +56,7 @@ const AmountInput = styled.input`
     display: block;
     width: 100%;
     outline: none;
-    font-size: 24px;
+    font-size: 20px;
     &:disabled {
         background: var(--color-white);
     }
@@ -119,8 +120,8 @@ const Withdraw = (props: Props) => {
     }, [total]);
 
     useEffect(() => {
-        if (amount > 5000) {
-            setSubtotal(amount - 5000);
+        if (amount > 6500) {
+            setSubtotal(amount - 6500);
             return;
         }
         setSubtotal(0);
@@ -180,7 +181,7 @@ const Withdraw = (props: Props) => {
                     </div>
                     <div>
                         <Text block bold extraSmall alignRight>{priceFormat(amount)}</Text>
-                        <Text block bold extraSmall alignRight>{priceFormat(5000)}</Text>
+                        <Text block bold extraSmall alignRight>{priceFormat(6500)}</Text>
                         <Text block bold extraSmall alignRight>{priceFormat(subtotal)}</Text>
                     </div>
                 </SectionWrapper>

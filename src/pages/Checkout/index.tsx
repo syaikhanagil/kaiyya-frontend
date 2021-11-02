@@ -13,7 +13,7 @@ import priceFormat from '../../helpers/price';
 import action from '../../configs/redux/action';
 import discount from '../../helpers/discount';
 import UnverifiedNotif from '../../components/UnverifiedNotif';
-// import calculatePoint from '../../helpers/point';
+import calculatePoint from '../../helpers/point';
 // import API from '../../configs/api';
 
 const CheckoutWrapper = styled.div`
@@ -345,7 +345,10 @@ const Checkout = (props: any) => {
                                 <Text bold>{priceFormat(subtotal + courierService.cost[0].value)}</Text>
                             )}
                         </div>
-                        {/* <Text block bold>{calculatePoint(subtotal)}</Text> */}
+                        <div>
+                            <Text bold>K-Poin yang didapatkan</Text>
+                            <Text block bold>{calculatePoint(subtotal)}</Text>
+                        </div>
                     </SubtotalWrapper>
                 </CheckoutWrapper>
                 <FloatingWrapper>

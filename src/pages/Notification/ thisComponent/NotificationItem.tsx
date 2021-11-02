@@ -9,6 +9,8 @@ const NotificationItemWrapper = styled.div`
     height: 100%;
     padding: 10px 1rem;
     background: var(--color-white);
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
     
     &.unread > p#title {
         color: var(--primary);
@@ -25,13 +27,15 @@ const NotificationItemWrapper = styled.div`
 `;
 
 interface Props {
-    data: any
+    data: any,
+    // eslint-disable-next-line no-unused-vars
+    onSelect: (payload: any) => void
 }
 
 const NotificationItem = (props: Props) => {
-    const { data } = props;
+    const { data, onSelect } = props;
     return (
-        <NotificationItemWrapper className={data.status}>
+        <NotificationItemWrapper onClick={() => onSelect(data)} className={data.status}>
             <Text block bold extraSmall id="title">
                 {data.title}
                 {data.status === 'unread' && (

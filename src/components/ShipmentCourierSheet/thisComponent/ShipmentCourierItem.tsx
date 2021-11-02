@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import API from '../../../configs/api';
 import priceFormat from '../../../helpers/price';
 import Icon from '../../Icon';
+import Shimmer from '../../Shimmer';
 import { Text } from '../../Styled';
 
 const Item = styled.div`
@@ -149,8 +150,16 @@ const ShipmentCourierItem = (props: Props) => {
                     )}
                 </ServiceItem>
             ))}
-            {open && serviceItems.length < 1 && (
+            {ready && open && serviceItems.length < 1 && (
                 <Text block bold marginY alignCenter>Kurir tidak menjangkau wilayah anda</Text>
+            )}
+            {!ready && (
+                <ServiceItem>
+                    <div>
+                        <Shimmer height="10px" width="150px" />
+                        <Shimmer height="10px" width="100px" margin />
+                    </div>
+                </ServiceItem>
             )}
         </>
     );

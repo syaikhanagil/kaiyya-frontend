@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Loading from '../../components/Loading';
+import NotificationDetailSheet from '../../components/NotificationDetailSheet';
+import { Text } from '../../components/Styled';
 import action from '../../configs/redux/action';
 import Main from '../../layouts/Main';
 import NotificationItem from './ thisComponent/NotificationItem';
@@ -54,10 +56,12 @@ const Notification = (props: Props) => {
     const [ready, setReady] = useState(false);
     const [activeMenu, setActiveMenu] = useState('order');
     const [listItems, setListItems] = useState([]);
+    const [detailDialog, setDetailDialog] = useState(false);
+    const [selectedId, setSelectedId] = useState('');
     const [filterList, setFilterList] = useState([
-        { id: 0, type: 'order', name: 'Pesanan', total: 0 },
-        { id: 1, type: 'promo', name: 'Promo', total: 0 },
-        { id: 2, type: 'other', name: 'Lainnya', total: 0 }
+        { id: 0, type: 'order', equal: false, name: 'Pesanan', total: 0 },
+        { id: 1, type: 'promo', equal: false, name: 'Promo', total: 0 },
+        { id: 2, type: 'other', equal: false, name: 'Lainnya', total: 0 }
     ]);
 
     useEffect(() => {
@@ -82,13 +86,28 @@ const Notification = (props: Props) => {
 
     useEffect(() => {
         setReady(false);
-        setListItems(filterItems(activeMenu, false));
+        handleActiveMenu('order', 'order', true);
         setFilterList([
-            { id: 0, type: 'order', name: 'Pesanan', total: 2 },
-            { id: 1, type: 'promo', name: 'Promo', total: 0 },
-            { id: 2, type: 'other', name: 'Lainnya', total: 0 }
+            { id: 0, type: 'order', equal: true, name: 'Pesanan', total: 2 },
+            { id: 1, type: 'promo', equal: true, name: 'Promo', total: 0 },
+            { id: 2, type: 'other', equal: false, name: 'Lainnya', total: 0 }
         ]);
-    }, [notifications, activeMenu]);
+    }, []);
+
+    useEffect(() => {
+        handleActiveMenu(activeMenu, activeMenu, activeMenu !== 'other');
+    }, [notifications]);
+
+    const handleActiveMenu = (menu: string, channel: string, equal: boolean) => {
+        setReady(false);
+        setActiveMenu(menu);
+        setListItems(filterItems(channel, equal));
+    };
+
+    const handleDialog = (id: string) => {
+        setSelectedId(id);
+        setDetailDialog(true);
+    };
 
     return (
         <Main useHeader paddingTop backBtn title="Notifikasi" backgroundWhite>
@@ -96,7 +115,7 @@ const Notification = (props: Props) => {
                 <MenuWrapper>
                     {filterList.map((item: any) => (
                         // eslint-disable-next-line react/no-array-index-key
-                        <MenuItem key={item.id} className={activeMenu === item.type ? 'active' : ''} onClick={() => setActiveMenu(item.type)}>
+                        <MenuItem key={item.id} className={activeMenu === item.type ? 'active' : ''} onClick={() => handleActiveMenu(item.type, item.channel, item.equal)}>
                             {item.name}
                         </MenuItem>
                     ))}
@@ -104,10 +123,16 @@ const Notification = (props: Props) => {
             </NotificationHeader>
             {ready && listItems.map((i: any, idx: any) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <NotificationItem key={idx} data={i} />
+                <NotificationItem key={idx} data={i} onSelect={(data: any) => handleDialog(data)} />
             ))}
+            {ready && listItems.length < 1 && (
+                <Text block alignCenter marginY>Belum ada notifikasi</Text>
+            )}
             {!ready && (
                 <Loading type="ring" alignCenter />
+            )}
+            {detailDialog && (
+                <NotificationDetailSheet data={selectedId} handler={(visibility: boolean) => setDetailDialog(visibility)} />
             )}
         </Main>
     );

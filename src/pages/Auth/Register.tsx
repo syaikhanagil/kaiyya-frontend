@@ -10,6 +10,9 @@ import action from '../../configs/redux/action';
 // import logo from '../../assets/img/logo-kaiyya.png';
 import banner from '../../assets/img/banner-web-login.jpg';
 import RulesSheet from '../../components/RulesSheet';
+import validateEmail from '../../helpers/validateEmail';
+import phoneInput from '../../helpers/phoneInput';
+import PhoneNumberInput from '../../components/PhoneNumberInput';
 
 const RegisterWrapper = styled.div`
     position: relative;
@@ -160,7 +163,8 @@ interface State {
     password: string,
     passwordView: boolean,
     registerAs: string,
-    rulesDialog: boolean
+    rulesDialog: boolean,
+    emailError: boolean
 }
 
 interface Props {
@@ -179,39 +183,42 @@ class Register extends React.Component<Props, State> {
             password: '',
             passwordView: true,
             registerAs: 'personal',
-            rulesDialog: false
+            rulesDialog: false,
+            emailError: false
         };
         this.handleInput = this.handleInput.bind(this);
+        this.handlePhoneInput = this.handlePhoneInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        const { search } = window.location;
-        if (search !== '?ref=true') {
-            Cookies.remove('referral');
-            Cookies.remove('referral_role');
-            Cookies.remove('referral_name');
-        } else {
-            const referralRole = Cookies.get('referral_role') || '';
-            if (referralRole === 'distributor') {
-                this.setState({ role: 'reseller' });
-            }
-            if (referralRole === 'reseller') {
-                this.setState({ role: 'subreseller' });
-            }
+        // const { search } = window.location;
+        const referralRole = Cookies.get('referral_role') || '';
+        if (referralRole === 'distributor') {
+            this.setState({ role: 'reseller' });
+        }
+        if (referralRole === 'reseller') {
+            this.setState({ role: 'subreseller' });
         }
     }
 
     handleInput(event: { target: { id: any; value: any; }; }) {
         if (event.target.id === 'phone') {
-            const regex = /^[0-9]{0,13}$/;
-            if (regex.test(event.target.value)) {
+            if (phoneInput(event.target.value)) {
                 this.setState({ phone: event.target.value });
             }
+            // const regex = /^[0-9]{0,13}$/;
+            // if (regex.test(event.target.value)) {
+            //     this.setState({ phone: event.target.value });
+            // }
             return;
         }
         const newState = { [event.target.id]: event.target.value } as Pick<State, keyof State>;
         this.setState(newState);
+    }
+
+    handlePhoneInput = (phone: string) => {
+        this.setState({ phone });
     }
 
     handleSubmit(event: any) {
@@ -226,6 +233,10 @@ class Register extends React.Component<Props, State> {
             if (role === 'reseller') defaultRef = 'kaiyya_distributor';
             if (role === 'subreselelr') defaultRef = 'kaiyya_reseller';
             if (role === '') defaultRef = 'kaiyya_subreseller';
+        }
+        if (!validateEmail(email)) {
+            this.setState({ emailError: true });
+            return;
         }
         const data = {
             fullname,
@@ -243,7 +254,7 @@ class Register extends React.Component<Props, State> {
 
     render() {
         const { errorAt } = this.props;
-        const { fullname, email, phone, role, password, passwordView, registerAs, rulesDialog } = this.state;
+        const { fullname, email, phone, role, password, passwordView, registerAs, rulesDialog, emailError } = this.state;
         const referral = Cookies.get('referral') || '';
         const referralRole = Cookies.get('referral_role') || '';
         const referralName = Cookies.get('referral_name') || '';
@@ -278,10 +289,15 @@ class Register extends React.Component<Props, State> {
                                     <Input floatingLabel name="fullname" id="fullname" placeholder="Full Name" onChange={this.handleInput} autoComplete="off" style={{ textTransform: 'capitalize' }} value={fullname} />
                                     <Label floatingLabel htmlFor="fullname">Nama</Label>
                                 </InputWrapper>
-                                <InputWrapper error={errorAt === 'email'}>
+                                <InputWrapper error={errorAt === 'email' || emailError}>
                                     {errorAt === 'email' && (
                                         <ErrorWrapper id="error">
                                             <span>Alamat email sudah terdaftar</span>
+                                        </ErrorWrapper>
+                                    )}
+                                    {emailError && (
+                                        <ErrorWrapper id="error">
+                                            <span>Alamat email tidak valid</span>
                                         </ErrorWrapper>
                                     )}
                                     <Input floatingLabel name="email" id="email" placeholder="Email" onChange={this.handleInput} value={email} />
@@ -293,9 +309,17 @@ class Register extends React.Component<Props, State> {
                                             <span>Nomor HP sudah terdaftar</span>
                                         </ErrorWrapper>
                                     )}
+                                    <PhoneNumberInput onChange={(value: string) => this.handlePhoneInput(value)} />
+                                </InputWrapper>
+                                {/* <InputWrapper error={errorAt === 'phone'}>
+                                    {errorAt === 'phone' && (
+                                        <ErrorWrapper id="error">
+                                            <span>Nomor HP sudah terdaftar</span>
+                                        </ErrorWrapper>
+                                    )}
                                     <Input floatingLabel type="text" name="phone" id="phone" placeholder="Phone" onChange={this.handleInput} value={phone} />
                                     <Label floatingLabel htmlFor="phone">Nomor HP</Label>
-                                </InputWrapper>
+                                </InputWrapper> */}
                                 {registerAs === 'mitra' && !referral && (
                                     <InputWrapper>
                                         <Select name="role" id="role" placeholder="Role" value={role} onChange={this.handleInput}>

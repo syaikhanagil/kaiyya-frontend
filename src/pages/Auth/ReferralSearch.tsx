@@ -19,9 +19,10 @@ const ReferralSearch = () => {
             }
         };
         await API.checkReferralCode(payload).then((res: any) => {
-            Cookies.set('referral', code);
-            Cookies.set('referral_name', res.data.fullname);
-            Cookies.set('referral_role', res.data.role);
+            const inTwoHours = new Date(new Date().getTime() + 119 * 60 * 1000);
+            Cookies.set('referral', code, { expires: inTwoHours });
+            Cookies.set('referral_name', res.data.fullname, { expires: inTwoHours });
+            Cookies.set('referral_role', res.data.role, { expires: inTwoHours });
             window.location.href = '/register?ref=true';
         }).catch(() => {
             Cookies.set('referral', '');
