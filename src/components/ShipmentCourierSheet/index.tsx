@@ -67,21 +67,6 @@ const ShipmentCourierSheet = (props: Props) => {
                     }}
                 />
             ))}
-            {/* <ShipmentCourierItem
-                destination={destination.subdistrictId}
-                weight={1000}
-                courierName="Lainnya"
-                courierCode="Lainnya"
-                activeService={selectedService}
-                onCourierSelect={(name: string, code: string) => {
-                    setCourierName(name);
-                    setCourierCode(code);
-                }}
-                onServiceSelect={(data: any, index: string) => {
-                    setCourierService(data);
-                    setSelectedService(index);
-                }}
-            /> */}
             <SubmitWrapper>
                 <Button block fullWidth primary disabled={!courierCode || !selectedService} onClick={() => handleSubmit()}>Konfirmasi</Button>
             </SubmitWrapper>

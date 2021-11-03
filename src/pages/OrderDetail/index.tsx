@@ -165,16 +165,42 @@ const OrderDetail = () => {
                                     {/* <Text block bold alignRight className="action" onClick={() => onCopyClick(orderDetail.address.detail)}>Salin</Text> */}
                                 </div>
                             </TitleWrapper>
-                            <SectionWrapper>
-                                <Text block bold extraSmall>{orderDetail.address.name}</Text>
-                                <Text block extraSmall>{orderDetail.address.phone}</Text>
-                                <div className="areas">
-                                    <Text extraSmall>{`${orderDetail.address.subdistrict}, `}</Text>
-                                    <Text extraSmall>{`${orderDetail.address.city}, `}</Text>
-                                    <Text extraSmall>{orderDetail.address.province}</Text>
-                                </div>
-                                <Text extraSmall>{orderDetail.address.detail}</Text>
-                            </SectionWrapper>
+                            {orderDetail.address.detail && !orderDetail.shipment.detail && (
+                                <SectionWrapper>
+                                    <Text block bold extraSmall>{orderDetail.address.name}</Text>
+                                    <Text block extraSmall>{orderDetail.address.phone}</Text>
+                                    <div className="areas">
+                                        <Text extraSmall>{`${orderDetail.address.subdistrict}, `}</Text>
+                                        <Text extraSmall>{`${orderDetail.address.city}, `}</Text>
+                                        <Text extraSmall>{orderDetail.address.province}</Text>
+                                    </div>
+                                    <Text extraSmall>{orderDetail.address.detail}</Text>
+                                </SectionWrapper>
+                            )}
+                            {orderDetail.address.detail && orderDetail.shipment.detail && (
+                                <SectionWrapper>
+                                    <Text block bold extraSmall>{orderDetail.shipment.name}</Text>
+                                    <Text block extraSmall>{orderDetail.shipment.phone}</Text>
+                                    <div className="areas">
+                                        <Text extraSmall>{`${orderDetail.shipment.subdistrict}, `}</Text>
+                                        <Text extraSmall>{`${orderDetail.shipment.city}, `}</Text>
+                                        <Text extraSmall>{orderDetail.shipment.province}</Text>
+                                    </div>
+                                    <Text extraSmall>{orderDetail.shipment.detail}</Text>
+                                </SectionWrapper>
+                            )}
+                            {!orderDetail.address.detail && orderDetail.shipment.detail && (
+                                <SectionWrapper>
+                                    <Text block bold extraSmall>{orderDetail.shipment.name}</Text>
+                                    <Text block extraSmall>{orderDetail.shipment.phone}</Text>
+                                    <div className="areas">
+                                        <Text extraSmall>{`${orderDetail.shipment.subdistrict}, `}</Text>
+                                        <Text extraSmall>{`${orderDetail.shipment.city}, `}</Text>
+                                        <Text extraSmall>{orderDetail.shipment.province}</Text>
+                                    </div>
+                                    <Text extraSmall>{orderDetail.shipment.detail}</Text>
+                                </SectionWrapper>
+                            )}
                             <SectionWrapper>
                                 {items.map((i: any, idx: any) => (
                                     // eslint-disable-next-line react/no-array-index-key
@@ -245,6 +271,11 @@ const OrderDetail = () => {
                             <Button block fullWidth primary onClick={() => pushLocation.path(`/payment/${orderDetail.payment._id}`)}>Bayar Sekarang</Button>
                         </FloatingWrapper>
                     )}
+                    {/* {orderDetail.status === 'shipment' && (
+                        <FloatingWrapper>
+                            <Button block fullWidth primary onClick={() => pushLocation.path(`/payment/${orderDetail.payment._id}`)}>Pesanan Telah Diteruma</Button>
+                        </FloatingWrapper>
+                    )} */}
                     {cancelDialog && (
                         <OrderCancelDialog id={orderId} handler={(visibility: boolean) => setCancelDialog(visibility)} />
                     )}

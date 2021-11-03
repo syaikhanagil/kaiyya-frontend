@@ -70,23 +70,17 @@ const Navigation = (props: Props) => {
                 </ItemIcon>
                 <ItemTitle>Beranda</ItemTitle>
             </ItemWrapper>
-            {/* <ItemWrapper to="/catalog" className={activeMenu === 'catalog' ? 'active' : ''}>
-                <ItemIcon>
-                    <Icon icon="grid" />
-                </ItemIcon>
-                <ItemTitle>Katalog</ItemTitle>
-            </ItemWrapper> */}
-            <ItemWrapper to="/chat" className={activeMenu === 'chat' ? 'active' : ''}>
-                <ItemIcon>
-                    <Icon icon="message-square" />
-                </ItemIcon>
-                <ItemTitle>Chat</ItemTitle>
-            </ItemWrapper>
             <ItemWrapper to="/orders" className={activeMenu === 'orders' ? 'active' : ''}>
                 <ItemIcon>
                     <Icon icon="file-text" />
                 </ItemIcon>
                 <ItemTitle>Pesanan</ItemTitle>
+            </ItemWrapper>
+            <ItemWrapper to="/chat" className={activeMenu === 'chat' ? 'active' : ''}>
+                <ItemIcon>
+                    <Icon icon="message-square" />
+                </ItemIcon>
+                <ItemTitle>Chat</ItemTitle>
             </ItemWrapper>
             <ItemWrapper to="/help" className={activeMenu === 'help' ? 'active' : ''}>
                 <ItemIcon>

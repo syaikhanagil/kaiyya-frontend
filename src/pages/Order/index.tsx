@@ -130,7 +130,7 @@ const Order = (props: any) => {
     }, [orders, activeMenu]);
 
     return (
-        <Main useHeader paddingTop backTo="/" useNavigation paddingBottom activeMenu="orders" title="Pesanan">
+        <Main useHeader paddingTop backTo="/" useNavigation paddingBottom activeMenu="orders" title="Pesanan" cartBtn>
             <OrderWrapper>
                 <OrderHeader>
                     <ScrollContainer className="scroll-container">

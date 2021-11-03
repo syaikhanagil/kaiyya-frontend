@@ -76,7 +76,15 @@ const OrderItem = (props: Props) => {
                 <Text>
                     <Icon icon="truck" />
                 </Text>
-                <Text extraSmall>{`${data.address.detail} - ${data.address.subdistrict}, ${data.address.city}, ${data.address.province}.`}</Text>
+                {!data.address.detail && data.shipment.detail && (
+                    <Text extraSmall>{`${data.shipment.detail} - ${data.shipment.subdistrict}, ${data.shipment.city}, ${data.shipment.province}.`}</Text>
+                )}
+                {data.address.detail && data.shipment.detail && (
+                    <Text extraSmall>{`${data.shipment.detail} - ${data.shipment.subdistrict}, ${data.shipment.city}, ${data.shipment.province}.`}</Text>
+                )}
+                {data.address.detail && !data.shipment.detail && (
+                    <Text extraSmall>{`${data.address.detail} - ${data.address.subdistrict}, ${data.address.city}, ${data.address.province}.`}</Text>
+                )}
             </ShipmentWrapper>
         </ItemWrapper>
     );

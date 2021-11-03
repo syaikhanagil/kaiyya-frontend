@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import API from '../../configs/api';
 import priceFormat from '../../helpers/price';
+// import Icon from '../Icon';
 import Shimmer from '../Shimmer';
 import { Text } from '../Styled';
 
@@ -93,6 +94,31 @@ const LinkWrapper = styled(Link)`
     z-index: 3;
 `;
 
+// const NewReleaseBadge = styled.div`
+//     position: absolute;
+//     display: block;
+//     width: auto;
+//     background: var(--color-black);
+//     padding: 0 15px;
+//     color: var(--color-white);
+//     font-size: 12px;
+//     text-transform: uppercase;
+//     border-radius: 0 0 0 25px;
+//     top: 0;
+//     right: 0;
+//     z-index: 2;
+//     p {
+//         vertical-align: middle;
+//     }
+//     .feather {
+//         color: var(--color-white);
+//         width: 14px;
+//         height: 14px;
+//         vertical-align: middle;
+//         margin-top: -2px;
+//     }
+// `;
+
 interface Props {
     id: string,
     title: string,
@@ -124,6 +150,10 @@ const ProductCard = (props: Props) => {
         <Wrapper useMargin={margin}>
             <LinkWrapper to={`/product/${slug}`} />
             <Thumbnail>
+                {/* <NewReleaseBadge>
+                    <Icon icon="bookmark" />
+                    <Text>New Release</Text>
+                </NewReleaseBadge> */}
                 {type === 'preorder' && (
                     <Badge>Preorder</Badge>
                 )}

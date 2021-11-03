@@ -213,6 +213,7 @@ const Checkout = (props: any) => {
         const data = {
             payerName: fullname,
             address: shipmentAddressId,
+            shipment: shipmentAddress,
             courierName: courier,
             courierCode,
             courierService: `${courierService.service} - (${courierService.description})`,
@@ -222,14 +223,14 @@ const Checkout = (props: any) => {
             products: items,
             discount: addons.discount,
             notes,
-            subtotal
+            subtotal,
+            point: calculatePoint(subtotal)
         };
-        // console.log(data);
         dispatch(action.createOrder(data));
     };
 
     return (
-        <Main useHeader paddingTop backBtn title="Checkout" paddingBottom>
+        <Main useHeader paddingTop backTo="/cart" title="Checkout" paddingBottom>
             <>
                 <CheckoutWrapper>
                     <SectionWrapper onClick={() => setShipmentAddressDialog(true)}>
@@ -324,6 +325,10 @@ const Checkout = (props: any) => {
                     </SectionWrapper>
                     <SubtotalWrapper>
                         <div>
+                            <Text extraSmall>K-Poin yang didapatkan</Text>
+                            <Text extraSmall>{calculatePoint(subtotal)}</Text>
+                        </div>
+                        <div>
                             <Text extraSmall>Subtotal Produk</Text>
                             <Text extraSmall>{priceFormat(subtotal)}</Text>
                         </div>
@@ -339,15 +344,11 @@ const Checkout = (props: any) => {
                         <div>
                             <Text bold>Subtotal Pembayaran</Text>
                             {!courierService.service && (
-                                <Text bold>{priceFormat(subtotal + 0)}</Text>
+                                <Text bold>{priceFormat(subtotal)}</Text>
                             )}
                             {courierService.service && (
                                 <Text bold>{priceFormat(subtotal + courierService.cost[0].value)}</Text>
                             )}
-                        </div>
-                        <div>
-                            <Text bold>K-Poin yang didapatkan</Text>
-                            <Text block bold>{calculatePoint(subtotal)}</Text>
                         </div>
                     </SubtotalWrapper>
                 </CheckoutWrapper>

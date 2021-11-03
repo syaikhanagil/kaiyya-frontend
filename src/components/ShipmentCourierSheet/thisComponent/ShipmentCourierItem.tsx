@@ -153,7 +153,7 @@ const ShipmentCourierItem = (props: Props) => {
             {ready && open && serviceItems.length < 1 && (
                 <Text block bold marginY alignCenter>Kurir tidak menjangkau wilayah anda</Text>
             )}
-            {!ready && (
+            {!ready && open && (
                 <ServiceItem>
                     <div>
                         <Shimmer height="10px" width="150px" />
