@@ -139,6 +139,7 @@ const Withdraw = (props: Props) => {
         dispatch(action.showFullscreenLoader());
         API.createWithdrawal(data).then(() => {
             dispatch(action.hideFullscreenLoader());
+            dispatch(action.fetchAccountDetail());
             setWithdrawDialog(true);
         });
     };
