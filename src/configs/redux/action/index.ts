@@ -7,7 +7,7 @@ import { fetchCatalog, fetchCatalogDetail } from './catalog';
 import { fetchCategory, fetchCategoryDetail } from './category';
 import { showToast, showFullscreenLoader, hideFullscreenLoader } from './global';
 import { fetchNotification, fetchNotificationDetail } from './notification';
-import { createOrder, fetchOrder, cancelOrder } from './order';
+import { createOrder, fetchOrder, cancelOrder, confirmOrder } from './order';
 import { fetchProduct, fetchProductDetail } from './product';
 import { fetchReferralDownline, fetchReferralIncome } from './referral';
 import { createWithdraw, fetchWithdraw } from './withdraw';
@@ -43,6 +43,7 @@ const action = {
 
     createOrder,
     fetchOrder,
+    confirmOrder,
     cancelOrder,
 
     addItemToCart,

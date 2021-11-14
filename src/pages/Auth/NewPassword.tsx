@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Cookies from 'js-cookie';
 import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
 import Main from '../../layouts/Main';
 import banner from '../../assets/img/banner-cherry.jpg';
 import { Button, Input, InputWrapper, Label, Text } from '../../components/Styled';
@@ -95,6 +96,7 @@ class NewPassword extends React.Component<any, State> {
             }
         };
         API.resetPasswordConfirm(data).then((res: any) => {
+            window.location.href = '/login';
             console.log(res);
         }).catch((err: any) => {
             console.log(err);
@@ -148,4 +150,4 @@ class NewPassword extends React.Component<any, State> {
     }
 }
 
-export default NewPassword;
+export default connect(null)(NewPassword);

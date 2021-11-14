@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
 import Main from '../../layouts/Main';
 import banner from '../../assets/img/banner-web-login.jpg';
 import { Button, Input, InputWrapper, Label, Text } from '../../components/Styled';
 import Icon from '../../components/Icon';
 import API from '../../configs/api';
+import CONSTANT from '../../constant';
 
 const ResetWrapper = styled.div`
     position: relative;
@@ -60,15 +62,30 @@ const TextWrapper = styled.div`
     margin-bottom: 15px;
 `;
 
+const ErrorWrapper = styled.div`
+    position: relative;
+    display: block;
+    width: 100%;
+    span {
+        font-size: var(--font-extra-small);
+    }
+`;
+
 interface State {
-    email: string
+    email: string,
+    submit: boolean,
+    success: boolean,
+    error: boolean
 }
 
 class ResetPassword extends React.Component<any, State> {
     constructor(props: any) {
         super(props);
         this.state = {
-            email: ''
+            email: '',
+            submit: false,
+            success: false,
+            error: false
         };
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -81,21 +98,25 @@ class ResetPassword extends React.Component<any, State> {
 
     handleSubmit(event: any) {
         event.preventDefault();
+        const { dispatch } = this.props;
         const { email } = this.state;
         const data = {
             body: {
                 email
             }
         };
-        API.resetPasswordRequest(data).then((res: any) => {
-            console.log(res);
-        }).catch((err: any) => {
-            console.log(err);
+        dispatch({ type: CONSTANT.SET_FULLSCREEN_LOADER, visible: true });
+        API.resetPasswordRequest(data).then(() => {
+            dispatch({ type: CONSTANT.SET_FULLSCREEN_LOADER, visible: false });
+            this.setState({ submit: false, error: false, success: true });
+        }).catch(() => {
+            dispatch({ type: CONSTANT.SET_FULLSCREEN_LOADER, visible: false });
+            this.setState({ submit: false, error: true, success: false });
         });
     }
 
     render() {
-        const { email } = this.state;
+        const { email, success, error, submit } = this.state;
         return (
             <>
                 <Helmet>
@@ -111,11 +132,19 @@ class ResetPassword extends React.Component<any, State> {
                                 <TextWrapper>
                                     <Text block>Masukkan email kamu yang sudah terdaftar di bawah ini untuk me-reset kata sandi</Text>
                                 </TextWrapper>
-                                <InputWrapper>
+                                <InputWrapper error={error}>
+                                    {error && (
+                                        <ErrorWrapper id="error">
+                                            <span>Alamat email tidak terdaftar</span>
+                                        </ErrorWrapper>
+                                    )}
                                     <Input floatingLabel name="email" id="email" placeholder="Email" onChange={this.handleInput} value={email} />
                                     <Label floatingLabel htmlFor="email">Email</Label>
                                 </InputWrapper>
-                                <Button type="submit" fullWidth block primary onClick={this.handleSubmit}>Reset Password</Button>
+                                {success && (
+                                    <Text block extraSmall style={{ marginBottom: 20 }}>Link untuk perubahan kata sandi telah dikirim, silahkan cek email anda.</Text>
+                                )}
+                                <Button type="submit" fullWidth block primary disabled={submit} onClick={this.handleSubmit}>Reset Password</Button>
                                 <InfoWrapper>
                                     <a href="/login">
                                         <Icon icon="chevron-left" />
@@ -131,4 +160,4 @@ class ResetPassword extends React.Component<any, State> {
     }
 }
 
-export default ResetPassword;
+export default connect(null)(ResetPassword);

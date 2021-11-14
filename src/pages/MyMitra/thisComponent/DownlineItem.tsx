@@ -47,13 +47,16 @@ const SubDownlineWrapper = styled.div`
 `;
 
 interface Props {
-    data: any
+    data: any,
+    // eslint-disable-next-line no-unused-vars
+    counter: (total: number) => void
 }
 
 const DownlineItem = (props: Props) => {
-    const { data } = props;
+    const { data, counter } = props;
     const [downline, setDownline] = useState<any>([]);
     const [expanded, setExpanded] = useState(false);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         const payload = {
@@ -61,8 +64,19 @@ const DownlineItem = (props: Props) => {
         };
         API.fetchReferralDownline(payload).then((res: any) => {
             setDownline(res.data);
+            setTotal(res.data.length);
         });
     }, []);
+
+    const setCounter = (val: number) => {
+        if (val > 0) {
+            setTotal(val + total);
+        }
+    };
+
+    useEffect(() => {
+        counter(total);
+    }, [total]);
 
     return (
         <DownlineWrapper margin padding>
@@ -70,6 +84,7 @@ const DownlineItem = (props: Props) => {
                 <div>
                     <Text bold marginY>{data.fullname}</Text>
                     <Text badge extraSmall style={{ marginLeft: 5, textTransform: 'capitalize' }}>{data.role}</Text>
+                    <Text badge extraSmall style={{ marginLeft: 5, textTransform: 'capitalize' }}>{`${downline.length} Mitra`}</Text>
                 </div>
                 {downline.length > 0 && (
                     <Icon icon="chevron-down" />
@@ -78,7 +93,7 @@ const DownlineItem = (props: Props) => {
             {downline.length > 0 && downline.map((i: any, idx: any) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <SubDownlineWrapper key={idx} className={expanded ? 'active' : ''}>
-                    <SecondDownline data={i} />
+                    <SecondDownline data={i} counter={(val: number) => setCounter(val)} />
                 </SubDownlineWrapper>
             ))}
         </DownlineWrapper>
@@ -86,7 +101,7 @@ const DownlineItem = (props: Props) => {
 };
 
 const SecondDownline = (props: Props) => {
-    const { data } = props;
+    const { data, counter } = props;
     const [downline, setDownline] = useState<any>([]);
     const [expanded, setExpanded] = useState(false);
 
@@ -96,6 +111,7 @@ const SecondDownline = (props: Props) => {
         };
         API.fetchReferralDownline(payload).then((res: any) => {
             setDownline(res.data);
+            counter(res.data.length);
         });
     }, []);
 
@@ -105,6 +121,7 @@ const SecondDownline = (props: Props) => {
                 <div>
                     <Text bold marginY>{data.fullname}</Text>
                     <Text badge extraSmall style={{ marginLeft: 5, textTransform: 'capitalize' }}>{data.role}</Text>
+                    <Text badge extraSmall style={{ marginLeft: 5, textTransform: 'capitalize' }}>{`${downline.length} Mitra`}</Text>
                 </div>
                 {downline.length > 0 && (
                     <Icon icon="chevron-down" />
@@ -120,7 +137,7 @@ const SecondDownline = (props: Props) => {
     );
 };
 
-const ThirdDownline = (props: Props) => {
+const ThirdDownline = (props: any) => {
     const { data } = props;
     return (
         <DownlineWrapper style={{ padding: '5px 0 5px 1rem' }}>

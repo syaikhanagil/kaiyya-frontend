@@ -4,36 +4,38 @@ import { Text } from '../../../components/Styled';
 
 const CardWrapper = styled.div`
     position: relative;
-    display: block;
+    display: flex;
     width: 100%;
     height: auto;
     background: var(--color-white);
     padding: 10px 1rem;
     margin: 0 0 10px;
-    border-radius: 4px;
-    border: 1px solid #eee;
-    box-shadow: 0 2px 3px 1px rgba(0, 0, 0, .02);
+    align-items: center;
     cursor: pointer;
-
-    .role {
-        background: rgba(0, 0, 0, .1);
-        padding: 1px 10px;
-        border-radius: 50px;
-        margin-left: 10px;
+    
+    div {
+        position: relative;
+        width: 100%;
     }
 `;
 
 interface Props {
-    data: any
+    totalMitra: number,
+    totalAllMitra: number
 }
 
 const CardDownlineItem = (props: Props) => {
-    const { data } = props;
+    const { totalMitra, totalAllMitra } = props;
     return (
         <CardWrapper>
-            <Text bold>{data.name}</Text>
-            <Text extraSmall>{data.role}</Text>
-            <Text block extraSmall>{data.downline.length}</Text>
+            <div>
+                <Text bold block alignCenter>Total Mitra</Text>
+                <Text bold block extraSmall alignCenter>{totalMitra}</Text>
+            </div>
+            <div>
+                <Text bold block alignCenter>Total Semua Mitra</Text>
+                <Text bold block extraSmall alignCenter>{totalAllMitra}</Text>
+            </div>
         </CardWrapper>
     );
 };

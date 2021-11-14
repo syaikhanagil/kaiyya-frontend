@@ -199,7 +199,7 @@ const PaymentMethodSheet = (props: Props) => {
                             <img src={bsiLogo} alt="bsi-va" />
                         </div>
                     </PaymentItem>
-                    <PaymentItem
+                    {/* <PaymentItem
                         className={selectedMethod === 'BJB VA' ? 'active' : ''}
                         onClick={() => {
                             setSelectedMethod('BJB VA');
@@ -210,6 +210,12 @@ const PaymentMethodSheet = (props: Props) => {
                         <div className="logo">
                             <img src={bjbLogo} alt="bjb-va" />
                         </div>
+                    </PaymentItem> */}
+                    <PaymentItem className="disabled">
+                        <div className="logo">
+                            <img src={bjbLogo} alt="bjb-va" />
+                        </div>
+                        <span>Tidak Tersedia</span>
                     </PaymentItem>
                     {/* <PaymentItem
                         className={selectedMethod === 'CIMB NIAGA VA' ? 'active' : ''}

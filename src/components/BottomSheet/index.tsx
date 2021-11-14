@@ -34,7 +34,7 @@ const SheetHeader = styled.div`
     display: flex;
     width: 100%;
     height: auto;
-    padding: 10px 1rem;
+    padding: 20px 1rem 10px;
     background: var(--color-white);
     border-bottom: 1px solid #eee;
     align-items: center;
@@ -50,7 +50,7 @@ const SheetHeader = styled.div`
         height: 5px;
         background: #eee;
         border-radius: 50px;
-        top: 5px;
+        top: 10px;
         left: 50%;
         transform: translateX(-50%);
         z-index: 1;

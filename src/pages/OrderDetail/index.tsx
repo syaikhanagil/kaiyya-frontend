@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import OrderConfirmationSheet from '../../components/OrderConfirmationSheet';
 import { Button, Text } from '../../components/Styled';
 import API from '../../configs/api';
 import action from '../../configs/redux/action';
@@ -100,6 +101,7 @@ const OrderDetail = () => {
     const { orderId } = useParams<any>();
     const dispatch = useDispatch();
     const [ready, setReady] = useState(false);
+    const [confirmDialog, setConfirmDialog] = useState(false);
     const [cancelDialog, setCancelDialog] = useState(false);
     const [items, setItems] = useState<any>([]);
     const [orderDetail, setOrderDetail] = useState<any>({});
@@ -271,6 +273,11 @@ const OrderDetail = () => {
                             <Button block fullWidth primary onClick={() => pushLocation.path(`/payment/${orderDetail.payment._id}`)}>Bayar Sekarang</Button>
                         </FloatingWrapper>
                     )}
+                    {orderDetail.status === 'shipment' && (
+                        <FloatingWrapper>
+                            <Button block fullWidth primary onClick={() => setConfirmDialog(true)}>Konfirmasi Pesanan Diterima</Button>
+                        </FloatingWrapper>
+                    )}
                     {/* {orderDetail.status === 'shipment' && (
                         <FloatingWrapper>
                             <Button block fullWidth primary onClick={() => pushLocation.path(`/payment/${orderDetail.payment._id}`)}>Pesanan Telah Diteruma</Button>
@@ -278,6 +285,9 @@ const OrderDetail = () => {
                     )} */}
                     {cancelDialog && (
                         <OrderCancelDialog id={orderId} handler={(visibility: boolean) => setCancelDialog(visibility)} />
+                    )}
+                    {confirmDialog && (
+                        <OrderConfirmationSheet id={orderId} handler={(visibility: boolean) => setConfirmDialog(visibility)} />
                     )}
                 </OrderDetailWrapper>
             </Main>

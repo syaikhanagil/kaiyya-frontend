@@ -57,6 +57,7 @@ const API = {
     fetchOrder: ApiConfig.GET('/orders', true),
     fetchOrderDetail: ApiConfig.GET('/orders/detail', true),
     updateOrder: ApiConfig.PATCH('/orders/update', true),
+    confirmOrder: ApiConfig.POST('/orders/confirm', true),
     cancelOrder: ApiConfig.POST('/orders/cancel', true),
 
     createPaymentVA: ApiConfig.POST('/payment/virtual-account', true),

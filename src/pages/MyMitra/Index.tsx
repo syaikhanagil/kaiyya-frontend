@@ -5,13 +5,14 @@ import Loading from '../../components/Loading';
 import { Text } from '../../components/Styled';
 import API from '../../configs/api';
 import Main from '../../layouts/Main';
+import CardDownlineItem from './thisComponent/CardDownlineItem';
 import DownlineItem from './thisComponent/DownlineItem';
 
 const MyMitraWrapper = styled.div`
     position: relative;
     display: block;
     width: 100%;
-    padding: 5px 0;
+    padding: 0 0 5px;
 `;
 
 // const staticDataOne = {
@@ -41,6 +42,8 @@ const MyMitra = () => {
     // const { role } = props;
     const [ready, setReady] = useState(false);
     const [downline, setDownline] = useState([]);
+    const [totalMitra, setTotalMitra] = useState(0);
+    const [totalAllMitra, setTotalAllMitra] = useState(0);
     // const [activeMenu, setActiveMenu] = useState('all');
 
     useEffect(() => {
@@ -50,27 +53,28 @@ const MyMitra = () => {
     const fetchData = () => {
         API.fetchReferralDownline().then((res: any) => {
             setDownline(res.data);
-            console.log(res.data);
+            setTotalMitra(res.data.length);
+            // setTotalAllMitra(res.data.length);
             setTimeout(() => {
                 setReady(true);
             }, 1000);
         });
     };
 
-    // const getDownlineByRole = () => {
-
-    // };
-
-    // useEffect(() => {
-    //     setActiveMenu();
-    // }, [downline]);
+    const setTotal = (total: number) => {
+        if (total > 0) {
+            const t = totalMitra + total;
+            setTotalAllMitra(t);
+        }
+    };
 
     return (
         <Main useHeader backBtn title="Mitra Saya" paddingTop>
             <MyMitraWrapper>
+                <CardDownlineItem totalMitra={totalMitra} totalAllMitra={totalAllMitra} />
                 {ready && downline.map((item: any, idx: any) => (
                     // eslint-disable-next-line react/no-array-index-key
-                    <DownlineItem key={idx} data={item} />
+                    <DownlineItem key={idx} data={item} counter={(total: number) => setTotal(total)} />
                 ))}
                 {ready && downline.length < 1 && (
                     <>

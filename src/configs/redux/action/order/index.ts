@@ -96,3 +96,18 @@ export const cancelOrder = (orderId: string) => {
         });
     };
 };
+
+export const confirmOrder = (orderId: string) => {
+    const data = {
+        params: `/${orderId}`
+    };
+    return (dispatch: any) => {
+        dispatch({ type: CONSTANT.SET_FULLSCREEN_LOADER, visible: true });
+        API.confirmOrder(data).then(() => {
+            window.location.reload();
+        }).catch((err) => {
+            dispatch({ type: CONSTANT.SET_FULLSCREEN_LOADER, visible: false });
+            console.log(err);
+        });
+    };
+};
