@@ -302,7 +302,8 @@ const ActionDialog = (props: Props) => {
     const sizeM = sizes.filter((i: any) => i.name.toUpperCase() === 'M');
     const sizeL = sizes.filter((i: any) => i.name.toUpperCase() === 'L');
     const sizeXL = sizes.filter((i: any) => i.name.toUpperCase() === 'XL');
-    const sizeXXL = sizes.filter((i: any) => i.name.toUpperCase() === 'sizeXXL');
+    const sizeXXL = sizes.filter((i: any) => i.name.toUpperCase() === 'XXL');
+    const sizeAllSize = sizes.filter((i: any) => i.name.toUpperCase() === 'ALL SIZE');
 
     return (
         <>
@@ -354,6 +355,11 @@ const ActionDialog = (props: Props) => {
                         </SizeItem>
                     ))}
                     {sizeXXL.length > 0 && sizeXXL.map((i: any) => (
+                        <SizeItem key={i.id} className={selectedSize.id === i.id ? 'selected' : ''} disabled={i.stock === 0} onClick={() => handleSizeChange(i.id)} data-test={`SIZE-${i.name}`}>
+                            {i.name}
+                        </SizeItem>
+                    ))}
+                    {sizeAllSize.length > 0 && sizeAllSize.map((i: any) => (
                         <SizeItem key={i.id} className={selectedSize.id === i.id ? 'selected' : ''} disabled={i.stock === 0} onClick={() => handleSizeChange(i.id)} data-test={`SIZE-${i.name}`}>
                             {i.name}
                         </SizeItem>
