@@ -316,7 +316,9 @@ const ActionDialog = (props: Props) => {
                     <div className="info">
                         <p>{product.name}</p>
                         <p>{priceFormat(sizes[0].price)}</p>
-                        <p>{`Stok: ${selectedStock}`}</p>
+                        {selectedStock < 6 && (
+                            <p>{`Stok: ${selectedStock}`}</p>
+                        )}
                         {totalStock === 0 && (
                             <Text>Sold Out</Text>
                         )}

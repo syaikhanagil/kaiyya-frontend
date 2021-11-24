@@ -262,7 +262,7 @@ const Account = (props: any) => {
                                     </MenuItemHref>
                                 </>
                             )}
-                            <MenuItem to="/">
+                            <MenuItemHref href="https://docs.google.com/forms/d/1_GelS6zMaCQz19q2O-GntfkiXETp62T0RNfhURSBJwc/edit?usp=sharing">
                                 <Icon icon="smile" />
                                 <span>Feedback</span>
                             </MenuItem>
